@@ -1,5 +1,6 @@
 {
   "enabledCssSnippets": [
-    "obsidian-theme"
+    "obsidian-theme",
+    "custom-admonitions.5bc9f8"
   ]
 }

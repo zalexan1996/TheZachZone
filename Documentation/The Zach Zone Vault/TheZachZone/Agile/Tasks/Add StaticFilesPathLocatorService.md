@@ -1,0 +1,1 @@
+Used for resolving the Static Files folder and building the game hosting paths.

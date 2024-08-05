@@ -4,19 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "e7bacbf775072a86",
+        "id": "1602fa31179d8c55",
         "type": "tabs",
         "children": [
           {
-            "id": "d50bb09dbcd0eaff",
+            "id": "7f0e15f57ed308a7",
             "type": "leaf",
             "state": {
               "type": "kanban",
               "state": {
-                "file": "TheGameZone/Agile/TGZ.Board.md",
+                "file": "TheZachZone/Agile/TZZ.Board.md",
                 "kanbanViewState": {
                   "kanban-plugin": "board",
                   "list-collapse": [
+                    false,
                     false,
                     false
                   ]
@@ -90,7 +91,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "TheGameZone/Agile/TGZ.Board.md",
+                "file": "TheZachZone/Agile/TZZ.Board.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -107,7 +108,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "TheGameZone/Agile/TGZ.Board.md",
+                "file": "TheZachZone/Agile/TZZ.Board.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -130,7 +131,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "TheGameZone/Agile/TGZ.Board.md"
+                "file": "TheZachZone/Agile/TZZ.Board.md"
               }
             }
           }
@@ -152,13 +153,23 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "d50bb09dbcd0eaff",
+  "active": "7f0e15f57ed308a7",
   "lastOpenFiles": [
-    "TheSchoolZone/Agile/TSZ.Board.md",
-    "TheZachZone/Agile/TZZ.Board.md",
     "TheZachZone/General.md",
-    "TheGameZone/Agile/TGZ.Board.md",
+    "TheZachZone/Agile/TZZ.Board.md",
+    "TheZachZone/Agile/Tasks/Add Antiforgery token validation to all Authorized endpoints.md",
+    "TheZachZone/Agile/Tasks/Add Health Checks.md",
     "Add Antiforgery token validation to all Authorized endpoints.md",
+    "TheZachZone/Agile/Tasks/Add side nav for other sites.md",
+    "TheZachZone/Agile/Tasks/Add StaticFilesPathLocatorService.md",
+    "TheZachZone/Agile/Tasks/Create a shared Vue library.md",
+    "TheZachZone/Agile/Tasks/Create Auth Policies.md",
+    "TheZachZone/Agile/Tasks/Setup Docker.md",
+    "TheZachZone/Agile/Tasks/Setup CICD Pipeline.md",
+    "TheZachZone/Agile/Tasks/_TaskTemplate.md",
+    "TheZachZone/Agile/Tasks",
+    "TheGameZone/Agile/TGZ.Board.md",
+    "TheSchoolZone/Agile/TSZ.Board.md",
     "TheCryptoZone/Agile/TCZ.Board.md",
     "PocketPersona/Agile/PocketPersona.Board.md",
     "Crapazon/Agile/Crapazon.Board.md",
@@ -172,7 +183,6 @@
     "AgileLife",
     "TheSchoolZone",
     "TheCryptoZone",
-    "Crapazon",
     "Agile/Crapazon Board.md",
     "Agile/Untitled.md",
     "Agile/The Game Zone Board.md",
