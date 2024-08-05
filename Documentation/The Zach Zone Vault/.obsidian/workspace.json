@@ -1,0 +1,181 @@
+{
+  "main": {
+    "id": "df6b8355885ae597",
+    "type": "split",
+    "children": [
+      {
+        "id": "e7bacbf775072a86",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d50bb09dbcd0eaff",
+            "type": "leaf",
+            "state": {
+              "type": "kanban",
+              "state": {
+                "file": "TheGameZone/Agile/TGZ.Board.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": [
+                    false,
+                    false
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "b8f6c94c64f980bb",
+    "type": "split",
+    "children": [
+      {
+        "id": "2c6ec214a5ec530b",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "65029ecfce7cd66d",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "22f081aa1f743b6b",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "2a15144d4364b4bf",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "36c0fd3e151ba877",
+    "type": "split",
+    "children": [
+      {
+        "id": "79fe4567e17d9988",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "78ce5d6d1a899501",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "TheGameZone/Agile/TGZ.Board.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "d6b6d0a0c7130367",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "TheGameZone/Agile/TGZ.Board.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "30ad05e7cc3e11b5",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "e3412c29f5804120",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "TheGameZone/Agile/TGZ.Board.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian-kanban:Create new board": false
+    }
+  },
+  "active": "d50bb09dbcd0eaff",
+  "lastOpenFiles": [
+    "TheSchoolZone/Agile/TSZ.Board.md",
+    "TheZachZone/Agile/TZZ.Board.md",
+    "TheZachZone/General.md",
+    "TheGameZone/Agile/TGZ.Board.md",
+    "Add Antiforgery token validation to all Authorized endpoints.md",
+    "TheCryptoZone/Agile/TCZ.Board.md",
+    "PocketPersona/Agile/PocketPersona.Board.md",
+    "Crapazon/Agile/Crapazon.Board.md",
+    "AgileLife/Agile/AgileLife.Board.md",
+    "TheSchoolZone/Agile",
+    "TheCryptoZone/Agile",
+    "PocketPersona/Agile",
+    "Crapazon/Agile",
+    "AgileLife/Agile",
+    "PocketPersona",
+    "AgileLife",
+    "TheSchoolZone",
+    "TheCryptoZone",
+    "Crapazon",
+    "Agile/Crapazon Board.md",
+    "Agile/Untitled.md",
+    "Agile/The Game Zone Board.md",
+    "Welcome.md"
+  ]
+}

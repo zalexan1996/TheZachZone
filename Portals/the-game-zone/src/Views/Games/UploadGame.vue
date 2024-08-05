@@ -1,0 +1,3 @@
+<template>
+    upload-game
+</template>

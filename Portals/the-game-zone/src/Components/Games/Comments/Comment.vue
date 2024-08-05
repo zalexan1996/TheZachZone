@@ -1,0 +1,50 @@
+<template>
+    <div class="d-flex flex-column justify-content-start comment-border">
+        <div class="d-flex flex-column mb-3">
+            <div class="d-flex flex-row justify-content-between">
+                <h6 class="mb-0">
+                    {{ $props.commentDto.author }}
+                </h6>
+                <span class="fa fa-trash text-danger" style="cursor: pointer;" @click="deleteComment"></span>
+            </div>
+            <span style="font-weight: normal; color: gray;">{{  $props.commentDto.postedOn?.toLocaleDateString() }}</span>
+            <hr class="text-white mt-1 mb-3"/>
+        </div>
+        <p>{{ $props.commentDto.content }}</p>
+    </div>
+
+</template>
+
+<script setup lang="ts">
+import { defineProps } from 'vue'
+import { CommentDto } from '@/Services/apiService.ts'
+import { useGameStore } from '@/Stores/gameStore'
+
+const gameStore = useGameStore();
+interface IProps {
+    commentDto: CommentDto
+}
+
+const props = defineProps<IProps>()
+
+const deleteComment = async () => {
+    if (!!props.commentDto.id) {
+        await gameStore.deleteComment(props.commentDto.id)
+        await gameStore.loadComments(props.commentDto.gameInfoId!)
+    }
+}
+</script>
+
+<style scoped lang="scss">
+.comment-border {
+    border: solid 1px black;
+    border-radius: 12px;
+    background-color: #1f2627;
+    padding: {
+        top: 1rem;
+        bottom: 1rem;
+        left: 2rem;
+        right: 2rem;
+    }
+}
+</style>

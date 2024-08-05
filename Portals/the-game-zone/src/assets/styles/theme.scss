@@ -1,0 +1,30 @@
+$danger: rgb(107, 25, 25);
+
+.danger {
+    background-color: $danger;
+    color: white;
+}
+
+.secondary {
+    background-color: #242c36;
+    color: white;
+}
+.primary {
+    background: #0e2a4d;
+    color: white;
+}
+
+.warning {
+    background: #9e5511;
+    color: white;
+}
+
+.success {
+    background: #119e18;
+    color: white;
+}
+
+.info {
+    background: #11829e;
+    color: white;
+}

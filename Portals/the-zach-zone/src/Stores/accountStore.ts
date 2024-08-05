@@ -1,0 +1,46 @@
+import { defineStore } from "pinia";
+import { AccountClient, CreateAccountComand, UserInfoDto, UpdateGeneralInformationCommand } from "@services/apiService.ts";
+import {API_BASE_URL, AxiosInstance } from '@services/AxiosService.ts';
+import { ref } from "vue";
+
+export const useAccountStore = defineStore("account", () => {
+
+    const client = new AccountClient(API_BASE_URL, AxiosInstance)
+    const userInfo = ref<UserInfoDto|undefined>()
+
+    const doesUserExist = async (clientId: string) => {
+        return await client.doesUserExist(clientId);
+    }
+
+    const createAccount = async (command: CreateAccountComand) => {
+        return await client.createAccount(command)
+    }
+
+    const login = async (email: string, password: string) => {
+        return await client.login(email, password).then(x => true, e => false).catch(e => false)
+    }
+    const logout = async () => {
+        return await client.logout().then(x => x, e => undefined).catch(x => undefined);
+    }
+
+    const loadUserInfo = async () => {
+        userInfo.value = await client.userInfo().then(x => x as UserInfoDto, e => undefined).catch(x => undefined);
+    }
+
+    const isLoggedIn = () => {
+        return !!userInfo.value
+    }
+    const updateGeneralInformation = async (command: UpdateGeneralInformationCommand) => {
+        return await client.updateGeneralInformation(command);
+    }
+    return {
+        doesUserExist,
+        createAccount,
+        login,
+        logout,
+        loadUserInfo,
+        isLoggedIn,
+        updateGeneralInformation,
+        userInfo
+    }
+})

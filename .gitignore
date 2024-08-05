@@ -1,0 +1,5 @@
+.vs/
+Bin/
+Debug/
+obj/
+node_modules/
