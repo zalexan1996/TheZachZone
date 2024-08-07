@@ -29,7 +29,3 @@ The following sites make up The Zach Zone:
 		<td>School management software that helps me keep track of my children's homeschooling. Can be used for actual schools or simple homeschooling.</td>
 	</tr>
 </table>
-
-
-
-

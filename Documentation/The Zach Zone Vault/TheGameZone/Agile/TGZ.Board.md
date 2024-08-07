@@ -6,7 +6,7 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] Personalize the Welcome Back message
+- [ ] [[Personalize the Welcome Back message]]
 - [ ] Create Review system
 - [ ] Create Leaderboard system
 - [ ] Allow support for Godot games
@@ -27,6 +27,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false]}
+{"kanban-plugin":"board","list-collapse":[false,false],"new-note-template":"_Shared/Templates/_TaskTemplate.md","new-note-folder":"TheGameZone/Agile/Tasks"}
 ```
 %%

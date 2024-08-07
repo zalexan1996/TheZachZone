@@ -1,14 +1,14 @@
 
 
+
 > [!summary] Story
-> Create docker image configurations for each site
+> Provide a story description...
 
 > [!important] Out of Scope
-> - The DevOps pipelines
-> - The hosting server
+> Provide things that are not required for this task...
 
 > [!done] Acceptance Criteria
-> Each site has a docker file that creates an image for hosting the site.
+> What conditions have to be met for this to be considered done...
 
 > [!info] Implementation Details
 > Provide information on how to accomplish this task...
@@ -17,6 +17,8 @@
 > Provide related information...
 
 > [!quote] Data
-> [Story-Points:: 8] 
-> [Site:: All]
-> [Priority:: Normal]
+> [Story-Points:: 5] 
+> [Site:: TheZachZone]
+> [Priority:: High]
+
+

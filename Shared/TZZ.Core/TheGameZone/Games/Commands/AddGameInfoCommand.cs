@@ -5,6 +5,7 @@ using System.IO.Compression;
 using TZZ.Domain.Entities.TheGameZone;
 using TZZ.Common.Shared.Interfaces;
 using TZZ.Core.Shared;
+using TZZ.Core.Shared.Services;
 
 namespace TZZ.Core.TheGameZone.Games.Commands;
 
@@ -17,7 +18,7 @@ public class AddGameInfoCommand : IRequest<ZachZoneCommand<int>>
 }
 
 
-public class AddGameInfoCommandHandler(IDatabaseService dbContext) : IRequestHandler<AddGameInfoCommand, ZachZoneCommand<int>>
+public class AddGameInfoCommandHandler(IDatabaseService dbContext, IPathLocatorService pathLocatorService) : IRequestHandler<AddGameInfoCommand, ZachZoneCommand<int>>
 {
     public async Task<ZachZoneCommand<int>> Handle(AddGameInfoCommand request, CancellationToken cancellationToken)
     {
@@ -35,15 +36,15 @@ public class AddGameInfoCommandHandler(IDatabaseService dbContext) : IRequestHan
 
         var newEntry = await dbContext.Set<GameInfo>().SingleAsync(x => x.Name == request.Name);
         string root = Directory.GetCurrentDirectory();
-        // string root = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
-        string uploadDirectory = Path.Combine(root, "wwwroot", "games");
+
+        string uploadDirectory = pathLocatorService.GetUploadedGamesDirectory();
 
         if (!Directory.Exists(uploadDirectory))
         {
             Directory.CreateDirectory(uploadDirectory);
         }
 
-        string gamePath = Path.Combine(uploadDirectory, newEntry.Id.ToString());
+        string gamePath = pathLocatorService.GetUploadedGameDirectory(newEntry.Id);
         if (!Directory.Exists(gamePath))
         {
             Directory.CreateDirectory(gamePath);

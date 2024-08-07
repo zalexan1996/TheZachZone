@@ -18,21 +18,22 @@ const routes: RouteRecordRaw[] = [
     {
         name: 'Account',
         path: '/account',
-        component: Account,
-        beforeEnter: async (to, from) => {
-            const accountStore = useAccountStore();
-            if (!accountStore.isLoggedIn()) {
-              await accountStore.loadUserInfo()
-            }
-        }
+        component: Account
     }
 ]
 
 export const useRouterService = () => {
-    
-
-    return createRouter({
+    const router = createRouter({
         history: createWebHistory(),
         routes: routes,
+    });
+    
+    router.beforeEach(async () => {
+        const accountStore = useAccountStore();
+        if (!accountStore.isLoggedIn()) {
+          await accountStore.loadUserInfo()
+        }
     })
+
+    return router;
 }

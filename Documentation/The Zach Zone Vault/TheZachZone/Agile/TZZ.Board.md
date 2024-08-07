@@ -11,26 +11,29 @@ kanban-plugin: board
 - [ ] [[Add Health Checks]]
 - [ ] [[Setup Docker]]
 - [ ] [[Setup CICD Pipeline]]
+- [ ] [[Add Update General Information Form]]
+- [ ] [[Add Reset Password Form]]
 
 
 ## Selected for Development
 
 - [ ] [[Add side nav for other sites]]
 - [ ] [[Create a shared Vue library]]
-- [ ] [[Add StaticFilesPathLocatorService]]
 
 
 ## Done
 
 - [ ] Create Agile boards
 - [ ] Push to GitHub
+- [ ] Extract AllowedOrigins to config file
 - [ ] Add Login Failed message
+- [ ] [[Add StaticFilesPathLocatorService]]
 
 
 
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false],"show-checkboxes":false,"new-note-folder":"TheZachZone/Agile/Tasks"}
+{"kanban-plugin":"board","list-collapse":[false,false,false],"show-checkboxes":false,"new-note-folder":"TheZachZone/Agile/Tasks","new-note-template":"_Shared/Templates/_TaskTemplate.md","tag-colors":[]}
 ```
 %%

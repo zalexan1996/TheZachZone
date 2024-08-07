@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TZZ.Core.Shared.Services;
 using TZZ.Domain.Entities.TheZachZone;
 using TZZ.Infrastructure.SQL;
+using TZZ.WebShared.Common.Services;
 using TZZ.WebShared.Security.Services;
 
 namespace TZZ.WebShared;
@@ -71,5 +72,6 @@ public static class StartupExtensions
         });
 
         services.AddTransient<IIdentityService, IdentityService>();
+        services.AddTransient<IPathLocatorService, PathLocatorService>();
     }
 }

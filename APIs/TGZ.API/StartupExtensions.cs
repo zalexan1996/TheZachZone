@@ -1,5 +1,8 @@
-﻿using TGZ.API.Controllers;
+﻿using Ardalis.GuardClauses;
+using Microsoft.Extensions.Options;
+using TGZ.API.Controllers;
 using TGZ.API.Services;
+using TZZ.Common.Configuration;
 using TZZ.Core.Shared.Services;
 using TZZ.Infrastructure.SQL;
 using TZZ.WebShared;
@@ -18,6 +21,12 @@ public static class StartupExtensions
 
     public static void ConfigureTheGameZone(this WebApplication app)
     {
+        using var serviceScope = app.Services.CreateScope();
+        var appSettings = serviceScope.ServiceProvider.GetService<IOptions<AppSettings>>()?.Value;
+        var security = serviceScope.ServiceProvider.GetService<IOptions<Security>>()?.Value;
+        Guard.Against.Null(appSettings, null, "Failed to bind AppSettings from configuration.");
+        Guard.Against.Null(security, null, "Failed to bind Security from configuration.");
+
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
@@ -30,10 +39,10 @@ public static class StartupExtensions
             x.AllowAnyHeader()
                 .AllowCredentials()
                 .AllowAnyMethod()
-                .WithOrigins(["http://localhost:8000", "http://localhost:8010", "http://thezachzone.dryrlent.ddns.net", "http://thegamezone.dryrlent.ddns.ent"]);
+                .WithOrigins(security.AllowedOrigins);
         });
 
-        app.UseStaticFiles();
+        app.UseStaticFiles(appSettings.StaticFilesFolderName);
         app.MapControllers();
         app.UseAuthentication();
         app.UseAuthorization();

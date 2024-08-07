@@ -21,5 +21,13 @@
 
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
+import { useAccountStore } from '@stores/accountStore.ts'
+
+const accountStore = useAccountStore();
+
+onMounted(async () => {
+  await accountStore.loadUserInfo();
+})
 </script>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TZZ.Common.Configuration;
 using TZZ.Core.Shared;
 
 namespace TZZ.Core;
@@ -12,5 +13,7 @@ public static class StartupExtensions
         {
             x.RegisterServicesFromAssemblyContaining<ZachZoneCommand>();
         });
+        services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
+        services.Configure<Security>(configuration.GetSection(nameof(Security)));
     }
 }
