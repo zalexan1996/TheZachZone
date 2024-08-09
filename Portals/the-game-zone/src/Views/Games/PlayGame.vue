@@ -15,7 +15,7 @@ canvas {
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useGameStore } from '@/Stores/gameStore'
-import { useToastStore } from '@/Stores/toastStore'
+import { useToastStore } from 'tzz-shared'
 
 const route = useRoute();
 const gameStore = useGameStore()
@@ -23,35 +23,12 @@ const toastStore = useToastStore()
 const loadStatus = ref<boolean|null>(null)
 
 onMounted(async () => {
-    let id = Number.parseInt(route.params.id as string)
-    let path = `/src/assets/games/${id}/index.ts`
-    //let path = await gameStore.getHostedPathFromId(id)
-    console.log(path)
-    if (path != null) {
-        import(path).then(m => {
-            loadStatus.value = true
-            console.log(m)
-            m.Play()
-        }).catch((e) => {
-            loadStatus.value = false
-            console.error(e)
-            toastStore.push({
-                title: 'Game failed to load.',
-                body: e,
-                duration: 3000,
-                severity: 'danger'
-            })
-        })
-    }
-    else {
-        loadStatus.value = false
-        toastStore.push({
-            title: 'Game failed to load.',
-            body: 'Could not find game. Upload must have failed.',
-            duration: 3000,
-            severity: 'danger'
-        })
-    }
-
+    loadStatus.value = false
+    toastStore.push({
+        title: 'Game failed to load.',
+        body: 'Play game is not implemented yet.',
+        duration: 3000,
+        severity: 'danger'
+    })
 })
 </script>

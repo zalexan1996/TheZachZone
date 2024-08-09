@@ -16,7 +16,8 @@
     "vee-validate": "^4.13.2",
     "vue": "^3.4.31",
     "vue-router": "^4.4.0",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "tzz-shared": "file:../tzz-shared"
   },
   "devDependencies": {
     "@types/node": "^20.14.12",

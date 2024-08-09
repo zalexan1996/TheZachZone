@@ -2,7 +2,7 @@
 import {RouterView} from 'vue-router';
 import NavBar from '@components/NavBar.vue';
 import Footer from '@components/Footer.vue';
-import ToastPanel from '@components/Common/ToastPanel.vue'
+import { ToastPanel } from 'tzz-shared'
 </script>
 <template>
   <header>

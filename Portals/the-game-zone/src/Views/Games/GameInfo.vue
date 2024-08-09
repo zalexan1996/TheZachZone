@@ -44,7 +44,7 @@
 import { onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useGameStore } from '@/Stores/gameStore'
-import Badge from '@/Components/Common/Badge.vue'
+import { Badge } from 'tzz-shared'
 import GameComments from '@/Components/Games/Comments/GameComments.vue'
 import ImageCarousel from '@/Components/Games/Images/ImageCarousel.vue'
 

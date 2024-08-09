@@ -4,7 +4,7 @@ import { ref } from "vue";
 export class ToastOptions {
     title: string = 'Title'
     body: string = 'Body'
-    severity: 'danger'|'success'|'warning'|'info' = 'success'
+    severity: 'danger'|'success'|'warning'|'info'|'primary'|'secondary' = 'success'
     duration: number = 3000
 }
 

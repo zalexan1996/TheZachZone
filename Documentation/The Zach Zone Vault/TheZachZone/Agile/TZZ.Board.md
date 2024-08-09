@@ -17,7 +17,12 @@ kanban-plugin: board
 
 ## Selected for Development
 
+- [ ] [[Add OpenTelemetry]]
 - [ ] [[Add side nav for other sites]]
+
+
+## In Progress
+
 - [ ] [[Create a shared Vue library]]
 
 
@@ -34,6 +39,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false],"show-checkboxes":false,"new-note-folder":"TheZachZone/Agile/Tasks","new-note-template":"_Shared/Templates/_TaskTemplate.md","tag-colors":[]}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false],"show-checkboxes":false,"new-note-folder":"TheZachZone/Agile/Tasks","new-note-template":"_Shared/Templates/_TaskTemplate.md","tag-colors":[]}
 ```
 %%

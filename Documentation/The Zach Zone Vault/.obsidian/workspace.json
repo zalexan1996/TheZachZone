@@ -4,24 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "cf2b42b4cb25bd1e",
+        "id": "e0e7cc9caa1559a2",
         "type": "tabs",
         "children": [
           {
-            "id": "9b58a33dff53f8b7",
+            "id": "d9bafd3f1c0d2d44",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "TheZachZone/Agile/TZZ.Board.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    false,
-                    false,
-                    false
-                  ]
-                }
+                "file": "TheZachZone/Agile/Tasks/Add OpenTelemetry.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -91,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "TheZachZone/Agile/TZZ.Board.md",
+                "file": "TheZachZone/Agile/Tasks/Add OpenTelemetry.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -108,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "TheZachZone/Agile/TZZ.Board.md",
+                "file": "TheZachZone/Agile/Tasks/Add OpenTelemetry.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -131,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "TheZachZone/Agile/TZZ.Board.md"
+                "file": "TheZachZone/Agile/Tasks/Add OpenTelemetry.md"
               }
             }
           }
@@ -153,21 +147,22 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "9b58a33dff53f8b7",
+  "active": "d9bafd3f1c0d2d44",
   "lastOpenFiles": [
-    "TheZachZone/General.md",
+    "TheZachZone/Agile/Tasks/Create a shared Vue library.md",
+    "TheZachZone/Agile/TZZ.Board.md",
+    "TheZachZone/Agile/Tasks/Add OpenTelemetry.md",
     "TheZachZone/Agile/Tasks/Setup Docker.md",
+    "TheZachZone/Agile/Tasks/Add side nav for other sites.md",
+    "TheZachZone/Agile/Tasks/Add StaticFilesPathLocatorService.md",
+    "TheZachZone/General.md",
+    "TheZachZone/Agile/Tasks/Add Antiforgery token validation to all Authorized endpoints.md",
+    "_Shared/Templates/_TaskTemplate.md",
     "TheZachZone/Agile/Tasks/Setup CICD Pipeline.md",
     "TheZachZone/Agile/Tasks/Create Auth Policies.md",
-    "TheZachZone/Agile/Tasks/Create a shared Vue library.md",
     "TheZachZone/Agile/Tasks/Add Update General Information Form.md",
-    "TheZachZone/Agile/TZZ.Board.md",
-    "_Shared/Templates/_TaskTemplate.md",
-    "TheZachZone/Agile/Tasks/Add StaticFilesPathLocatorService.md",
-    "TheZachZone/Agile/Tasks/Add side nav for other sites.md",
     "TheZachZone/Agile/Tasks/Add Reset Password Form.md",
     "TheZachZone/Agile/Tasks/Add Health Checks.md",
-    "TheZachZone/Agile/Tasks/Add Antiforgery token validation to all Authorized endpoints.md",
     "TheGameZone/Agile/TGZ.Board.md",
     "TheGameZone/Agile/Tasks/Personalize the Welcome Back message.md",
     "TheGameZone/Agile/Tasks",
@@ -189,7 +184,6 @@
     "PocketPersona",
     "Agile/Crapazon Board.md",
     "Agile/Untitled.md",
-    "Agile/The Game Zone Board.md",
-    "Welcome.md"
+    "Agile/The Game Zone Board.md"
   ]
 }

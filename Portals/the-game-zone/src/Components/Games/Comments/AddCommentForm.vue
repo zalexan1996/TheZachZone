@@ -7,10 +7,10 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
+import { ref } from 'vue'
 import { useGameStore } from '@/Stores/gameStore'
 import { AddGameCommentCommand } from '@/Services/apiService'
-import InputText from '@/Components/Common/InputText.vue'
+import { InputText } from 'tzz-shared'
 
 const gameStore = useGameStore();
 const author = ref('')

@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, watch } from 'vue'
+import { watch } from 'vue'
 import { useGameStore } from '@/Stores/gameStore.ts'
 import Comment from './Comment.vue'
 import AddCommentForm from './AddCommentForm.vue'

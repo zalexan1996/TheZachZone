@@ -7,7 +7,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, withDefaults, defineModel } from 'vue'
 
 interface IProps {
     maxPerPage: number

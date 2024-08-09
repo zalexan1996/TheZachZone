@@ -15,5 +15,12 @@ export default defineConfig({
       "@services": resolve(__dirname, 'src/Services/'),
       '@games': resolve(__dirname, 'public/games/')
     }
-  }
+  },
+  css: {
+    preprocessorOptions: {
+        scss: {
+            quietDeps: true
+        },
+    }
+  },
 })

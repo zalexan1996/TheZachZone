@@ -17,9 +17,8 @@
 </div>
 </template>
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import { GameInfoDto } from '@/Services/apiService'
-import Badge from '@/Components/Common/Badge.vue'
+import { Badge } from 'tzz-shared'
 
 interface IProps {
     gameInfo: GameInfoDto

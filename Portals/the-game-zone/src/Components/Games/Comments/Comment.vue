@@ -16,7 +16,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import { CommentDto } from '@/Services/apiService.ts'
 import { useGameStore } from '@/Stores/gameStore'
 

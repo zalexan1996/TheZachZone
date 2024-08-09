@@ -1,12 +1,12 @@
 <template>
-    <div class="toast-container">
+    <div class="t-container">
         <div class="d-flex flex-column">
-            <Toast v-for="toast in toastStore.toasts" :options="toast.options"/>
+            <Toast v-for="toast in toastStore.toasts" :options="toast.options" class="my-1"/>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { useToastStore } from '@/Stores/toastStore'
+import { useToastStore } from '@stores/toastStore'
 import Toast from './Toast.vue'
 
 const toastStore = useToastStore();
@@ -15,7 +15,7 @@ const toastStore = useToastStore();
 </script>
 
 <style scoped lang="scss">
-.toast-container {
+.t-container {
     position: fixed;
     right: 0px;
     bottom: 0px;
