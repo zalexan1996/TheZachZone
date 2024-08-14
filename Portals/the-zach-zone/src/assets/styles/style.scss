@@ -1,5 +1,6 @@
-@import url('/node_modules/tzz-shared/dist/style.css');
-@import './assets/theme.scss';
+
+@import './_theme.scss';
+
 
 // Third Party Styles
 @import '/node_modules/bootstrap/scss/bootstrap.scss';
@@ -32,4 +33,3 @@ body {
     -webkit-text-fill-color: transparent;
     opacity: 60%;
 }
-

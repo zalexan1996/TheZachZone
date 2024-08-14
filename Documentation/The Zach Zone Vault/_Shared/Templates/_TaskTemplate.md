@@ -15,6 +15,7 @@
 > Provide related information...
 
 > [!quote] Data
+> [StoryType:: Story]
 > [Story-Points:: ] 
 > [Site:: ]
 > [Priority:: ]

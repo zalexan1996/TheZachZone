@@ -20,7 +20,12 @@ export const useAccountStore = defineStore("account", () => {
         return await client.login(email, password).then(x => true, e => false).catch(e => false)
     }
     const logout = async () => {
-        return await client.logout().then(x => x, e => undefined).catch(x => undefined);
+        let response = await client.logout().then(x => x, e => undefined).catch(x => undefined);
+
+        if (response) {
+            await loadUserInfo()
+        }
+        return response
     }
 
     const loadUserInfo = async () => {

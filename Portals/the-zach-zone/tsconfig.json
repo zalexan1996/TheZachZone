@@ -23,22 +23,22 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@/*": [
+        "src/*",
+        "src/**/*.ts", 
+        "src/**/*.vue",
+        "src/**/**/*.ts", 
+        "src/**/**/*.vue",
+      ],
+      "@components/*": ["./src/Components/*"],
+      "@views/*": ["./src/Views/*"],
+      "@services/*": ["./src/Services/*"],
+      "@stores/*": ["./src/Stores/*"],
+    }
   },
 
   "include": ["vite.config.ts"],
   
-  "paths": {
-    "@/*": [
-      "src/*",
-      "src/**/*.ts", 
-      "src/**/*.vue",
-      "src/**/**/*.ts", 
-      "src/**/**/*.vue",
-    ],
-    "@components/*": ["./src/Components/*"],
-    "@views/*": ["./src/Views/*"],
-    "@services/*": ["./src/Services/*"],
-    "@stores/*": ["./src/Stores/*"],
-  }
 }

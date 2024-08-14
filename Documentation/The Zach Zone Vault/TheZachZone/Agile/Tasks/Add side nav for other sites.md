@@ -21,6 +21,7 @@ For the moment, put it in TheGameZone.
 > - [[Create a shared Vue library]]
 
 > [!quote] Data
+> [StoryType:: Story]
 > [Story-Points:: 5] 
 > [Site:: All]
 > [Priority:: Normal]

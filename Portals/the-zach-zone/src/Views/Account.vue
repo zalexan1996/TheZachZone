@@ -15,20 +15,17 @@
                     </li>
                     <li style="height: auto"></li>
                 </ul>
-                <button class="btn btn-outline-danger" @click="logout_Click">Logout</button>
+                <div class="d-flex flex-column justify-content-stretch">
+                    <button class="btn btn-outline-danger mb-3" @click="logout_Click">Logout</button>
+                    <button class="btn btn-outline-grey" @click="back_Click">Back</button>
+                </div>
             </div>
             <div class="d-flex flex-column separator"></div>
             <div class="p-2 d-flex flex-column justify-content-between align-items-stretch">
                 <GeneralInformationForm v-if="activePage == 'general'"/>
                 <div v-else-if="activePage == 'security'"class="tab-page">
-                    <div class="form-group">
-                        <label class="form-label">New Password:</label>
-                        <input class="form-control" placeholder="Provide a new password..."/>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Confirm Password:</label>
-                        <input class="form-control" placeholder="Confirm your new password..."/>
-                    </div>
+                    <InputText label="New Password" placeholder="Provide a new password..."/>
+                    <InputText label="Confirm Password" placeholder="Provide a new password..."/>
                     <button class="btn btn-outline-success">Reset Password</button>
                 </div>
             </div>
@@ -44,6 +41,7 @@ import * as yup from 'yup';
 import { useAccountStore } from '@stores/accountStore.ts'
 import { UserInfoDto } from '@services/apiService.ts'
 import GeneralInformationForm from '@components/Account/GeneralInformationForm.vue'
+import { InputText } from 'tzz-shared'
 
 const activePage = ref('general')
 const makeActive = (page: string) => {
@@ -60,10 +58,13 @@ const logout_Click = async () => {
     })
 }
 
+const back_Click = async () => {
+    router.back()
+}
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/theme.scss';
+@import '@/assets/styles/_theme.scss';
 
 .grid {
     display: grid;
@@ -86,17 +87,6 @@ const logout_Click = async () => {
 
 ul li, ul button {
     width: 100%;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    margin-bottom: 1rem;
-
-    input {
-        min-width: 20rem;
-    }
 }
 
 .tab-page {

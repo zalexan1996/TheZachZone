@@ -17,6 +17,7 @@
 > Provide related information...
 
 > [!quote] Data
+> [StoryType:: Task]
 > [Story-Points:: 8] 
 > [Site:: All]
 > [Priority:: Normal]

@@ -20,6 +20,7 @@
 > Provide related information...
 
 > [!quote] Data
+> [StoryType:: Story]
 > [Story-Points:: 5] 
 > [Site:: TheZachZone]
 > [Priority:: High]

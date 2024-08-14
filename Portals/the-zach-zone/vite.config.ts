@@ -15,5 +15,13 @@ export default defineConfig({
       "@services": resolve(__dirname, 'src/Services/'),
       "@stores": resolve(__dirname, 'src/Stores/'),
     }
-  }
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "./src/assets/styles/_theme.scss";`,
+        quietDeps: true
+      }
+    }
+  },
 })

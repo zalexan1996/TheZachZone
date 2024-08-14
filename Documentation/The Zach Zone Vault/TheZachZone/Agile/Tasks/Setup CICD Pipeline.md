@@ -19,6 +19,7 @@
 > [Installing nginx on Windows](https://nginx.org/en/docs/windows.html)
 
 > [!quote] Data
+> [StoryType:: Task]
 > [Story-Points:: 8] 
 > [Site:: All]
 > [Priority:: High]

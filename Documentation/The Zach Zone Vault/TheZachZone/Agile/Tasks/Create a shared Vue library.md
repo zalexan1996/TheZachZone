@@ -23,6 +23,7 @@
 > Provide related information...
 
 > [!quote] Data
+> [StoryType:: Task]
 > [Story-Points:: 5] 
 > [Site:: All]
 > [Priority:: High]

@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "TheZachZone/Agile/Tasks/Add OpenTelemetry.md",
+                "file": "_Knowledge Base/OpenTelemetry/OpenTelemetry Overview.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "TheZachZone/Agile/Tasks/Add OpenTelemetry.md",
+                "file": "_Knowledge Base/OpenTelemetry/OpenTelemetry Overview.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "TheZachZone/Agile/Tasks/Add OpenTelemetry.md",
+                "file": "_Knowledge Base/OpenTelemetry/OpenTelemetry Overview.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "TheZachZone/Agile/Tasks/Add OpenTelemetry.md"
+                "file": "_Knowledge Base/OpenTelemetry/OpenTelemetry Overview.md"
               }
             }
           }
@@ -149,22 +149,26 @@
   },
   "active": "d9bafd3f1c0d2d44",
   "lastOpenFiles": [
-    "TheZachZone/Agile/Tasks/Create a shared Vue library.md",
-    "TheZachZone/Agile/TZZ.Board.md",
-    "TheZachZone/Agile/Tasks/Add OpenTelemetry.md",
-    "TheZachZone/Agile/Tasks/Setup Docker.md",
-    "TheZachZone/Agile/Tasks/Add side nav for other sites.md",
-    "TheZachZone/Agile/Tasks/Add StaticFilesPathLocatorService.md",
     "TheZachZone/General.md",
-    "TheZachZone/Agile/Tasks/Add Antiforgery token validation to all Authorized endpoints.md",
-    "_Shared/Templates/_TaskTemplate.md",
-    "TheZachZone/Agile/Tasks/Setup CICD Pipeline.md",
-    "TheZachZone/Agile/Tasks/Create Auth Policies.md",
-    "TheZachZone/Agile/Tasks/Add Update General Information Form.md",
-    "TheZachZone/Agile/Tasks/Add Reset Password Form.md",
-    "TheZachZone/Agile/Tasks/Add Health Checks.md",
+    "TheZachZone/Agile/TZZ.Board.md",
+    "_Knowledge Base/OpenTelemetry/OpenTelemetry Overview.md",
+    "TheZachZone/Agile/Tasks/Add OpenTelemetry.md",
+    "_Knowledge Base/OpenTelemetry",
+    "_Knowledge Base",
     "TheGameZone/Agile/TGZ.Board.md",
     "TheGameZone/Agile/Tasks/Personalize the Welcome Back message.md",
+    "TheZachZone/Agile/Tasks/Setup Docker.md",
+    "TheZachZone/Agile/Tasks/Setup CICD Pipeline.md",
+    "TheZachZone/Agile/Tasks/Create Auth Policies.md",
+    "TheZachZone/Agile/Tasks/Create a shared Vue library.md",
+    "TheZachZone/Agile/Tasks/Allow 'Enter' for login form.md",
+    "TheZachZone/Agile/Tasks/Add Update General Information Form.md",
+    "TheZachZone/Agile/Tasks/Add StaticFilesPathLocatorService.md",
+    "TheZachZone/Agile/Tasks/Add side nav for other sites.md",
+    "TheZachZone/Agile/Tasks/Add Reset Password Form.md",
+    "TheZachZone/Agile/Tasks/Add Health Checks.md",
+    "TheZachZone/Agile/Tasks/Add Antiforgery token validation to all Authorized endpoints.md",
+    "_Shared/Templates/_TaskTemplate.md",
     "TheGameZone/Agile/Tasks",
     "Add Health Checks.md",
     "_Shared/Templates",
@@ -180,10 +184,6 @@
     "TheCryptoZone/Agile",
     "PocketPersona/Agile",
     "Crapazon/Agile",
-    "AgileLife/Agile",
-    "PocketPersona",
-    "Agile/Crapazon Board.md",
-    "Agile/Untitled.md",
-    "Agile/The Game Zone Board.md"
+    "Agile/Crapazon Board.md"
   ]
 }

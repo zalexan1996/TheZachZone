@@ -2,6 +2,7 @@
 @import '/node_modules/@fortawesome/fontawesome-free/css/all.css';
 
 $dark: #0e2a4d;
+$grey: #3c4857;
 $light: #cfe1e6;
 
 $primary: #0b3e7c;
@@ -92,4 +93,10 @@ $info: #11829e;
 }
 .text-success {
     color: $success;
+}
+
+
+.btn-outline-grey {
+    color: $grey;
+    border-color: $grey;
 }

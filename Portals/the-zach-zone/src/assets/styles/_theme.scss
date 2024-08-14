@@ -1,0 +1,21 @@
+
+$grey: #3c4857;
+$light: #cfe1e6;
+
+$primary: #510a85ff; // set the $primary variable
+$secondary: #1d2629;
+$success: #47a36e;
+
+@import url('/node_modules/tzz-shared/dist/style.css');
+
+
+.btn-outline-grey {
+    color: $grey;
+    border-color: $grey;
+
+    &:hover {
+        background-color: $grey;
+        border-color: $light;
+        color: $light;
+    }
+}

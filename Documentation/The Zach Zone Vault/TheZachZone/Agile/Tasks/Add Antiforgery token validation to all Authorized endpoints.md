@@ -16,6 +16,7 @@
 > Provide related information...
 
 > [!quote] Data
+> [StoryType:: Task]
 > [Story-Points:: 8] 
 > [Site:: TheZachZone]
 > [Priority:: Normal]
