@@ -5,49 +5,21 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useToastStore } from 'tzz-shared'
+import { useHomeStore } from '@/Stores/homeStore.ts'
+
+const homeStore = useHomeStore()
 const toastStore = useToastStore()
 
-onMounted(() => {
-    toastStore.push({
-        title: 'Welcome back.',
-        body: 'Welcome back to the game zone.',
-        duration: 3000,
-        severity: 'primary'
-    })
+onMounted(async () => {
+    let isLoggedIn = await homeStore.isLoggedIn();
 
-    toastStore.push({
-        title: 'Welcome back.',
-        body: 'Welcome back to the game zone.',
-        duration: 4000,
-        severity: 'secondary'
-    })
-
-    toastStore.push({
-        title: 'Welcome back.',
-        body: 'Welcome back to the game zone.',
-        duration: 5000,
-        severity: 'info'
-    })
-
-    toastStore.push({
-        title: 'Welcome back.',
-        body: 'Welcome back to the game zone.',
-        duration: 6000,
-        severity: 'success'
-    })
-    
-    toastStore.push({
-        title: 'Welcome back.',
-        body: 'Welcome back to the game zone.',
-        duration: 6000,
-        severity: 'warning'
-    })
-    
-    toastStore.push({
-        title: 'Welcome back.',
-        body: 'Welcome back to the game zone.',
-        duration: 6000,
-        severity: 'danger'
-    })
+    if (isLoggedIn) {
+        toastStore.push({
+            title: 'Welcome back.',
+            body: 'Welcome back to the game zone.',
+            duration: 3000,
+            severity: 'primary'
+        })
+    }
 })
 </script>

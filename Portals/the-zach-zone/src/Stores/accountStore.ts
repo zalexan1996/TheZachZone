@@ -35,6 +35,9 @@ export const useAccountStore = defineStore("account", () => {
     const isLoggedIn = () => {
         return !!userInfo.value
     }
+    const getGeneralInformation = async () => {
+        return await client.getGeneralInformation();
+    }
     const updateGeneralInformation = async (command: UpdateGeneralInformationCommand) => {
         return await client.updateGeneralInformation(command);
     }
@@ -45,6 +48,7 @@ export const useAccountStore = defineStore("account", () => {
         logout,
         loadUserInfo,
         isLoggedIn,
+        getGeneralInformation,
         updateGeneralInformation,
         userInfo
     }

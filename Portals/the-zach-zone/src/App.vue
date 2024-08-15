@@ -9,6 +9,7 @@
       </div>
       <RouterView/>
     </div>
+    <ToastPanel/>
 </template>
 
 
@@ -24,6 +25,7 @@
 import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import { useAccountStore } from '@stores/accountStore.ts'
+import { ToastPanel } from 'tzz-shared'
 
 const accountStore = useAccountStore();
 

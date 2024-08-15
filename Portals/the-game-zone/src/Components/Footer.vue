@@ -1,15 +1,15 @@
 <template>
     <div id="footer">
-        <span>Made by Zach</span>
+        <div id="footer-grid">
+        <span class="my-2">Made by Zach</span>
+        <SiteSwitcherToggler style="right: 0px;"/>
+        </div>
     </div>
 </template>
 
 <style scoped lang="scss">
 #footer {
-    position: fixed;
-    bottom: 0px;
     text-align: center;
-    width: 100vw;
     background-color: #242c36;
     border-top: 1px solid black;
     padding: {
@@ -18,4 +18,14 @@
     }
     color: rgb(165, 165, 165);
 };
+
+#footer-grid {
+    display: grid;
+    grid-template-columns: auto 3rem;
+    align-items: center;
+}
 </style>
+
+<script setup lang="ts">
+import { SiteSwitcherToggler } from 'tzz-shared'
+</script>

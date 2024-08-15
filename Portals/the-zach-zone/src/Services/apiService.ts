@@ -286,6 +286,54 @@ export class AccountClient {
         return Promise.resolve<UserInfoDto>(null as any);
     }
 
+    getGeneralInformation( cancelToken?: CancelToken): Promise<GeneralInformationDto> {
+        let url_ = this.baseUrl + "/Account/GetGeneralInformation";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetGeneralInformation(_response);
+        });
+    }
+
+    protected processGetGeneralInformation(response: AxiosResponse): Promise<GeneralInformationDto> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = GeneralInformationDto.fromJS(resultData200);
+            return Promise.resolve<GeneralInformationDto>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<GeneralInformationDto>(null as any);
+    }
+
     updateGeneralInformation(command: UpdateGeneralInformationCommand, cancelToken?: CancelToken): Promise<FileResponse> {
         let url_ = this.baseUrl + "/Account/UpdateGeneralInformation";
         url_ = url_.replace(/[?&]$/, "");
@@ -563,6 +611,50 @@ export class UserInfoDto implements IUserInfoDto {
 
 export interface IUserInfoDto {
     email?: string;
+}
+
+export class GeneralInformationDto implements IGeneralInformationDto {
+    email?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+
+    constructor(data?: IGeneralInformationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.email = _data["email"];
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+        }
+    }
+
+    static fromJS(data: any): GeneralInformationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GeneralInformationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["email"] = this.email;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        return data;
+    }
+}
+
+export interface IGeneralInformationDto {
+    email?: string | undefined;
+    firstName?: string | undefined;
+    lastName?: string | undefined;
 }
 
 export class UpdateGeneralInformationCommand implements IUpdateGeneralInformationCommand {

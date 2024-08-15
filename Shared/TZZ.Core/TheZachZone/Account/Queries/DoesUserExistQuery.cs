@@ -18,6 +18,20 @@ public class DoesUserExistQueryHandler(IIdentityService _identityService) : IReq
 {
     public async Task<ZachZoneCommand<bool>> Handle(DoesUserExistQuery request, CancellationToken cancellationToken)
     {
-        return ZachZoneCommand.Success(await _identityService.DoesUserExist(request.Email));
+        var result = await _identityService.DoesUserExist(request.Email);
+
+        var output = ZachZoneCommand.Success(result);
+
+        if (result)
+        {
+            output.Infos.Add("Email", "The user exists.");
+        }
+        else
+        {
+
+            output.Infos.Add("Email", "The user does not exist.");
+        }
+
+        return output;
     }
 }

@@ -35,13 +35,10 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useForm } from 'vee-validate'
 import { useRouter } from 'vue-router'
-import * as yup from 'yup';
 import { useAccountStore } from '@stores/accountStore.ts'
-import { UserInfoDto } from '@services/apiService.ts'
-import GeneralInformationForm from '@components/Account/GeneralInformationForm.vue'
 import { InputText } from 'tzz-shared'
+import GeneralInformationForm from '@components/Account/GeneralInformationForm.vue'
 
 const activePage = ref('general')
 const makeActive = (page: string) => {
@@ -49,7 +46,6 @@ const makeActive = (page: string) => {
 }
 const accountStore = useAccountStore();
 const router = useRouter();
-const userInfo = ref<UserInfoDto|undefined>()
 
 const logout_Click = async () => {
     await accountStore.logout();

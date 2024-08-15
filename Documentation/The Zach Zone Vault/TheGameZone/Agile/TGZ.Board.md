@@ -6,7 +6,6 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] [[Personalize the Welcome Back message]]
 - [ ] Create Review system
 - [ ] Create Leaderboard system
 - [ ] Allow support for Godot games
@@ -21,6 +20,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Personalize the Welcome Back message]]
 
 
 

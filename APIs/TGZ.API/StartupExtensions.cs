@@ -11,8 +11,10 @@ namespace TGZ.API;
 
 public static class StartupExtensions
 {
-    public static void AddTheGameZone(this IServiceCollection services, IWebHostEnvironment environment, IConfigurationRoot configuration)
+    public static void AddTheGameZone(this IServiceCollection services, IWebHostEnvironment environment, ConfigurationManager configuration)
     {
+        var appSettingsJson = Path.Combine(Path.GetDirectoryName(typeof(GameController).Assembly.Location), "appsettings.tgz.json");
+        configuration.AddJsonFile(appSettingsJson, optional: false);
         services.AddWebShared(environment, configuration);
         services.AddControllers()
             .AddApplicationPart(typeof(GameController).Assembly);

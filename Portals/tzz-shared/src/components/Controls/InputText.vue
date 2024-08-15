@@ -1,7 +1,7 @@
 <template>
     <div class="form-group">
         <label class="form-label">{{ props.label}}:</label>
-        <input v-model="model" class="form-control" :placeholder="props.placeholder"/>
+        <input v-model="model" class="form-control" :placeholder="props.placeholder" :readonly="$props.readonly" :disabled="$props.disabled"/>
     </div>
 </template>
 
@@ -10,7 +10,9 @@ import { defineProps, defineModel } from 'vue'
 
 interface IProps {
     label: string,
-    placeholder: string
+    placeholder: string,
+    readonly: boolean|undefined,
+    disabled: boolean|undefined,
 }
 
 const props = defineProps<IProps>()
@@ -26,6 +28,9 @@ const model = defineModel<string>()
 
     input {
         min-width: 20rem;
+        &:disabled {
+            filter: brightness(75%);
+        }
     }
 }
 </style>

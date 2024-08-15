@@ -21,4 +21,5 @@ public interface ICurrentUserService
     public string? Email => Principal.Identity?.Name;
     public ClaimsPrincipal Principal => HttpContext.User;
     public bool IsAuthenticated => Principal.Identity?.IsAuthenticated ?? false;
+    public string IpAddress => HttpContext.Connection.RemoteIpAddress.ToString();
 }

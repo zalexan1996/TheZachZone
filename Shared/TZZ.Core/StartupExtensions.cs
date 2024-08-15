@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using TZZ.Common.Configuration;
 using TZZ.Core.Shared;
+using TZZ.Core.Shared.Behaviors;
+using TZZ.Core.Shared.Services;
 
 namespace TZZ.Core;
 
@@ -12,8 +14,12 @@ public static class StartupExtensions
         services.AddMediatR(x =>
         {
             x.RegisterServicesFromAssemblyContaining<ZachZoneCommand>();
+            x.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
+
         services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
         services.Configure<Security>(configuration.GetSection(nameof(Security)));
+        services.Configure<TelemetrySettings>(configuration.GetSection(nameof(TelemetrySettings)));
+        services.AddSingleton(typeof(ITelemetryService<>), typeof(TelemetryService<>));
     }
 }

@@ -5,13 +5,17 @@ using TZZ.WebShared;
 using TZZ.Common;
 using TZZ.Core.Shared.Services;
 using TZZ.API.Services;
+using TZZ.Common.Configuration;
 
 namespace TZZ.API;
 
 public static class StartupExtensions
 {
-    public static void AddTheZachZone(this IServiceCollection services, IWebHostEnvironment environment, IConfigurationRoot configuration)
+    public static void AddTheZachZone(this IServiceCollection services, IWebHostEnvironment environment, ConfigurationManager configuration)
     {
+        var appSettingsJson = Path.Combine(Path.GetDirectoryName(typeof(AccountController).Assembly.Location), "appsettings.tzz.json");
+        configuration.AddJsonFile(appSettingsJson, optional: false);
+
         services.AddWebShared(environment, configuration);
         services.AddControllers().AddApplicationPart(typeof(AccountController).Assembly);
         services.AddTransient<ICurrentUserService, CurrentUserService>();

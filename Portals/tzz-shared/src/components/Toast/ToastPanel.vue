@@ -17,8 +17,8 @@ const toastStore = useToastStore();
 <style scoped lang="scss">
 .t-container {
     position: fixed;
-    right: 0px;
-    bottom: 0px;
+    right: 1rem;
+    bottom: 4rem;
     max-width: 25vw;
 }
 </style>

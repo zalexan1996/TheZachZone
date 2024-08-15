@@ -4,13 +4,14 @@ using TZZ.Core.Shared;
 using TZZ.Core.TheZachZone.Account.Commands;
 using TZZ.Core.TheZachZone.Account.Queries;
 using Microsoft.AspNetCore.Authorization;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using TZZ.Core.Shared.Services;
 
 namespace TZZ.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AccountController(ISender sender) : ControllerBase
+[Authorize(Policy = "default")]
+public class AccountController(ISender sender, ITelemetryService<AccountController> telemetryService) : ControllerBase
 {
     [HttpGet("[action]")]
     [AllowAnonymous]
@@ -22,7 +23,6 @@ public class AccountController(ISender sender) : ControllerBase
         {
             return Ok(result.Result);
         }
-
         return BadRequest(result);
     }
 
@@ -59,7 +59,6 @@ public class AccountController(ISender sender) : ControllerBase
     }
 
     [HttpGet("[action]")]
-    [Authorize(Policy = "default")]
     public async Task<ActionResult<string>> Logout()
     {
         var result = await sender.Send(new LogoutCommand());
@@ -67,11 +66,23 @@ public class AccountController(ISender sender) : ControllerBase
     }
 
     [HttpGet("[action]")]
-    [Authorize(Policy = "default")]
     public async Task<ActionResult<UserInfoDto>> UserInfo()
     {
         var result = await sender.Send(new GetUserInfoQuery());
 
+        if (result.IsValid)
+        {
+            return Ok(result.Result);
+        }
+
+        return BadRequest();
+    }
+
+    [HttpGet("[action]")]
+    public async Task<ActionResult<GeneralInformationDto>> GetGeneralInformation()
+    {
+        var result = await sender.Send(new GetGeneralInformationQuery());
+        
         if (result.IsValid)
         {
             return Ok(result.Result);

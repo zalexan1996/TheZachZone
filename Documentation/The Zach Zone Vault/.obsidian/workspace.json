@@ -4,18 +4,25 @@
     "type": "split",
     "children": [
       {
-        "id": "e0e7cc9caa1559a2",
+        "id": "cba7e5e7520787d0",
         "type": "tabs",
         "children": [
           {
-            "id": "d9bafd3f1c0d2d44",
+            "id": "31b60dff2ddbdee8",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "kanban",
               "state": {
-                "file": "_Knowledge Base/OpenTelemetry/OpenTelemetry Overview.md",
-                "mode": "source",
-                "source": false
+                "file": "TheZachZone/Agile/TZZ.Board.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                }
               }
             }
           }
@@ -69,7 +76,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 208.5
   },
   "right": {
     "id": "36c0fd3e151ba877",
@@ -85,7 +92,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "_Knowledge Base/OpenTelemetry/OpenTelemetry Overview.md",
+                "file": "TheZachZone/Agile/TZZ.Board.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +109,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "_Knowledge Base/OpenTelemetry/OpenTelemetry Overview.md",
+                "file": "TheZachZone/Agile/TZZ.Board.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +132,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "_Knowledge Base/OpenTelemetry/OpenTelemetry Overview.md"
+                "file": "TheZachZone/Agile/TZZ.Board.md"
               }
             }
           }
@@ -147,28 +154,32 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "d9bafd3f1c0d2d44",
+  "active": "31b60dff2ddbdee8",
   "lastOpenFiles": [
     "TheZachZone/General.md",
+    "TheGameZone/Agile/TGZ.Board.md",
     "TheZachZone/Agile/TZZ.Board.md",
+    "TheZachZone/Agile/Tasks/Add Update General Information Form.md",
+    "TheZachZone/Agile/Tasks/Add side nav for other sites.md",
+    "TheZachZone/Agile/Tasks/Create AppSettings section for server addresses.md",
+    "TheZachZone/Agile/Tasks/Create Prometheus Server.md",
+    "TheZachZone/Agile/Tasks/Add FluentValidation and ValidationBehavior.md",
     "_Knowledge Base/OpenTelemetry/OpenTelemetry Overview.md",
+    "_Shared/Templates/_TaskTemplate.md",
+    "TheZachZone/Agile/Tasks/Do somethign cool.md",
+    "TheZachZone/Agile/Tasks/Add Health Checks.md",
     "TheZachZone/Agile/Tasks/Add OpenTelemetry.md",
     "_Knowledge Base/OpenTelemetry",
     "_Knowledge Base",
-    "TheGameZone/Agile/TGZ.Board.md",
     "TheGameZone/Agile/Tasks/Personalize the Welcome Back message.md",
     "TheZachZone/Agile/Tasks/Setup Docker.md",
     "TheZachZone/Agile/Tasks/Setup CICD Pipeline.md",
     "TheZachZone/Agile/Tasks/Create Auth Policies.md",
     "TheZachZone/Agile/Tasks/Create a shared Vue library.md",
     "TheZachZone/Agile/Tasks/Allow 'Enter' for login form.md",
-    "TheZachZone/Agile/Tasks/Add Update General Information Form.md",
     "TheZachZone/Agile/Tasks/Add StaticFilesPathLocatorService.md",
-    "TheZachZone/Agile/Tasks/Add side nav for other sites.md",
     "TheZachZone/Agile/Tasks/Add Reset Password Form.md",
-    "TheZachZone/Agile/Tasks/Add Health Checks.md",
     "TheZachZone/Agile/Tasks/Add Antiforgery token validation to all Authorized endpoints.md",
-    "_Shared/Templates/_TaskTemplate.md",
     "TheGameZone/Agile/Tasks",
     "Add Health Checks.md",
     "_Shared/Templates",
@@ -177,13 +188,9 @@
     "TheZachZone/Agile/Tasks",
     "TheSchoolZone/Agile/TSZ.Board.md",
     "TheCryptoZone/Agile/TCZ.Board.md",
-    "PocketPersona/Agile/PocketPersona.Board.md",
-    "Crapazon/Agile/Crapazon.Board.md",
-    "AgileLife/Agile/AgileLife.Board.md",
     "TheSchoolZone/Agile",
     "TheCryptoZone/Agile",
     "PocketPersona/Agile",
-    "Crapazon/Agile",
-    "Agile/Crapazon Board.md"
+    "Crapazon/Agile"
   ]
 }

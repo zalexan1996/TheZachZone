@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using TZZ.Core.Shared.Services;
 using TZZ.Domain.Entities.TheZachZone;
 using TZZ.Infrastructure.SQL;
@@ -26,6 +30,7 @@ public static class StartupExtensions
         services.AddIdentity<User, Role>()
             .AddEntityFrameworkStores<ZachZoneDbContext>()
             .AddDefaultTokenProviders();
+        
         services.AddAuthentication(IdentityConstants.ApplicationScheme);
         services.AddAuthorization(x =>
         {
@@ -73,5 +78,12 @@ public static class StartupExtensions
 
         services.AddTransient<IIdentityService, IdentityService>();
         services.AddTransient<IPathLocatorService, PathLocatorService>();
+
+        services.AddOpenTelemetry()
+            .ConfigureResource(r => r.AddService("The-Zach-Zone"))
+                .WithTracing(t => t.AddAspNetCoreInstrumentation().AddConsoleExporter().AddSource("The-Zach-Zone"))
+                .WithMetrics(m => m.AddAspNetCoreInstrumentation().AddConsoleExporter().AddMeter("The-Zach-Zone"))
+                .WithLogging(l => l.AddConsoleExporter());
+
     }
 }

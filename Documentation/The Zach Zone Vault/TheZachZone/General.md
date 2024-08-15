@@ -33,6 +33,6 @@ The following sites make up The Zach Zone:
 
 ``` dataview
 LIST
-TABLE Story-Points
+where storytype=Bugfix
 
 ```
