@@ -37,14 +37,14 @@ public class AddGameInfoCommandHandler(IDatabaseService dbContext, IPathLocatorS
         var newEntry = await dbContext.Set<GameInfo>().SingleAsync(x => x.Name == request.Name);
         string root = Directory.GetCurrentDirectory();
 
-        string uploadDirectory = pathLocatorService.GetUploadedGamesDirectory();
+        string uploadDirectory = "wwwroot/games";
 
         if (!Directory.Exists(uploadDirectory))
         {
             Directory.CreateDirectory(uploadDirectory);
         }
 
-        string gamePath = pathLocatorService.GetUploadedGameDirectory(newEntry.Id);
+        string gamePath = Path.Combine(root, uploadDirectory, newEntry.Id.ToString());
         if (!Directory.Exists(gamePath))
         {
             Directory.CreateDirectory(gamePath);

@@ -42,13 +42,14 @@
 </template>
 <script setup lang="ts">
 import { onMounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useGameStore } from '@/Stores/gameStore'
 import { Badge } from 'tzz-shared'
 import GameComments from '@/Components/Games/Comments/GameComments.vue'
 import ImageCarousel from '@/Components/Games/Images/ImageCarousel.vue'
 
 const route = useRoute()
+const router = useRouter()
 const gameStore = useGameStore()
 
 const game = computed(() => gameStore.games.length == 1 ? gameStore.games.at(0) : null)
@@ -63,6 +64,7 @@ const imageDatas = computed(() => {
 const deleteGame = async () => {
     let id = Number.parseInt(route.params.id as string)
     await gameStore.deleteGame(id)
+    router.push({name: 'Recent-Games'})
 }
 onMounted(async () => {
     let id = Number.parseInt(route.params.id as string)

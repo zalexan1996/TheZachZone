@@ -6,6 +6,7 @@ import Toast from "./components/Toast/Toast.vue"
 import ToastPanel from "./components/Toast/ToastPanel.vue"
 import SiteSwitcherPanel from "./components/SiteSwitcher/SiteSwitcherPanel.vue"
 import SiteSwitcherToggler from "./components/SiteSwitcher/SiteSwitcherToggler.vue"
+import Checkbox from "./components/Controls/Checkbox.vue"
 
 // Stores
 import { useToastStore, ToastOptions } from "./stores/toastStore"
@@ -18,6 +19,7 @@ export {
     InputText,
     Toast,
     ToastPanel,
+    Checkbox,
     
     useToastStore,
     ToastOptions,

@@ -32,7 +32,7 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/games/:id',
         name: 'GameInfo',
-        component: GameInfo
+        component: GameInfo,
     },
     {
         path: '/games/:id/play',

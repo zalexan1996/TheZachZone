@@ -1,6 +1,7 @@
 <template>
-    <span class="justify-content-center d-flex mt-3" v-if="loadStatus == null">Loading...</span>
-    <canvas v-if="loadStatus == null || loadStatus == true" id="game-canvas"></canvas>
+    <iframe class="w-100 h-100" :src="gameUrl"
+    allow="autoplay; fullscreen *; cross-origin-isolated; transparency"
+    scrolling="no" sandbox="allow-scripts allow-same-origin allow-pointer-lock"></iframe>
     <span v-if="loadStatus == false" class="text-danger justify-content-center d-flex mt-3">The game failed to load. This is probably due to an upload failure.</span>
 </template>
 
@@ -12,7 +13,7 @@ canvas {
 </style>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useGameStore } from '@/Stores/gameStore'
 import { useToastStore } from 'tzz-shared'
@@ -22,13 +23,13 @@ const gameStore = useGameStore()
 const toastStore = useToastStore()
 const loadStatus = ref<boolean|null>(null)
 
+const gameId = computed(() => route.params.id)
+const gameUrl = computed(() => {
+    return `https://localhost:8011/games/${gameId.value}/index.html`
+})
+
 onMounted(async () => {
     loadStatus.value = false
-    toastStore.push({
-        title: 'Game failed to load.',
-        body: 'Play game is not implemented yet.',
-        duration: 3000,
-        severity: 'danger'
-    })
+    
 })
 </script>

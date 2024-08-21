@@ -1,4 +1,4 @@
-import { AddGameCommentCommand, CommentDto, FileParameter, GameClient, GameImageDto, GameInfoDto } from '@services/apiService'
+import { AddGameCommentCommand, CommentDto, GameClient, GameImageDto, GameInfoDto, FileParameter } from '@services/apiService'
 import { API_BASE_URL, AxiosInstance } from '@services/axiosService'
 import {defineStore} from 'pinia'
 import { ref } from 'vue'
@@ -15,8 +15,12 @@ export const useGameStore = defineStore('game', () => {
         return games.value
     }
 
-    const addGame = async (name: string, description: string, categories: string[], fileContent: FileParameter) => {
-        await client.addGame(name, description, categories, fileContent)
+    const addGame = async (name: string, description: string, categories: string[], file: File) => {
+        let fileParameter = {
+            data: file,
+            fileName: 'game.zip'
+        } as FileParameter
+        return await client.addGame(name, description, categories, fileParameter)
     }
 
     const deleteGame = async(id: number) => {

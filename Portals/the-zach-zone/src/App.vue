@@ -5,7 +5,8 @@
           <RouterLink :to="{name: 'Home'}">
             The Zach Zone
           </RouterLink></h1>
-        <hr/>
+          <hr/>
+          <p style="font-style: italic;">I am Zach. These are my apps.</p>
       </div>
       <RouterView/>
     </div>

@@ -3,3 +3,6 @@ Bin/
 Debug/
 obj/
 node_modules/
+
+localhost.pem
+localhost-key.pem

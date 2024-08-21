@@ -82,7 +82,7 @@ public static class StartupExtensions
         services.AddOpenTelemetry()
             .ConfigureResource(r => r.AddService("The-Zach-Zone"))
                 .WithTracing(t => t.AddAspNetCoreInstrumentation().AddConsoleExporter().AddSource("The-Zach-Zone"))
-                .WithMetrics(m => m.AddAspNetCoreInstrumentation().AddConsoleExporter().AddMeter("The-Zach-Zone"))
+                .WithMetrics(m => m.AddAspNetCoreInstrumentation().AddMeter("The-Zach-Zone"))
                 .WithLogging(l => l.AddConsoleExporter());
 
     }

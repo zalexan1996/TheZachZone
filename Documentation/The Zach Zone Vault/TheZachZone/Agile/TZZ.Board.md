@@ -18,12 +18,12 @@ kanban-plugin: board
 ## Selected for Development
 
 - [ ] [[Create Prometheus Server]]
-- [ ] [[Add Reset Password Form]]
 - [ ] [[Create AppSettings section for server addresses]]
 
 
 ## In Progress
 
+- [ ] [[Add Reset Password Form]]
 
 
 ## Done

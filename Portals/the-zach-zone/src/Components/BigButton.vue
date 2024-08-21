@@ -3,6 +3,7 @@
             <button class="w-100 h-100">
                 <span :class="iconClasses"></span>
                 <p>{{ props.title }}</p>
+                <span :hidden="true">Description</span>
             </button>
         </a>
 </template>

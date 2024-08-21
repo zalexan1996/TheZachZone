@@ -5,8 +5,14 @@ import {resolve} from 'node:path'
 export default defineConfig({
   plugins: [vue()],
   server: {
-    port: 8010
+    port: 8010,
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+      'Cross-Origin-Resource-Policy': 'cross-origin'
+    }
   },
+  
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src/'),
