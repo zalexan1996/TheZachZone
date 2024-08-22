@@ -23,11 +23,7 @@
             <div class="d-flex flex-column separator"></div>
             <div class="p-2 d-flex flex-column justify-content-between align-items-stretch">
                 <GeneralInformationForm v-if="activePage == 'general'"/>
-                <div v-else-if="activePage == 'security'"class="tab-page">
-                    <InputText label="New Password" placeholder="Provide a new password..."/>
-                    <InputText label="Confirm Password" placeholder="Provide a new password..."/>
-                    <button class="btn btn-outline-success">Reset Password</button>
-                </div>
+                <ResetPasswordForm v-else-if="activePage == 'security'"/>
             </div>
         </div>
     </div>
@@ -37,8 +33,8 @@
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router'
 import { useAccountStore } from '@stores/accountStore.ts'
-import { InputText } from 'tzz-shared'
 import GeneralInformationForm from '@components/Account/GeneralInformationForm.vue'
+import ResetPasswordForm from '@components/Account/ResetPasswordForm.vue'
 
 const activePage = ref('general')
 const makeActive = (page: string) => {

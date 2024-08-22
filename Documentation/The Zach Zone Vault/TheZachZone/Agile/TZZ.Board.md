@@ -13,6 +13,7 @@ kanban-plugin: board
 - [ ] [[Setup CICD Pipeline]]
 - [ ] [[Allow 'Enter' for login form]]
 - [ ] [[Add FluentValidation and ValidationBehavior]]
+- [ ] [[Improve UX for InputText]]
 
 
 ## Selected for Development

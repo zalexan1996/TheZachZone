@@ -3,6 +3,7 @@ Bin/
 Debug/
 obj/
 node_modules/
+/APIs/TGZ.API/wwwroot/games/
 
 localhost.pem
 localhost-key.pem

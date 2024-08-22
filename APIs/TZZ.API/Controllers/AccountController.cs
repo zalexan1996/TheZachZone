@@ -11,7 +11,7 @@ namespace TZZ.API.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Authorize(Policy = "default")]
-public class AccountController(ISender sender, ITelemetryService<AccountController> telemetryService) : ControllerBase
+public class AccountController(ISender sender, ITelemetryService<AccountController> telemetryService, IIdentityService identityService) : ControllerBase
 {
     [HttpGet("[action]")]
     [AllowAnonymous]
@@ -102,6 +102,12 @@ public class AccountController(ISender sender, ITelemetryService<AccountControll
         }
 
         return BadRequest();
+    }
+
+    [HttpGet("[action]")]
+    public async Task<string> GetPasswordResetToken()
+    {
+        return await identityService.GetPasswordResetToken();
     }
 
     [HttpPost("[action]")]

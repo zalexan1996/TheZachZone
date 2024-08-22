@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Identity;
+using TZZ.Common;
 using TZZ.Core.Shared;
 using TZZ.Core.Shared.Services;
 using TZZ.Core.TheZachZone.Account.Commands;
@@ -7,7 +8,7 @@ using TZZ.Domain.Entities.TheZachZone;
 
 namespace TZZ.WebShared.Security.Services;
 
-internal class IdentityService(UserManager<User> _userManager, RoleManager<Role> _roleManager, SignInManager<User> _signInManager) : IIdentityService
+internal class IdentityService(ICurrentUserService _currentUserService, UserManager<User> _userManager, RoleManager<Role> _roleManager, SignInManager<User> _signInManager) : IIdentityService
 {
     public async Task<ZachZoneCommand<User>> CreateUser(CreateAccountCommand command)
     {
@@ -61,6 +62,13 @@ internal class IdentityService(UserManager<User> _userManager, RoleManager<Role>
     public async Task LogoutCurrentUser()
     {
         await _signInManager.SignOutAsync();
+    }
+
+    public async Task<string> GetPasswordResetToken()
+    {
+        Guard.Against.False(_currentUserService.UserId.HasValue);
+
+        return await GetPasswordResetToken(_currentUserService.UserId!.Value);
     }
 
     public async Task<string> GetPasswordResetToken(int userId)

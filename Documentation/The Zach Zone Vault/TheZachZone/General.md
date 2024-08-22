@@ -1,3 +1,4 @@
+
 The Zach Zone is a collection of portfolio websites showcasing my web development skills, but also providing me with some applications that I can actually use. 
 
 The following sites make up The Zach Zone:
@@ -33,6 +34,6 @@ The following sites make up The Zach Zone:
 
 ``` dataview
 LIST
-where storytype=Bugfix
+where Site=TheZachZone
 
 ```

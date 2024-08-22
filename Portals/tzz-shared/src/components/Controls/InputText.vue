@@ -2,6 +2,7 @@
     <div class="form-group">
         <label class="form-label">{{ props.label}}:<i class="fa fa-help text-warning"></i></label>
         <input v-if="$props.type == 'text'" v-model="model" class="form-control" :readonly="$props.readonly" :disabled="$props.disabled"/>
+        <input v-else-if="$props.type == 'password'" type="password" v-model="model" class="form-control" :readonly="$props.readonly" :disabled="$props.disabled"/>
         <textarea v-else-if="$props.type == 'textarea'" v-model="model" class="form-control" :readonly="$props.readonly" :disabled="$props.disabled">
         </textarea>
         <select v-else-if="$props.type == 'select'" v-model="model" class="form-select" :readonly="$props.readonly" :disabled="$props.disabled">
@@ -24,7 +25,7 @@ interface IProps {
     placeholder: string,
     readonly: boolean|undefined,
     disabled: boolean|undefined,
-    type: 'text'|'textarea'|'select',
+    type: 'text'|'textarea'|'select'|'password',
     options: string[]|undefined,
     showPlaceholder: boolean
 }

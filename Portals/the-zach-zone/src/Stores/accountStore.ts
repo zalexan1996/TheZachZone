@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { AccountClient, CreateAccountComand, UserInfoDto, UpdateGeneralInformationCommand } from "@services/apiService.ts";
 import {API_BASE_URL, AxiosInstance } from '@services/AxiosService.ts';
 import { ref } from "vue";
+import { ResetPasswordCommand } from "../Services/apiService";
 
 export const useAccountStore = defineStore("account", () => {
 
@@ -41,6 +42,11 @@ export const useAccountStore = defineStore("account", () => {
     const updateGeneralInformation = async (command: UpdateGeneralInformationCommand) => {
         return await client.updateGeneralInformation(command);
     }
+
+    const getPasswordResetToken = async() => client.getPasswordResetToken()
+    const resetPassword = async (command: ResetPasswordCommand) => {
+        return await client.resetPassword(command)
+    }
     return {
         doesUserExist,
         createAccount,
@@ -50,6 +56,8 @@ export const useAccountStore = defineStore("account", () => {
         isLoggedIn,
         getGeneralInformation,
         updateGeneralInformation,
+        getPasswordResetToken,
+        resetPassword,
         userInfo
     }
 })

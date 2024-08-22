@@ -12,6 +12,7 @@ public interface IIdentityService
     Task<bool> DoesUserExist(int userId);
     Task<bool> DoesUserExist(string userName);
     Task<bool> SignIn(string email, string password);
+    Task<string> GetPasswordResetToken();
     Task<string> GetPasswordResetToken(int userId);
     Task<bool> ResetPassword(int id, string token, string password);
     Task LogoutCurrentUser();
