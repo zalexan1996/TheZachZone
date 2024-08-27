@@ -31,25 +31,30 @@
         <h4 class="mb-0">Game Information</h4>
         <div class="d-flex flex-column my-3 mx-0 bordered justify-content-start">
             <div class="row">
-                <InputText v-model="name" class="col-7" label="Name" placeholder="Provide a name for your game." :showPlaceholder="!name"/>
-                <InputText v-model="tag" class="col-auto" label="Tag" placeholder="Choose a tag that best describes your game." :options="['Puzzle', 'Horror']" type="select"/>
-                <Checkbox class="col-auto" label="Make Public" placeholder="Should this game be visible to everybody?"/>
+                <InputText for="name" v-model="name" class="col-7" label="Name" 
+                    placeholder="Provide a name for your game." helpText="The name of your game should be a hook to entice potential players."/>
+                <InputText for="tag" v-model="tag" class="col-auto" label="Tag"
+                    placeholder="Choose a tag that best describes your game." :options="['Puzzle', 'Horror']"
+                    type="select" helpText="Choose the option that best describes your game."/>
+                <Checkbox for="makePublic" v-model="makePublic" class="col-auto" label="Make Public" placeholder="Should this game be visible to everybody?" helpText="You will be able to change this setting later"/>
             </div>
-            <InputText v-model="description" label="Description" type="textarea" class="w-100" :showPlaceholder="!description"
-            placeholder="Give a brief description on what this game is about. Include information about how to play the game if there isn't an in-game help."/>
+            <InputText for="description" v-model="description" label="Description" type="textarea" 
+                class="w-100" helpText="Give a brief description on what this game is about. Include information about how to play the game if there isn't an in-game help."
+                placeholder="Provide a description..."/>
             
             <div class="d-flex flex-column justify-content-stretch align-items-stretch">
-                    <div class="bordered p-3 bg-dark mx-0 my-4">
-                        <input @change="onFileUpload" class="me-4" type="file"/>
-                    </div>
-                    <button class="btn btn-success align-self-center" :disabled="!isFormValid" @click="onSubmit" type="button">Upload</button>
+                <div class="bordered p-3 bg-dark mx-0 my-4 d-flex flex-column">
+                    <input @change="onFileUpload" class="me-4" type="file"/>
+                    <ErrorMessage class="text-danger" name="file"></ErrorMessage>
                 </div>
+                <button class="btn btn-success align-self-center" :disabled="!isFormValid" @click="onSubmit" type="button">Upload</button>
+            </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import { InputText, Checkbox } from 'tzz-shared'
-import { useForm, useIsFormValid } from 'vee-validate'
+import { ErrorMessage, useForm, useIsFormValid } from 'vee-validate'
 import * as yup from 'yup'
 import { useGameStore } from '@/Stores/gameStore.ts'
 import { useRouter } from 'vue-router'
@@ -58,36 +63,37 @@ const gameStore = useGameStore()
 
 const form = useForm({
     validationSchema: {
-        name: yup.string().required(),
-        description: yup.string().required(),
-        tag: yup.string().required()
-    }
+        name: yup.string().required('The name is required.'),
+        description: yup.string().required('The description is required.'),
+        tag: yup.string().required('The tag is required.'),
+        makePublic: yup.bool().required(),
+        file: yup.mixed().required('You must upload a file.')
+    },
+    validateOnMount: true
 })
 
 
 const [name] = form.defineField('name')
 const [description] = form.defineField('description')
 const [tag] = form.defineField('tag')
+const [makePublic] = form.defineField('makePublic')
 const [file] = form.defineField('file')
-
 const isFormValid = useIsFormValid()
 
-const onFileUpload = (e) => {
+const onFileUpload = async (e) => {
     const fileList = e.target.files as FileList;
-    if (fileList.length == 1) {
-        file.value = fileList.item(0)
-        console.log(file.value)
-    }
+    file.value = fileList.item(0) ?? undefined
 }
 
 const onSubmit = async () => {
     const id = await gameStore.addGame(name.value, description.value, [tag.value], file.value)
-    console.log(id)
     routerStore.push({
         name: 'GameInfo',
         params: { id: id }
     })
 }
+
+makePublic.value = false
 </script>
 
 <style scoped lang="scss">

@@ -1,7 +1,7 @@
 <template>
     <div class="tab-page">
-        <InputText v-model="password" label="New Password" placeholder="Provide a new password..." type="password"/>
-        <InputText v-model="confirmPassword" label="Confirm Password" placeholder="Provide a new password..." type="password"/>
+        <InputText for="password" v-model="password" label="New Password" placeholder="Provide a new password..." type="password"/>
+        <InputText for="confirmPassword" v-model="confirmPassword" label="Confirm Password" placeholder="Provide a new password..." type="password"/>
         <button :disabled="!(isFormValid && isFormDirty)" class="btn btn-outline-success" @click="resetPassword">Reset Password</button>
     </div>
 </template>

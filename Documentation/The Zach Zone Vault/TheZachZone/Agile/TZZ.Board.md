@@ -13,7 +13,7 @@ kanban-plugin: board
 - [ ] [[Setup CICD Pipeline]]
 - [ ] [[Allow 'Enter' for login form]]
 - [ ] [[Add FluentValidation and ValidationBehavior]]
-- [ ] [[Improve UX for InputText]]
+- [ ] Add a loading indicator
 
 
 ## Selected for Development
@@ -24,11 +24,12 @@ kanban-plugin: board
 
 ## In Progress
 
-- [ ] [[Add Reset Password Form]]
 
 
 ## Done
 
+- [ ] [[Improve UX for InputText]]
+- [ ] [[Add Reset Password Form]]
 - [ ] [[Add Update General Information Form]]
 - [ ] [[Add side nav for other sites]]
 - [ ] [[Add OpenTelemetry]]

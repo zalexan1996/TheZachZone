@@ -1,39 +1,36 @@
 <template>
     <div class="form-group">
-        <label class="form-label">{{ props.label}}:<i class="fa fa-help text-warning"></i></label>
-        <input v-if="$props.type == 'text'" v-model="model" class="form-control" :readonly="$props.readonly" :disabled="$props.disabled"/>
-        <input v-else-if="$props.type == 'password'" type="password" v-model="model" class="form-control" :readonly="$props.readonly" :disabled="$props.disabled"/>
-        <textarea v-else-if="$props.type == 'textarea'" v-model="model" class="form-control" :readonly="$props.readonly" :disabled="$props.disabled">
+        <label class="form-label">{{ props.label}}:<i v-if="!!$props.helpText" class="fa fa-circle-question text-info ms-1" :title="$props.helpText"></i></label>
+        <input v-if="$props.type == 'text'" v-model="model" class="form-control" :readonly="$props.readonly" :disabled="$props.disabled" :placeholder="$props.placeholder"/>
+        <input v-else-if="$props.type == 'password'" type="password" v-model="model" class="form-control" :readonly="$props.readonly" :disabled="$props.disabled" :placeholder="$props.placeholder"/>
+        <textarea v-else-if="$props.type == 'textarea'" v-model="model" class="form-control" :readonly="$props.readonly" :disabled="$props.disabled" :placeholder="$props.placeholder">
         </textarea>
-        <select v-else-if="$props.type == 'select'" v-model="model" class="form-select" :readonly="$props.readonly" :disabled="$props.disabled">
+        <select v-else-if="$props.type == 'select'" v-model="model" class="form-select" :readonly="$props.readonly" :disabled="$props.disabled" :placeholder="$props.placeholder">
             <option v-for="o in $props.options">{{ o }}</option>
         </select>
-        <span v-show-preserve-space="showPlaceholder" class="mt-1 help">{{ $props.placeholder }}</span>
+        <ErrorMessage class="text-danger" :name="$props.for"></ErrorMessage>
     </div>
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineModel, withDefaults, Directive, DirectiveBinding } from 'vue'
+import { defineProps, defineModel, withDefaults } from 'vue'
+import { ErrorMessage } from 'vee-validate'
 
-const vShowPreserveSpace: Directive = {
-    updated: (el: HTMLElement, binding: DirectiveBinding) => {
-        el.style.visibility = !!binding.value ? 'visible' : 'hidden' 
-    }
-}
 interface IProps {
     label: string,
     placeholder: string,
+    helpText: string|undefined,
     readonly: boolean|undefined,
     disabled: boolean|undefined,
     type: 'text'|'textarea'|'select'|'password',
     options: string[]|undefined,
-    showPlaceholder: boolean
+    for: string
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-    type: 'text',
-    showPlaceholder: true
+    type: 'text'
 })
+
 const model = defineModel<string>()
 </script>
 

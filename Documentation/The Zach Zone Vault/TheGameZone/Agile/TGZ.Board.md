@@ -15,6 +15,13 @@ kanban-plugin: board
 - [ ] Game Categories page
 - [ ] Make comments use the current user information
 - [ ] Lock down the CORS settings to just the game static folder
+- [ ] Require authentication for uploading games
+- [ ] Create LOLCODE StarWars
+- [ ] Allow uploading of game images
+- [ ] Allow managing categories in the admin page
+- [ ] Change Tag to be Category on the Upload form
+- [ ] Allow game author to set page colors
+- [ ] Allow game author to edit their game properties
 
 
 ## Selected for Development

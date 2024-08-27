@@ -1,8 +1,8 @@
 <template>
     <div class="d-flex flex-column justify-content-start align-items-center">
-        <InputText v-model="firstName" placeholder="Provide a first name..." label="First Name" title="Provide a last name..."/>
-        <InputText v-model="lastName" placeholder="Provide a last name..." label="Last Name" title="Provide a last name..."/>
-        <InputText v-model="email" label="Email" :disabled="true" title="Your email is read only."/>
+        <InputText for="firstName" v-model="firstName" placeholder="Provide a first name..." label="First Name" title="Provide a last name..."/>
+        <InputText for="lastName" v-model="lastName" placeholder="Provide a last name..." label="Last Name" title="Provide a last name..."/>
+        <InputText for="email" v-model="email" label="Email" :disabled="true" title="Your email is read only."/>
     <button :disabled="!(isFormValid && isFormDirty)" class="btn btn-success" @click="save_Click">Save Changes</button>
     </div>
 </template>
