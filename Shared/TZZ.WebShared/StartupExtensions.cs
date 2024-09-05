@@ -12,12 +12,13 @@ using TZZ.Domain.Entities.TheZachZone;
 using TZZ.Infrastructure.SQL;
 using TZZ.WebShared.Common.Services;
 using TZZ.WebShared.Security.Services;
+using static TZZ.Common.Shared.Enums.ZachZoneConstants;
 
 namespace TZZ.WebShared;
 
 public static class StartupExtensions
 {
-    public static void AddWebShared(this IServiceCollection services, IWebHostEnvironment environment, IConfigurationRoot configuration)
+    public static void AddWebShared(this IServiceCollection services, IConfigurationRoot configuration)
     {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
@@ -34,10 +35,10 @@ public static class StartupExtensions
         services.AddAuthentication(IdentityConstants.ApplicationScheme);
         services.AddAuthorization(x =>
         {
-            x.AddPolicy("default", c => c.RequireAuthenticatedUser());
+            x.AddPolicy(Policies.Default, c => c.RequireAuthenticatedUser());
 
-            x.AddPolicy("admin", c => c.AddAuthenticationSchemes(IdentityConstants.ApplicationScheme)
-                .RequireClaim("Admin"));
+            x.AddPolicy(nameof(Policies.Admin), c => c.AddAuthenticationSchemes(IdentityConstants.ApplicationScheme)
+                .RequireClaim(ClaimTypes.Role, Roles.Admin));
         });
         services.ConfigureApplicationCookie(x =>
         {
@@ -81,9 +82,7 @@ public static class StartupExtensions
 
         services.AddOpenTelemetry()
             .ConfigureResource(r => r.AddService("The-Zach-Zone"))
-                .WithTracing(t => t.AddAspNetCoreInstrumentation().AddConsoleExporter().AddSource("The-Zach-Zone"))
-                .WithMetrics(m => m.AddAspNetCoreInstrumentation().AddMeter("The-Zach-Zone"))
-                .WithLogging(l => l.AddConsoleExporter());
-
+                .WithTracing(t => t.AddAspNetCoreInstrumentation().AddSource("The-Zach-Zone"))
+                .WithMetrics(m => m.AddAspNetCoreInstrumentation().AddMeter("The-Zach-Zone"));
     }
 }

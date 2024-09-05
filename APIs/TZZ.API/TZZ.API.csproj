@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TZZ.WebShared\TZZ.WebShared.csproj" />
+    <ProjectReference Include="..\..\Shared\TZZ.WebShared\TZZ.WebShared.csproj" />
   </ItemGroup>
 
     <Target Name="NSwag" BeforeTargets="AfterBuild">

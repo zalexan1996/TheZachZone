@@ -16,7 +16,7 @@ public static class StartupExtensions
         var appSettingsJson = Path.Combine(Path.GetDirectoryName(typeof(AccountController).Assembly.Location), "appsettings.tzz.json");
         configuration.AddJsonFile(appSettingsJson, optional: false);
 
-        services.AddWebShared(environment, configuration);
+        services.AddWebShared(configuration);
         services.AddControllers().AddApplicationPart(typeof(AccountController).Assembly);
         services.AddTransient<ICurrentUserService, CurrentUserService>();
     }

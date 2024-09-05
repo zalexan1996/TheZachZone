@@ -14,6 +14,7 @@ kanban-plugin: board
 - [ ] [[Allow 'Enter' for login form]]
 - [ ] [[Add FluentValidation and ValidationBehavior]]
 - [ ] Add a loading indicator
+- [ ] [[Create a command line tool]]
 
 
 ## Selected for Development

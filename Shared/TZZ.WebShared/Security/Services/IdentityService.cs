@@ -59,6 +59,7 @@ internal class IdentityService(ICurrentUserService _currentUserService, UserMana
 
         return result.Succeeded;
     }
+
     public async Task LogoutCurrentUser()
     {
         await _signInManager.SignOutAsync();
@@ -77,5 +78,31 @@ internal class IdentityService(ICurrentUserService _currentUserService, UserMana
         Guard.Against.Null(user, null, "User not found.");
 
         return await _userManager.GeneratePasswordResetTokenAsync(user);
+    }
+
+    public async Task<string?> GetClaim(int userId, string claimType)
+    {
+        var user = await GetUser(userId);
+        Guard.Against.Null(user, null, "User not found.");
+
+        var claims = await _userManager.GetClaimsAsync(user);
+        return claims.FirstOrDefault(x => x.Type == claimType)?.Value;
+    }
+    public async Task<bool> HasClaim(int userId, string claimType, string? claimValue = null)
+    {
+        var user = await GetUser(userId);
+        Guard.Against.Null(user, null, "User not found.");
+
+        var claims = await _userManager.GetClaimsAsync(user);
+        return claims.Any(x => x.Type == claimType && (claimValue == null || x.Value == claimValue));
+    }
+    public async Task<bool> AddClaim(int userId, string claimType, string claimValue)
+    {
+        var user = await GetUser(userId);
+        Guard.Against.Null(user, null, "User not found.");
+
+        var result = await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim(claimType, claimValue));
+
+        return result.Succeeded;
     }
 }

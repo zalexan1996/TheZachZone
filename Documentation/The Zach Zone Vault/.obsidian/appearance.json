@@ -3,5 +3,6 @@
     "obsidian-theme",
     "custom-admonitions.5bc9f8"
   ],
-  "cssTheme": "Blue Topaz"
+  "cssTheme": "Blue Topaz",
+  "theme": "moonstone"
 }

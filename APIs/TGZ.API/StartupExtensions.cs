@@ -15,7 +15,7 @@ public static class StartupExtensions
     {
         var appSettingsJson = Path.Combine(Path.GetDirectoryName(typeof(GameController).Assembly.Location), "appsettings.tgz.json");
         configuration.AddJsonFile(appSettingsJson, optional: false);
-        services.AddWebShared(environment, configuration);
+        services.AddWebShared(configuration);
         services.AddControllers()
             .AddApplicationPart(typeof(GameController).Assembly);
         services.AddTransient<ICurrentUserService, CurrentUserService>();

@@ -4,25 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "cba7e5e7520787d0",
+        "id": "d32cba8a8193148c",
         "type": "tabs",
         "children": [
           {
-            "id": "31b60dff2ddbdee8",
+            "id": "f75c2e647fc4ab6a",
             "type": "leaf",
             "state": {
-              "type": "kanban",
+              "type": "markdown",
               "state": {
-                "file": "TheGameZone/Agile/TGZ.Board.md",
-                "kanbanViewState": {
-                  "kanban-plugin": "board",
-                  "list-collapse": [
-                    false,
-                    false,
-                    false,
-                    false
-                  ]
-                }
+                "file": "TheZachZone/Agile/Tasks/Create a command line tool.md",
+                "mode": "source",
+                "source": false
               }
             }
           }
@@ -92,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "TheGameZone/Agile/TGZ.Board.md",
+                "file": "TheZachZone/Agile/Tasks/Create a command line tool.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -109,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "TheGameZone/Agile/TGZ.Board.md",
+                "file": "TheZachZone/Agile/Tasks/Create a command line tool.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -132,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "TheGameZone/Agile/TGZ.Board.md"
+                "file": "TheZachZone/Agile/Tasks/Create a command line tool.md"
               }
             }
           }
@@ -154,21 +147,26 @@
       "obsidian-kanban:Create new board": false
     }
   },
-  "active": "31b60dff2ddbdee8",
+  "active": "f75c2e647fc4ab6a",
   "lastOpenFiles": [
     "TheZachZone/Agile/TZZ.Board.md",
+    "TheZachZone/Agile/Tasks/Create AppSettings section for server addresses.md",
+    "TheGameZone/Agile/TGZ.Board.md",
+    "TheZachZone/Agile/Tasks/Create a command line tool.md",
+    "TheGameZone/Agile/Tasks/Create LOLCODE StarWars.md",
+    "TheGameZone/Agile/Tasks/Allow support for Unity games.md",
+    "TheGameZone/Agile/Tasks/Create a Review.md",
+    "TheGameZone/Agile/Tasks/Make comments use the current user information.md",
     "TheZachZone/General.md",
     "TheZachZone/Agile/Tasks/Improve UX for InputText.md",
     "TheZachZone/Agile/Tasks/Create Prometheus Server.md",
     "_Knowledge Base/OpenTelemetry/OpenTelemetry Overview.md",
     "_Shared/Templates/_TaskTemplate.md",
-    "TheGameZone/Agile/TGZ.Board.md",
     "TheGameZone/Agile/Tasks/Add game upload (potentially remove three.js).md",
     "TheGameZone/Agile/Tasks/Personalize the Welcome Back message.md",
     "TheGameZone/Agile/Tasks/Allow support for Godot games.md",
     "TheZachZone/Agile/Tasks/Add Update General Information Form.md",
     "TheZachZone/Agile/Tasks/Add side nav for other sites.md",
-    "TheZachZone/Agile/Tasks/Create AppSettings section for server addresses.md",
     "TheZachZone/Agile/Tasks/Add FluentValidation and ValidationBehavior.md",
     "TheZachZone/Agile/Tasks/Do somethign cool.md",
     "TheZachZone/Agile/Tasks/Add Health Checks.md",
@@ -179,12 +177,7 @@
     "TheZachZone/Agile/Tasks/Setup CICD Pipeline.md",
     "TheZachZone/Agile/Tasks/Create Auth Policies.md",
     "TheZachZone/Agile/Tasks/Create a shared Vue library.md",
-    "TheZachZone/Agile/Tasks/Allow 'Enter' for login form.md",
-    "TheZachZone/Agile/Tasks/Add StaticFilesPathLocatorService.md",
-    "TheZachZone/Agile/Tasks/Add Reset Password Form.md",
-    "TheZachZone/Agile/Tasks/Add Antiforgery token validation to all Authorized endpoints.md",
     "TheGameZone/Agile/Tasks",
-    "Add Health Checks.md",
     "_Shared/Templates",
     "_Shared",
     "TheZachZone/Agile/Tasks",

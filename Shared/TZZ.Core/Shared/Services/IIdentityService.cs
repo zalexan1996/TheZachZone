@@ -16,4 +16,8 @@ public interface IIdentityService
     Task<string> GetPasswordResetToken(int userId);
     Task<bool> ResetPassword(int id, string token, string password);
     Task LogoutCurrentUser();
+
+    Task<string?> GetClaim(int userId, string claimType);
+    Task<bool> HasClaim(int userId, string claimType, string? claimValue = null);
+    Task<bool> AddClaim(int userId, string claimType, string claimValue);
 }
