@@ -29,6 +29,7 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Show Role in Security tab]]
 - [ ] [[Improve UX for InputText]]
 - [ ] [[Add Reset Password Form]]
 - [ ] [[Add Update General Information Form]]

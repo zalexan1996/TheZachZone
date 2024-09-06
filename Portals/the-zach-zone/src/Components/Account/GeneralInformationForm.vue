@@ -3,16 +3,20 @@
         <InputText for="firstName" v-model="firstName" placeholder="Provide a first name..." label="First Name" title="Provide a last name..."/>
         <InputText for="lastName" v-model="lastName" placeholder="Provide a last name..." label="Last Name" title="Provide a last name..."/>
         <InputText for="email" v-model="email" label="Email" :disabled="true" title="Your email is read only."/>
-    <button :disabled="!(isFormValid && isFormDirty)" class="btn btn-success" @click="save_Click">Save Changes</button>
+        <div class="d-flex flex-column align-items-start justify-content-start">
+            <label class="form-label">Role: </label>
+            <Badge style="min-width: 20rem;" :severity="roleSeverity">{{ accountStore.userInfo.role }}</Badge>
+        </div>
+        <button :disabled="!(isFormValid && isFormDirty)" class="btn btn-success mt-4" @click="save_Click">Save Changes</button>
     </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useForm, useIsFormValid, useIsFormDirty } from 'vee-validate'
 import * as yup from 'yup'
 import { useAccountStore } from '@stores/accountStore.ts'
-import { InputText, useToastStore } from 'tzz-shared'
+import { InputText, useToastStore, Badge } from 'tzz-shared'
 
 const accountStore = useAccountStore();
 const toastStore = useToastStore();
@@ -29,6 +33,9 @@ const email = ref<string>('')
 const isFormValid = useIsFormValid();
 const isFormDirty = useIsFormDirty();
 
+const roleSeverity = computed(() => {
+    return accountStore.userInfo.role == 'Admin' ? 'warning' : 'info'
+})
 const save_Click = async () => {
     accountStore.updateGeneralInformation({
         firstName: firstName.value,

@@ -628,6 +628,7 @@ export interface ICreateAccountCommand {
 
 export class UserInfoDto implements IUserInfoDto {
     email?: string;
+    role?: string;
 
     constructor(data?: IUserInfoDto) {
         if (data) {
@@ -641,6 +642,7 @@ export class UserInfoDto implements IUserInfoDto {
     init(_data?: any) {
         if (_data) {
             this.email = _data["email"];
+            this.role = _data["role"];
         }
     }
 
@@ -654,12 +656,14 @@ export class UserInfoDto implements IUserInfoDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["email"] = this.email;
+        data["role"] = this.role;
         return data;
     }
 }
 
 export interface IUserInfoDto {
     email?: string;
+    role?: string;
 }
 
 export class GeneralInformationDto implements IGeneralInformationDto {

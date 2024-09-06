@@ -1,10 +1,11 @@
 ﻿using MediatR;
 using TZZ.Core.Shared;
 using TZZ.Core.Shared.Services;
+using static TZZ.Common.Shared.Enums.ZachZoneConstants;
 
 namespace TZZ.Core.TheZachZone.Account.Queries;
 
-public record UserInfoDto(string Email);
+public record UserInfoDto(string Email, string Role);
 public class GetUserInfoQuery : IRequest<ZachZoneCommand<UserInfoDto>>
 {
 }
@@ -20,6 +21,7 @@ public class GetUserInfoQueryHandler(ICurrentUserService _currentUserService, II
         }
 
         var user = await _identityService.GetUser(_currentUserService.Email!);
-        return ZachZoneCommand.Success(new UserInfoDto(user!.Email!));
+        var role = await _identityService.GetClaim(user.Id, ClaimTypes.Role);
+        return ZachZoneCommand.Success(new UserInfoDto(user!.Email!, role ?? "N/A"));
     }
 }

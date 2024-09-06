@@ -13,9 +13,7 @@ public static class StartupExtensions
     {
         services.AddDbContext<IDatabaseService, ZachZoneDbContext>(x =>
         {
-            x.UseSqlServer(configuration.GetConnectionString("Default"))
-                .EnableDetailedErrors()
-                .EnableSensitiveDataLogging();
+            x.UseSqlServer(configuration.GetConnectionString("Default"));
         });
             
     }

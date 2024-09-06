@@ -35,7 +35,7 @@ app.AddSubCommand("user", x =>
             AnsiConsole.WriteLine("[red]Command failed.[/]");
             foreach(var kvp in response.Errors)
             {
-                AnsiConsole.WriteLine($"[red] - {kvp.Key} - {kvp.Value}[/]");
+                AnsiConsole.Write(new Markup($"[red] - {kvp.Key} - {kvp.Value}[/]"));
             }
         }
 
@@ -59,14 +59,14 @@ app.AddSubCommand("user", x =>
 
         if (!response.IsValid)
         {
-            AnsiConsole.WriteLine("[red]Command failed.[/]");
+            AnsiConsole.Write(new Markup("[red]Command failed.[/]"));
             foreach (var kvp in response.Errors)
             {
-                AnsiConsole.WriteLine($"[red] - {kvp.Key} - {kvp.Value}[/]");
+                AnsiConsole.Write(new Markup($"[red] - {kvp.Key} - {kvp.Value}[/]"));
             }
         }
 
-        AnsiConsole.WriteLine("[green]Role successfully added![/]");
+        AnsiConsole.Write(new Markup("[green]Role successfully added![/]"));
     });
 });
 

@@ -2,7 +2,7 @@
   "profiles": {
     "TZZ.Console": {
       "commandName": "Project",
-      "commandLineArgs": "user grant-admin --userId 1"
+      "commandLineArgs": "user list"
     }
   }
 }

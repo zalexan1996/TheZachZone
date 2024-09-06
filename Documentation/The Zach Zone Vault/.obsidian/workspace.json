@@ -11,11 +11,18 @@
             "id": "f75c2e647fc4ab6a",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "kanban",
               "state": {
-                "file": "TheZachZone/Agile/Tasks/Create a command line tool.md",
-                "mode": "source",
-                "source": false
+                "file": "TheZachZone/Agile/TZZ.Board.md",
+                "kanbanViewState": {
+                  "kanban-plugin": "board",
+                  "list-collapse": [
+                    false,
+                    false,
+                    false,
+                    false
+                  ]
+                }
               }
             }
           }
@@ -85,7 +92,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "TheZachZone/Agile/Tasks/Create a command line tool.md",
+                "file": "TheZachZone/Agile/TZZ.Board.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +109,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "TheZachZone/Agile/Tasks/Create a command line tool.md",
+                "file": "TheZachZone/Agile/TZZ.Board.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +132,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "TheZachZone/Agile/Tasks/Create a command line tool.md"
+                "file": "TheZachZone/Agile/TZZ.Board.md"
               }
             }
           }
@@ -149,10 +156,11 @@
   },
   "active": "f75c2e647fc4ab6a",
   "lastOpenFiles": [
+    "TheZachZone/Agile/Tasks/Show Role in Security tab.md",
     "TheZachZone/Agile/TZZ.Board.md",
+    "TheZachZone/Agile/Tasks/Create a command line tool.md",
     "TheZachZone/Agile/Tasks/Create AppSettings section for server addresses.md",
     "TheGameZone/Agile/TGZ.Board.md",
-    "TheZachZone/Agile/Tasks/Create a command line tool.md",
     "TheGameZone/Agile/Tasks/Create LOLCODE StarWars.md",
     "TheGameZone/Agile/Tasks/Allow support for Unity games.md",
     "TheGameZone/Agile/Tasks/Create a Review.md",
@@ -176,7 +184,6 @@
     "TheZachZone/Agile/Tasks/Setup Docker.md",
     "TheZachZone/Agile/Tasks/Setup CICD Pipeline.md",
     "TheZachZone/Agile/Tasks/Create Auth Policies.md",
-    "TheZachZone/Agile/Tasks/Create a shared Vue library.md",
     "TheGameZone/Agile/Tasks",
     "_Shared/Templates",
     "_Shared",
