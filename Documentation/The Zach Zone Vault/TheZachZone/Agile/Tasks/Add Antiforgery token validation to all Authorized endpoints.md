@@ -1,3 +1,4 @@
+Dropped because Antiforgery tokens are unnecessary for RestAPI. Antiforgery implies state. RestAPIs are stateless.
 
 > [!summary] Story
 > I want antiforgery tokens to be used and required for every command and query to the api servers.

@@ -20,6 +20,7 @@
                     false,
                     false,
                     false,
+                    false,
                     false
                   ]
                 }
@@ -156,9 +157,11 @@
   },
   "active": "f75c2e647fc4ab6a",
   "lastOpenFiles": [
-    "TheZachZone/Agile/Tasks/Show Role in Security tab.md",
+    "TheZachZone/Agile/Tasks/Create Auth Policies.md",
     "TheZachZone/Agile/TZZ.Board.md",
+    "TheZachZone/Agile/Tasks/Add Antiforgery token validation to all Authorized endpoints.md",
     "TheZachZone/Agile/Tasks/Create a command line tool.md",
+    "TheZachZone/Agile/Tasks/Show Role in Security tab.md",
     "TheZachZone/Agile/Tasks/Create AppSettings section for server addresses.md",
     "TheGameZone/Agile/TGZ.Board.md",
     "TheGameZone/Agile/Tasks/Create LOLCODE StarWars.md",
@@ -182,8 +185,6 @@
     "_Knowledge Base/OpenTelemetry",
     "_Knowledge Base",
     "TheZachZone/Agile/Tasks/Setup Docker.md",
-    "TheZachZone/Agile/Tasks/Setup CICD Pipeline.md",
-    "TheZachZone/Agile/Tasks/Create Auth Policies.md",
     "TheGameZone/Agile/Tasks",
     "_Shared/Templates",
     "_Shared",

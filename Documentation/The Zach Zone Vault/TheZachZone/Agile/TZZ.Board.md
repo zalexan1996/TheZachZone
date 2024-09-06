@@ -6,15 +6,12 @@ kanban-plugin: board
 
 ## Backlog
 
-- [ ] [[Add Antiforgery token validation to all Authorized endpoints]]
-- [ ] [[Create Auth Policies]]
 - [ ] [[Setup Docker]]
 - [ ] [[Add Health Checks]]
 - [ ] [[Setup CICD Pipeline]]
 - [ ] [[Allow 'Enter' for login form]]
 - [ ] [[Add FluentValidation and ValidationBehavior]]
 - [ ] Add a loading indicator
-- [ ] [[Create a command line tool]]
 
 
 ## Selected for Development
@@ -29,6 +26,8 @@ kanban-plugin: board
 
 ## Done
 
+- [ ] [[Create Auth Policies]]
+- [ ] [[Create a command line tool]]
 - [ ] [[Show Role in Security tab]]
 - [ ] [[Improve UX for InputText]]
 - [ ] [[Add Reset Password Form]]
@@ -43,10 +42,15 @@ kanban-plugin: board
 - [ ] [[Add StaticFilesPathLocatorService]]
 
 
+## Dropped
+
+- [ ] [[Add Antiforgery token validation to all Authorized endpoints]]
+
+
 
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[false,false,false,false],"show-checkboxes":false,"new-note-folder":"TheZachZone/Agile/Tasks","new-note-template":"_Shared/Templates/_TaskTemplate.md","tag-colors":[]}
+{"kanban-plugin":"board","list-collapse":[false,false,false,false,false],"show-checkboxes":false,"new-note-folder":"TheZachZone/Agile/Tasks","new-note-template":"_Shared/Templates/_TaskTemplate.md","tag-colors":[]}
 ```
 %%
