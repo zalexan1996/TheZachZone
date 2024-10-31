@@ -37,7 +37,6 @@ stages:
           command: 'build'
           projects: '$(tzzProject)'
           configuration: $buildConfiguration
-
       - task: DotNetCoreCLI@2
         displayName: Publish TheZachZone
         inputs:
@@ -47,7 +46,6 @@ stages:
           arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/TZZ --no-build'
           zipAfterPublish: false
           modifyOutputPath: false
-
       - task: PowerShell@2
         displayName: Build Migrations Bundle
         inputs:
