@@ -26,11 +26,7 @@
     "forceConsistentCasingInFileNames": true,
     "paths": {
       "@/*": [
-        "src/*",
-        "src/**/*.ts", 
-        "src/**/*.vue",
-        "src/**/**/*.ts", 
-        "src/**/**/*.vue",
+        "./src/*",
       ],
       "@components/*": ["./src/Components/*"],
       "@views/*": ["./src/Views/*"],
