@@ -79,7 +79,7 @@ stages:
           customCommand: run build
       - task: CopyFiles@2
         inputs:
-          SourceFolder: '$(tzzPortalDir)'
+          SourceFolder: '$(tzzPortalDir)/dist'
           Contents: '**'
           TargetFolder: '$(Build.ArtifactStagingDirectory)/tzz-portal'
       - task: PublishBuildArtifacts@1
