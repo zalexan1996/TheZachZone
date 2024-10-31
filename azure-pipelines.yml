@@ -11,46 +11,44 @@ pool:
 
 variables:
   solution: './TheZachZone.sln'
-  tzzProjectDirectory: './APIs/TZZ.API'
-  tzzProject: './APIs/TZZ.API/TZZ.API.csproj'
-  tgzProjectDirectory: './APIs/TGZ.API'
-  tgzProject: './APIs/TGZ.API/TGZ.API.csproj'
+  tzzProjectDir: './APIs/TZZ.API'
+  tgzProjectDir: './APIs/TGZ.API'
+  tzzProject: '$(tzzProjectDir)/TZZ.API.csproj'
+  tgzProject: '$(tgzProjectDir)/TGZ.API.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Debug'
 
 steps:
-- task: NuGetToolInstaller@1
+  - task: NuGetToolInstaller@1
 
-- task: NuGetCommand@2
-  inputs:
-    restoreSolution: '$(solution)'
+  - task: DotNetCoreCLI@2
+    displayName: NuGet Restore
+    inputs:
+      command: 'restore'
+      projects: '$(solution)'
+      feedsToUse: 'select'
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'build'
-    projects: '$(solution)'
-    configuration: $buildConfiguration
+  - task: DotNetCoreCLI@2
+    displayName: Build Solution
+    inputs:
+      command: 'build'
+      projects: '$(solution)'
+      arguments: '--no-restore'
+      configuration: $buildConfiguration
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: false
-    projects: '$(tzzProject)'
-    arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/TZZ.API --no-build'
-    zipAfterPublish: false
-    modifyOutputPath: false
+  - task: DotNetCoreCLI@2
+    displayName: Publish TheZachZone
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+      projects: '$(tzzProject)'
+      arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/TZZ --no-build'
+      zipAfterPublish: false
+      modifyOutputPath: false
 
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: false
-    projects: '$(tgzProject)'
-    arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)/TGZ.API --no-build'
-    zipAfterPublish: false
-    modifyOutputPath: false
-
-- task: PublishBuildArtifacts@1
-  inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'artifact'
-    publishLocation: 'Container'
+  - task: PublishBuildArtifacts@1
+    displayName: Publish Artifacts
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'TZZ'
+      publishLocation: 'Container'
