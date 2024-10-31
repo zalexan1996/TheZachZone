@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "Documentation/The Zach Zone Vault"
+		},
+		{
+			"path": "APIs"
 		}
 	],
 	"settings": {}
