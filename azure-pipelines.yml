@@ -15,6 +15,7 @@ variables:
   tgzProjectDir: './APIs/TGZ.API'
   tzzProject: '$(tzzProjectDir)/TZZ.API.csproj'
   tgzProject: '$(tgzProjectDir)/TGZ.API.csproj'
+  infrastructureProject: 'Shared\TZZ.Infrastructure/TZZ.Infrastructure.csproj'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Debug'
 
@@ -46,9 +47,27 @@ steps:
       zipAfterPublish: false
       modifyOutputPath: false
 
+
+  - task: DotNetCoreCLI@2
+    displayName: Publish TheGameZone
+    inputs:
+      command: 'publish'
+      publishWebProjects: false
+      projects: '$(tgzProject)'
+      arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/TGZ --no-build'
+      zipAfterPublish: false
+      modifyOutputPath: false
+
+  - task: PowerShell@2
+    displayName: Build Migrations Bundle
+    inputs:
+      targetType: 'inline'
+      script: |
+        dotnet tool install dotnet-ef --global --version 8.0.0
+        dotnet ef migrations bundle --project $(infrastructureProject) --force --verbose --self-contained --runtime win-x64 --output $(Build.ArtifactStagingDirectory)/efbundle.exe
   - task: PublishBuildArtifacts@1
     displayName: Publish Artifacts
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'TZZ'
+      ArtifactName: 'TheZachZone'
       publishLocation: 'Container'
