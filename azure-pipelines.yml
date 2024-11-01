@@ -5,10 +5,9 @@
 
 trigger:
 - master
-
 pool:
   vmImage: 'windows-latest'
-
+  
 variables:
   solution: './TheZachZone.sln'
   tzzProjectDir: './APIs/TZZ.API'
@@ -43,7 +42,7 @@ stages:
           command: 'publish'
           publishWebProjects: false
           projects: '$(tzzProject)'
-          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/TZZ --no-build'
+          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/TZZ.API --no-build'
           zipAfterPublish: false
           modifyOutputPath: false
       - task: Npm@1
@@ -109,7 +108,7 @@ stages:
           command: 'publish'
           publishWebProjects: false
           projects: '$(tgzProject)'
-          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/TGZ --no-build'
+          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/TGZ.API --no-build'
           zipAfterPublish: false
           modifyOutputPath: false
       - task: Npm@1
@@ -145,3 +144,22 @@ stages:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'TheGameZone'
           publishLocation: 'Container'
+- stage: Deploy
+  jobs:
+    - deployment: TheZachZone
+      displayName: 'Deploy: The Zach Zone'
+      environment:
+        name: TheZachZone
+        resourceName: Zach-PC
+        resourceType: VirtualMachine
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - download: current
+                artifact: TheZachZone
+              - download: current
+                artifact: TheGameZone
+              - download: current
+                artifact: MigrationsBundle
+              
