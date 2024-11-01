@@ -671,6 +671,9 @@ export class GeneralInformationDto implements IGeneralInformationDto {
     email?: string | undefined;
     firstName?: string | undefined;
     lastName?: string | undefined;
+    fullName?: string | undefined;
+    roles?: string[];
+    isAdmin?: boolean;
 
     constructor(data?: IGeneralInformationDto) {
         if (data) {
@@ -687,6 +690,13 @@ export class GeneralInformationDto implements IGeneralInformationDto {
             this.email = _data["email"];
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
+            this.fullName = _data["fullName"];
+            if (Array.isArray(_data["roles"])) {
+                this.roles = [] as any;
+                for (let item of _data["roles"])
+                    this.roles!.push(item);
+            }
+            this.isAdmin = _data["isAdmin"];
         }
     }
 
@@ -703,6 +713,13 @@ export class GeneralInformationDto implements IGeneralInformationDto {
         data["email"] = this.email;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
+        data["fullName"] = this.fullName;
+        if (Array.isArray(this.roles)) {
+            data["roles"] = [];
+            for (let item of this.roles)
+                data["roles"].push(item);
+        }
+        data["isAdmin"] = this.isAdmin;
         return data;
     }
 }
@@ -712,6 +729,9 @@ export interface IGeneralInformationDto {
     email?: string | undefined;
     firstName?: string | undefined;
     lastName?: string | undefined;
+    fullName?: string | undefined;
+    roles?: string[];
+    isAdmin?: boolean;
 }
 
 export class UpdateGeneralInformationCommand implements IUpdateGeneralInformationCommand {

@@ -2,6 +2,7 @@
 using TZZ.Common.Shared.Interfaces;
 using TZZ.Core.Shared;
 using TZZ.Core.Shared.Services;
+using static TZZ.Common.Shared.Enums.ZachZoneConstants;
 
 namespace TZZ.Core.TheZachZone.Account.Commands;
 
@@ -16,6 +17,19 @@ public class CreateAccountCommandHandler(IIdentityService _identityService) : IR
 {
     public async Task<ZachZoneCommandResponse> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
     {
-        return await _identityService.CreateUser(request);
+        var createUserResponse = await _identityService.CreateUser(request);
+        if (!createUserResponse.IsValid)
+        {
+            return createUserResponse;
+        }
+
+        var roleResult = await _identityService.AddClaim(createUserResponse.Result!.Id, ClaimTypes.Role, Roles.User);
+
+        if (!roleResult)
+        {
+            createUserResponse.Errors.Add("Exception", "Failed to add user role to requested user.");
+        }
+
+        return createUserResponse;
     }
 }

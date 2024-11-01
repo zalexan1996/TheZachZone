@@ -20,11 +20,11 @@
                             <RouterLink active-class="active" :to="{name: 'Categories'}" class="nav-item">Categories</RouterLink>
                         </li>
                         <li class="separator"></li>
-                        <li class="navbar-item">
+                        <li class="navbar-item" v-if="userInfo?.id">
                             <RouterLink active-class="active" :to="{name: 'Upload'}" class="nav-item">Upload</RouterLink>
                         </li>
                         <li class="separator"></li>
-                        <li class="navbar-item">
+                        <li class="navbar-item" v-if="userInfo?.isAdmin">
                             <RouterLink active-class="active" :to="{name: 'Admin'}" class="nav-item">Admin</RouterLink>
                         </li>
                     </ul>
@@ -35,8 +35,17 @@
 </template>
 <script setup lang="ts">
 import Brand from './Brand.vue'
-import {RouterLink} from 'vue-router'
+import { RouterLink } from 'vue-router'
+import { onMounted, ref } from 'vue'
+import { useAccountStore } from '@stores/accountStore.ts'
+import { GeneralInformationDto } from '@services/tzz.api.ts'
 
+const accountStore = useAccountStore()
+const userInfo = ref<GeneralInformationDto|undefined>()
+
+onMounted(async () => {
+    userInfo.value = await accountStore.getUserInfo()
+})
 </script>
 <style scoped lang="scss">
 

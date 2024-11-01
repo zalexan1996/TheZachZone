@@ -26,6 +26,11 @@ public class GetUserInfoQueryHandler(ICurrentUserService _currentUserService, II
         }
 
         var user = await _identityService.GetUser(_currentUserService.Email!);
+        if (user is null)
+        {
+            return ZachZoneCommandResponse.Failure<UserInfoDto>("summary", "User is not logged in.");
+        }
+
         var role = await _identityService.GetClaim(user!.Id, ClaimTypes.Role);
         return ZachZoneCommandResponse.Success(new UserInfoDto()
         {

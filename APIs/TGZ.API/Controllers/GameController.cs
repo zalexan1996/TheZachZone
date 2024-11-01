@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TZZ.Common.Shared.Enums;
 using TZZ.Core.TheGameZone.Games.Commands;
 using TZZ.Core.TheGameZone.Games.Queries;
 
@@ -34,6 +36,7 @@ public class GameController(ISender sender) : ControllerBase
     }
 
     [HttpPost("[action]")]
+    [Authorize(Policy = ZachZoneConstants.Policies.Default)]
     public async Task<ActionResult<int>> AddGame(AddGameInfoCommand command)
     {
         var result = await sender.Send(command);
@@ -47,6 +50,7 @@ public class GameController(ISender sender) : ControllerBase
     }
 
     [HttpDelete("[action]")]
+    [Authorize(Policy = ZachZoneConstants.Policies.Default)]
     public async Task<ActionResult> DeleteGame(int id)
     {
         var result = await sender.Send(new RemoveGameInfoCommand(id));
@@ -73,6 +77,7 @@ public class GameController(ISender sender) : ControllerBase
     }
 
     [HttpPost("[action]")]
+    [Authorize(Policy = ZachZoneConstants.Policies.Default)]
     public async Task<ActionResult<int>> AddGameComment(AddGameCommentCommand command)
     {
         var result = await sender.Send(command);
@@ -86,6 +91,7 @@ public class GameController(ISender sender) : ControllerBase
     }
 
     [HttpDelete("[action]")]
+    [Authorize(Policy = ZachZoneConstants.Policies.Default)]
     public async Task<ActionResult> DeleteGameComment(int commentId)
     {
         var result = await sender.Send(new DeleteGameCommentCommand(commentId));
@@ -112,6 +118,7 @@ public class GameController(ISender sender) : ControllerBase
     }
 
     [HttpPost("[action]")]
+    [Authorize(Policy = ZachZoneConstants.Policies.Default)]
     public async Task<ActionResult<int>> AddGameImage(AddGameImageCommand command)
     {
         var result = await sender.Send(command);

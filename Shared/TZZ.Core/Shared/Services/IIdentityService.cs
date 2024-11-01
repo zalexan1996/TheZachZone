@@ -20,4 +20,6 @@ public interface IIdentityService
     Task<string?> GetClaim(int userId, string claimType);
     Task<bool> HasClaim(int userId, string claimType, string? claimValue = null);
     Task<bool> AddClaim(int userId, string claimType, string claimValue);
+
+    Task<string[]> GetRoles(int userId);
 }

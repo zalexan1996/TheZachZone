@@ -5,12 +5,13 @@ using TZZ.Core.TheZachZone.Account.Commands;
 using TZZ.Core.TheZachZone.Account.Queries;
 using Microsoft.AspNetCore.Authorization;
 using TZZ.Core.Shared.Services;
+using TZZ.Common.Shared.Enums;
 
 namespace TZZ.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Policy = "default")]
+[Authorize(Policy = ZachZoneConstants.Policies.Default)]
 public class AccountController(ISender sender, IIdentityService identityService) : ControllerBase
 {
     [HttpGet("[action]")]

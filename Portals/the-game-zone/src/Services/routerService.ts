@@ -5,6 +5,8 @@ import RecentGames from '@/Views/Games/RecentGames.vue'
 import TopGames from '@/Views/Games/TopGames.vue'
 import HomeView from '@views/Home/Home.vue'
 import UploadGame from '@/Views/Games/UploadGame.vue'
+import AdminMetadata from '@views/Admin/AdminMetadata.vue'
+import AdminUserManagement from '@views/Admin/AdminUserManagement.vue'
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 import AdminHome from '@/Views/Admin/AdminHome.vue'
 
@@ -47,7 +49,19 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/admin',
         name: 'Admin',
-        component: AdminHome
+        component: AdminHome,
+        children: [
+            {
+                path: 'user-management',
+                name: 'Admin/UserManagement',
+                component: AdminUserManagement
+            },
+            {
+                path: 'metadata',
+                name: 'Admin/Metadata',
+                component: AdminMetadata
+            }
+        ]
     }
 ]
 export const CreateTGZRouter = () => createRouter({

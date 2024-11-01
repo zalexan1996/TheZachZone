@@ -27,8 +27,10 @@ import { ref, onMounted } from 'vue'
 import { useAccountStore } from '@stores/accountStore';
 import { CreateAccountCommand } from '@services/apiService';
 import { useRoute, useRouter } from 'vue-router';
+import { useToastStore } from 'tzz-shared'
 
 const accountStore = useAccountStore();
+const toastStore =  useToastStore()
 const route = useRoute();
 const router = useRouter();
 const email = ref('')
@@ -42,11 +44,30 @@ const checkEmailStatus_Click = async () => {
 }
 
 const createAccount_Click = async () => {
-    await accountStore.createAccount({
+    let result = await accountStore.createAccount({
         email: email.value,
         password: password.value,
         confirmPassword: confirmPassword.value,
     } as CreateAccountCommand)
+    
+    if (result.isValid) {
+        toastStore.push({
+            title: 'Account Created.',
+            body: 'Please login to continue.',
+            duration: 3000,
+            severity: 'success'
+        })
+    }
+    else {
+        toastStore.push({
+            title: 'Failed to create account.',
+            body: 'Please try again later.',
+            duration: 3000,
+            severity: 'error'
+        })
+    }
+
+    router.push('/')
 }
 
 const login_Click = async () => {

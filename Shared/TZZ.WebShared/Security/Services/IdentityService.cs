@@ -5,6 +5,7 @@ using TZZ.Core.Shared;
 using TZZ.Core.Shared.Services;
 using TZZ.Core.TheZachZone.Account.Commands;
 using TZZ.Domain.Entities.TheZachZone;
+using static TZZ.Common.Shared.Enums.ZachZoneConstants;
 
 namespace TZZ.WebShared.Security.Services;
 
@@ -105,4 +106,17 @@ internal class IdentityService(ICurrentUserService _currentUserService, UserMana
 
         return result.Succeeded;
     }
+    public async Task<string[]> GetRoles(int userId)
+    {
+        var user = await GetUser(userId);
+        Guard.Against.Null(user, null, "User not found.");
+
+        var claims = await _userManager.GetClaimsAsync(user);
+
+        return claims
+            .Where(c => c.Type == ClaimTypes.Role)
+            .Select(x => x.Value)
+            .ToArray();
+    }
+
 }
