@@ -5,10 +5,10 @@
 
 trigger:
 - master
-
 pool:
   vmImage: 'windows-latest'
-
+  environment: TheZachZone
+  
 variables:
   solution: './TheZachZone.sln'
   tzzProjectDir: './APIs/TZZ.API'
