@@ -158,5 +158,8 @@ stages:
             steps:
               - download: current
                 artifact: TheZachZone
-              - script: echo test
+              - download: current
+                artifact: TheGameZone
+              - download: current
+                artifact: MigrationBundle
               
