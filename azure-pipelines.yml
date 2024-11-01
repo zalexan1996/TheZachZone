@@ -7,8 +7,6 @@ trigger:
 - master
 pool:
   vmImage: 'windows-latest'
-  environment:
-    name: TheZachZone
   
 variables:
   solution: './TheZachZone.sln'
@@ -146,3 +144,18 @@ stages:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'TheGameZone'
           publishLocation: 'Container'
+- stage: Deploy
+  jobs:
+    - deployment: TheZachZone
+      displayName: 'Deploy: The Zach Zone'
+      pool:
+        vmImage: 'windows-latest'
+      environment: TheZachZone
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - download: current
+                artifact: TheZachZone
+              - script: echo test
+              
