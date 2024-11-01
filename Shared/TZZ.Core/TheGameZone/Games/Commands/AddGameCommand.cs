@@ -18,7 +18,7 @@ public class AddGameInfoCommand : IRequest<ZachZoneCommand<int>>
 }
 
 
-public class AddGameInfoCommandHandler(IDatabaseService dbContext, IPathLocatorService pathLocatorService) : IRequestHandler<AddGameInfoCommand, ZachZoneCommand<int>>
+public class AddGameInfoCommandHandler(IDatabaseService dbContext) : IRequestHandler<AddGameInfoCommand, ZachZoneCommand<int>>
 {
     public async Task<ZachZoneCommand<int>> Handle(AddGameInfoCommand request, CancellationToken cancellationToken)
     {

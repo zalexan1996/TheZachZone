@@ -13,7 +13,8 @@ public static class StartupExtensions
 {
     public static void AddTheZachZone(this IServiceCollection services, IWebHostEnvironment environment, ConfigurationManager configuration)
     {
-        var appSettingsJson = Path.Combine(Path.GetDirectoryName(typeof(AccountController).Assembly.Location), "appsettings.tzz.json");
+        var assemblyLocation = typeof(AccountController).Assembly.Location;
+        var appSettingsJson = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, "appsettings.tzz.json");
         configuration.AddJsonFile(appSettingsJson, optional: false);
 
         services.AddWebShared(configuration);

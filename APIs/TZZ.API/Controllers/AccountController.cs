@@ -11,7 +11,7 @@ namespace TZZ.API.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Authorize(Policy = "default")]
-public class AccountController(ISender sender, ITelemetryService<AccountController> telemetryService, IIdentityService identityService) : ControllerBase
+public class AccountController(ISender sender, IIdentityService identityService) : ControllerBase
 {
     [HttpGet("[action]")]
     [AllowAnonymous]

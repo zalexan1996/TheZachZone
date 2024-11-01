@@ -31,7 +31,7 @@ public class ListUsersQueryHandler(IDatabaseService dbContext, IIdentityService 
     {
         var results = await dbContext.Set<User>()
             .Where(x => request.UserId == null || request.UserId == x.Id)
-            .Where(x => request.Email == null || request.Email.ToLower() == x.Email.ToLower())
+            .Where(x => request.Email == null || request.Email.ToLower() == x.Email!.ToLower())
             .Where(x => request.Name == null ||
                 (x.FirstName == null ? false : x.FirstName.Contains(request.Name) ||
                 x.LastName == null ? false : x.LastName.Contains(request.Name)))

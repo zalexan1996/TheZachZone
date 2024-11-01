@@ -11,7 +11,7 @@ public class GrantAdminAccessCommand : IRequest<ZachZoneCommand<int>>
     public int UserId { get; set; }
 }
 
-public class GrantAdminAccessCommandHandler(IDatabaseService dbContext, IIdentityService identityService)
+public class GrantAdminAccessCommandHandler(IIdentityService identityService)
     : IRequestHandler<GrantAdminAccessCommand, ZachZoneCommand<int>>
 {
     public async Task<ZachZoneCommand<int>> Handle(GrantAdminAccessCommand request, CancellationToken cancellationToken)

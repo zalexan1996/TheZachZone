@@ -13,7 +13,8 @@ public static class StartupExtensions
 {
     public static void AddTheGameZone(this IServiceCollection services, IWebHostEnvironment environment, ConfigurationManager configuration)
     {
-        var appSettingsJson = Path.Combine(Path.GetDirectoryName(typeof(GameController).Assembly.Location), "appsettings.tgz.json");
+        var assemblyLocation = typeof(GameController).Assembly.Location;
+        var appSettingsJson = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, "appsettings.tgz.json");
         configuration.AddJsonFile(appSettingsJson, optional: false);
         services.AddWebShared(configuration);
         services.AddControllers()

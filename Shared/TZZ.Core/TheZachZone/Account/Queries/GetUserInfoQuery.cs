@@ -5,7 +5,12 @@ using static TZZ.Common.Shared.Enums.ZachZoneConstants;
 
 namespace TZZ.Core.TheZachZone.Account.Queries;
 
-public record UserInfoDto(string Email, string Role);
+public class UserInfoDto
+{
+    public string Email { get; set; } = string.Empty;
+    public string Role { get; set; } = string.Empty;
+}
+
 public class GetUserInfoQuery : IRequest<ZachZoneCommand<UserInfoDto>>
 {
 }
@@ -21,7 +26,11 @@ public class GetUserInfoQueryHandler(ICurrentUserService _currentUserService, II
         }
 
         var user = await _identityService.GetUser(_currentUserService.Email!);
-        var role = await _identityService.GetClaim(user.Id, ClaimTypes.Role);
-        return ZachZoneCommand.Success(new UserInfoDto(user!.Email!, role ?? "N/A"));
+        var role = await _identityService.GetClaim(user!.Id, ClaimTypes.Role);
+        return ZachZoneCommand.Success(new UserInfoDto()
+        {
+            Email = user.Email!,
+            Role = role ?? "N/A"
+        });
     }
 }

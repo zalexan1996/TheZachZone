@@ -13,14 +13,17 @@ public class ZachZoneCommand
             { key, value }
         }
     };
-    public static ZachZoneCommand<TResult> Failure<TResult>(string key, string value) => new ZachZoneCommand<TResult>(default)
+
+    public static ZachZoneCommand<TResult> Failure<TResult>(string key, string value) where TResult : new()
+        => new ZachZoneCommand<TResult>(new())
     {
         Errors = {
             { key, value }
         }
     };
 
-    public static ZachZoneCommand<TResult> Failure<TResult>(IDictionary<string, string> errors) => new ZachZoneCommand<TResult>(default)
+    public static ZachZoneCommand<TResult> Failure<TResult>(IDictionary<string, string> errors) where TResult : new()
+        => new ZachZoneCommand<TResult>(new())
     {
         Errors = errors
     };
@@ -36,6 +39,6 @@ public class ZachZoneCommand<TResult> : ZachZoneCommand
         Result = result;
     }
 
-    public TResult? Result { get; set; }
+    public TResult Result { get; set; }
     public override bool IsValid => Result is not null && base.IsValid;
 }

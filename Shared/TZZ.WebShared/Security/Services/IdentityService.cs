@@ -8,7 +8,7 @@ using TZZ.Domain.Entities.TheZachZone;
 
 namespace TZZ.WebShared.Security.Services;
 
-internal class IdentityService(ICurrentUserService _currentUserService, UserManager<User> _userManager, RoleManager<Role> _roleManager, SignInManager<User> _signInManager) : IIdentityService
+internal class IdentityService(ICurrentUserService _currentUserService, UserManager<User> _userManager, SignInManager<User> _signInManager) : IIdentityService
 {
     public async Task<ZachZoneCommand<User>> CreateUser(CreateAccountCommand command)
     {

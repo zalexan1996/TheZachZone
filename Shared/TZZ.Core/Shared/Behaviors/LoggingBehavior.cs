@@ -5,8 +5,10 @@ using TZZ.Core.Shared.Services;
 namespace TZZ.Core.Shared.Behaviors;
 
 public class LoggingBehavior<TRequest, TResponse>
-    (ITelemetryService<LoggingBehavior<TRequest, TResponse>> telemetryService, ICurrentUserService currentUserService)
-        : IPipelineBehavior<TRequest, TResponse>
+    (ITelemetryService<LoggingBehavior<TRequest, TResponse>> telemetryService)
+        : IPipelineBehavior<TRequest, TResponse> 
+            where TRequest : notnull
+            where TResponse : notnull, new()
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
@@ -33,7 +35,7 @@ public class LoggingBehavior<TRequest, TResponse>
         catch (Exception ex)
         {
             telemetryService.LogError("{Command} threw an exception: {Exception}, {InnerException}", typeof(TRequest).Name, ex.Message, ex.InnerException?.Message);
-            return default;
+            return new();
         }
     }
 

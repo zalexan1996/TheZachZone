@@ -11,7 +11,8 @@ public static class TheZachZoneConfigurationBuilder
             config = new ConfigurationManager();
         }
 
-        var appSettingsJson = Path.Combine(Path.GetDirectoryName(typeof(AppSettings).Assembly.Location), "appsettings.json");
+        var assemblyLocation = typeof(AppSettings).Assembly.Location;
+        var appSettingsJson = Path.Combine(Path.GetDirectoryName(assemblyLocation)!, "appsettings.json");
         config.AddJsonFile(appSettingsJson, optional: false);
         config.AddUserSecrets<AppSettings>();
         return config;
