@@ -148,9 +148,10 @@ stages:
   jobs:
     - deployment: TheZachZone
       displayName: 'Deploy: The Zach Zone'
-      pool:
-        vmImage: 'windows-latest'
-      environment: TheZachZone
+      environment:
+        name: TheZachZone
+        resourceName: Zach-PC
+        resourceType: VirtualMachine
       strategy:
         runOnce:
           deploy:
