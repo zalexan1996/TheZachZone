@@ -19,6 +19,7 @@ export default defineConfig({
       "@components": resolve(__dirname, 'src/Components/'),
       "@views": resolve(__dirname, 'src/Views/'),
       "@services": resolve(__dirname, 'src/Services/'),
+      "@stores": resolve(__dirname, 'src/Stores/'),
       '@games': resolve(__dirname, 'public/games/')
     }
   },

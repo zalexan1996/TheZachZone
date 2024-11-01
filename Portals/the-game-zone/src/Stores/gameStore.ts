@@ -1,10 +1,10 @@
-import { AddGameCommentCommand, CommentDto, GameClient, GameImageDto, GameInfoDto, FileParameter } from '@services/apiService'
-import { API_BASE_URL, AxiosInstance } from '@services/axiosService'
+import { AddGameCommentCommand, CommentDto, GameClient, GameImageDto, GameInfoDto, FileParameter } from '@services/tgz.api.ts'
+import { TGZ_API_BASE_URL, AxiosInstance } from '@services/axiosService'
 import {defineStore} from 'pinia'
 import { ref } from 'vue'
 
 export const useGameStore = defineStore('game', () => {
-    const client = new GameClient(API_BASE_URL, AxiosInstance)
+    const client = new GameClient(TGZ_API_BASE_URL, AxiosInstance)
 
     const games = ref<GameInfoDto[]>([])
     const comments = ref<CommentDto[]>([])
@@ -28,7 +28,7 @@ export const useGameStore = defineStore('game', () => {
     }
 
     const getHostedPathFromId = async (id: number) => {
-        return `${API_BASE_URL}/games/${id}/index.ts`
+        return `${TGZ_API_BASE_URL}/games/${id}/index.ts`
     }
 
     const loadComments = async(gameInfoId: number) => {

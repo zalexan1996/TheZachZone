@@ -7,7 +7,7 @@ using TZZ.Domain.Entities.TheZachZone;
 
 namespace TZZ.Core.TheZachZone.Account.Queries;
 
-public record GeneralInformationDto(string? email, string? firstName, string? lastName);
+public record GeneralInformationDto(int? id, string? email, string? firstName, string? lastName);
 
 public class GetGeneralInformationQuery : IRequest<ZachZoneCommand<GeneralInformationDto>> { }
 
@@ -19,6 +19,6 @@ public class GetGeneralInformationQueryHandler(ICurrentUserService currentUserSe
         var user = await dbContext.Set<User>()
             .SingleAsync(x => x.Id == currentUserService.UserId, cancellationToken);
 
-        return ZachZoneCommand.Success(new GeneralInformationDto(user.Email, user.FirstName, user.LastName));
+        return ZachZoneCommand.Success(new GeneralInformationDto(user.Id, user.Email, user.FirstName, user.LastName));
     }
 }

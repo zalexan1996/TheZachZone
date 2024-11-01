@@ -1,12 +1,11 @@
 import { defineStore } from "pinia";
-import { AccountClient, CreateAccountComand, UserInfoDto, UpdateGeneralInformationCommand } from "@services/apiService.ts";
-import {API_BASE_URL, AxiosInstance } from '@services/AxiosService.ts';
+import { AccountClient, CreateAccountComand, UserInfoDto, UpdateGeneralInformationCommand, ResetPasswordCommand  } from "@services/tzz.api";
+import {TZZ_API_BASE_URL, AxiosInstance } from '@services/AxiosService.ts';
 import { ref } from "vue";
-import { ResetPasswordCommand } from "../Services/apiService";
 
 export const useAccountStore = defineStore("account", () => {
 
-    const client = new AccountClient(API_BASE_URL, AxiosInstance)
+    const client = new AccountClient(TZZ_API_BASE_URL, AxiosInstance)
     const userInfo = ref<UserInfoDto|undefined>()
 
     const doesUserExist = async (clientId: string) => {

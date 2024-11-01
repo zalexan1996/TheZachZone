@@ -800,7 +800,8 @@ export interface IGameInfoDto {
 
 export class CommentDto implements ICommentDto {
     id?: number;
-    author?: string;
+    authorId?: number;
+    authorName?: string;
     content?: string;
     gameInfoId?: number;
     postedOn?: Date;
@@ -818,7 +819,8 @@ export class CommentDto implements ICommentDto {
     init(_data?: any) {
         if (_data) {
             this.id = _data["id"];
-            this.author = _data["author"];
+            this.authorId = _data["authorId"];
+            this.authorName = _data["authorName"];
             this.content = _data["content"];
             this.gameInfoId = _data["gameInfoId"];
             this.postedOn = _data["postedOn"] ? new Date(_data["postedOn"].toString()) : <any>undefined;
@@ -836,7 +838,8 @@ export class CommentDto implements ICommentDto {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
-        data["author"] = this.author;
+        data["authorId"] = this.authorId;
+        data["authorName"] = this.authorName;
         data["content"] = this.content;
         data["gameInfoId"] = this.gameInfoId;
         data["postedOn"] = this.postedOn ? this.postedOn.toISOString() : <any>undefined;
@@ -847,7 +850,8 @@ export class CommentDto implements ICommentDto {
 
 export interface ICommentDto {
     id?: number;
-    author?: string;
+    authorId?: number;
+    authorName?: string;
     content?: string;
     gameInfoId?: number;
     postedOn?: Date;
@@ -856,7 +860,6 @@ export interface ICommentDto {
 
 export class AddGameCommentCommand implements IAddGameCommentCommand {
     gameInfoId?: number;
-    author?: string;
     content?: string;
 
     constructor(data?: IAddGameCommentCommand) {
@@ -871,7 +874,6 @@ export class AddGameCommentCommand implements IAddGameCommentCommand {
     init(_data?: any) {
         if (_data) {
             this.gameInfoId = _data["gameInfoId"];
-            this.author = _data["author"];
             this.content = _data["content"];
         }
     }
@@ -886,7 +888,6 @@ export class AddGameCommentCommand implements IAddGameCommentCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["gameInfoId"] = this.gameInfoId;
-        data["author"] = this.author;
         data["content"] = this.content;
         return data;
     }
@@ -894,7 +895,6 @@ export class AddGameCommentCommand implements IAddGameCommentCommand {
 
 export interface IAddGameCommentCommand {
     gameInfoId?: number;
-    author?: string;
     content?: string;
 }
 

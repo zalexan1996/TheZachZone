@@ -3,9 +3,9 @@
         <div class="d-flex flex-column mb-3">
             <div class="d-flex flex-row justify-content-between">
                 <h6 class="mb-0">
-                    {{ $props.commentDto.author }}
+                    {{ $props.commentDto.authorName }}
                 </h6>
-                <span class="fa fa-trash text-danger" style="cursor: pointer;" @click="deleteComment"></span>
+                <span v-if="showDeleteButton" class="fa fa-trash text-danger" style="cursor: pointer;" @click="deleteComment"></span>
             </div>
             <span style="font-weight: normal; color: gray;">{{  $props.commentDto.postedOn?.toLocaleDateString() }}</span>
             <hr class="text-white mt-1 mb-3"/>
@@ -18,13 +18,22 @@
 <script setup lang="ts">
 import { CommentDto } from '@/Services/apiService.ts'
 import { useGameStore } from '@/Stores/gameStore'
+import { computed, onMounted, ref } from 'vue';
+import { useAccountStore } from '@stores/accountStore';
+import { GeneralInformationDto} from '@services/tzz.api.ts'
 
 const gameStore = useGameStore();
+const accountStore = useAccountStore()
 interface IProps {
     commentDto: CommentDto
 }
 
 const props = defineProps<IProps>()
+const userInfo = ref<GeneralInformationDto|undefined>()
+
+const showDeleteButton = computed(() => {
+    return props.commentDto.authorId == userInfo.value?.id
+})
 
 const deleteComment = async () => {
     if (!!props.commentDto.id) {
@@ -32,6 +41,10 @@ const deleteComment = async () => {
         await gameStore.loadComments(props.commentDto.gameInfoId!)
     }
 }
+
+onMounted(async () => {
+    userInfo.value = await accountStore.getUserInfo()
+})
 </script>
 
 <style scoped lang="scss">

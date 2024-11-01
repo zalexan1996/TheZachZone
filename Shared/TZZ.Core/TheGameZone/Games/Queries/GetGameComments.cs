@@ -6,7 +6,16 @@ using TZZ.Domain.Entities.TheGameZone;
 
 namespace TZZ.Core.TheGameZone.Games.Queries;
 
-public record CommentDto(int Id, string Author, string Content, int GameInfoId, DateTime PostedOn, DateTime? UpdatedOn);
+public class CommentDto
+{
+    public int Id { get; set; }
+    public int AuthorId { get; set; }
+    public required string AuthorName { get; set; }
+    public required string Content { get; set; }
+    public int GameInfoId { get; set; }
+    public DateTime PostedOn { get; set; }
+    public DateTime? UpdatedOn { get; set; }
+}
 
 public record GetGameCommentsQuery(int GameInfoId) : IRequest<ZachZoneCommand<List<CommentDto>>>;
 
@@ -17,7 +26,16 @@ public class GetGameCommentsQueryHandler(IDatabaseService dbContext) : IRequestH
         var results = await dbContext.Set<GameComment>()
             .Where(c => c.GameInfoId == request.GameInfoId)
             .OrderBy(x => x.PostedOn)
-            .Select(x => new CommentDto(x.Id, x.Author, x.Content, x.GameInfoId, x.PostedOn, x.UpdatedOn))
+            .Select(x => new CommentDto()
+            {
+                AuthorId = x.AuthorId,
+                AuthorName = $"{x.Author.FirstName} {x.Author.LastName}",
+                Content = x.Content,
+                GameInfoId = x.GameInfoId,
+                PostedOn = x.PostedOn,
+                UpdatedOn = x.UpdatedOn,
+                Id = x.Id
+            })
             .ToListAsync(cancellationToken);
 
         return ZachZoneCommand.Success(results);

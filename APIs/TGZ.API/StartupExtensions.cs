@@ -52,7 +52,7 @@ public static class StartupExtensions
             x.AllowAnyHeader()
                 .AllowCredentials()
                 .AllowAnyMethod()
-                .WithHeaders("Cross-Origin-Opener-Policy", "Cross-Origin-Embedder-Policy", "Cross-Origin-Resource-Policy")
+                .WithHeaders("Cross-Origin-Opener-Policy", "Cross-Origin-Embedder-Policy", "Cross-Origin-Resource-Policy", "Content-Type")
                 .WithOrigins(security.AllowedOrigins);
         });
 

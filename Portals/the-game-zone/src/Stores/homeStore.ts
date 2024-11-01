@@ -1,10 +1,10 @@
 import { defineStore } from "pinia";
-import { API_BASE_URL, AxiosInstance } from "@/Services/axiosService.ts";
-import { HomeClient } from '@/Services/apiService.ts';
+import { TGZ_API_BASE_URL, AxiosInstance } from "@/Services/axiosService.ts";
+import { HomeClient } from '@/Services/tgz.api.ts';
 
 export const useHomeStore = defineStore("home", () => {
     
-    const client = new HomeClient(API_BASE_URL, AxiosInstance)
+    const client = new HomeClient(TGZ_API_BASE_URL, AxiosInstance)
     const isLoggedIn = async () => {
         return await client.restricted()
             .then(f => true, e => false)

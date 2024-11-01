@@ -32,4 +32,7 @@
 	    <Message Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' == '0'" Importance="low" />
 	    <Error Text="$(NSwagOutput)" Condition="'$(NSwagExitCode)' != '0'" />
     </Target>
+	<Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+		<Copy SourceFiles="../../Portals/the-zach-zone/src/services/tzz.api.ts" DestinationFolder="../../Portals/the-game-zone/src/services/" />
+	</Target>
 </Project>

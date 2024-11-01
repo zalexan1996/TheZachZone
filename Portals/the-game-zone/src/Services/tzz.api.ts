@@ -667,6 +667,7 @@ export interface IUserInfoDto {
 }
 
 export class GeneralInformationDto implements IGeneralInformationDto {
+    id?: number | undefined;
     email?: string | undefined;
     firstName?: string | undefined;
     lastName?: string | undefined;
@@ -682,6 +683,7 @@ export class GeneralInformationDto implements IGeneralInformationDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.email = _data["email"];
             this.firstName = _data["firstName"];
             this.lastName = _data["lastName"];
@@ -697,6 +699,7 @@ export class GeneralInformationDto implements IGeneralInformationDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["email"] = this.email;
         data["firstName"] = this.firstName;
         data["lastName"] = this.lastName;
@@ -705,6 +708,7 @@ export class GeneralInformationDto implements IGeneralInformationDto {
 }
 
 export interface IGeneralInformationDto {
+    id?: number | undefined;
     email?: string | undefined;
     firstName?: string | undefined;
     lastName?: string | undefined;

@@ -76,7 +76,7 @@
       "templateDirectory": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "$(TypescriptOutputPath)/src/Services/apiService.ts",
+      "output": "$(TypescriptOutputPath)/src/Services/tzz.api.ts",
       "newLineBehavior": "Auto"
     }
   }

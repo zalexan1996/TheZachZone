@@ -35,6 +35,7 @@
     "@components/*": ["./src/Components/*"],
     "@views/*": ["./src/Views/*"],
     "@services/*": ["./src/Services/*"],
+    "@stores/*": ["./src/Stores/*"],
     "@games/*": ["./public/games/*"]
   }
 }

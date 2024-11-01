@@ -4,6 +4,7 @@ Debug/
 obj/
 node_modules/
 /APIs/TGZ.API/wwwroot/games/
+dist/
 
 localhost.pem
 localhost-key.pem
