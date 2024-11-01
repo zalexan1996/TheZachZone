@@ -41,6 +41,8 @@ public static class StartupExtensions
                     "http://thegamezone.dryrlent.ddns.net:8010"]);
         });
 
+
+        app.UseExceptionHandler(_ => { });
         app.MapControllers();
         app.UseAuthentication();
         app.UseAuthorization();

@@ -17,11 +17,11 @@ public class CommentDto
     public DateTime? UpdatedOn { get; set; }
 }
 
-public record GetGameCommentsQuery(int GameInfoId) : IRequest<ZachZoneCommand<List<CommentDto>>>;
+public record GetGameCommentsQuery(int GameInfoId) : IRequest<ZachZoneCommandResponse<List<CommentDto>>>;
 
-public class GetGameCommentsQueryHandler(IDatabaseService dbContext) : IRequestHandler<GetGameCommentsQuery, ZachZoneCommand<List<CommentDto>>>
+public class GetGameCommentsQueryHandler(IDatabaseService dbContext) : IRequestHandler<GetGameCommentsQuery, ZachZoneCommandResponse<List<CommentDto>>>
 {
-    public async Task<ZachZoneCommand<List<CommentDto>>> Handle(GetGameCommentsQuery request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse<List<CommentDto>>> Handle(GetGameCommentsQuery request, CancellationToken cancellationToken)
     {
         var results = await dbContext.Set<GameComment>()
             .Where(c => c.GameInfoId == request.GameInfoId)
@@ -38,6 +38,6 @@ public class GetGameCommentsQueryHandler(IDatabaseService dbContext) : IRequestH
             })
             .ToListAsync(cancellationToken);
 
-        return ZachZoneCommand.Success(results);
+        return ZachZoneCommandResponse.Success(results);
     }
 }

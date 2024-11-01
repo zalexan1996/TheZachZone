@@ -4,7 +4,7 @@ using TZZ.Core.Shared.Services;
 
 namespace TZZ.Core.TheZachZone.Account.Queries;
 
-public class DoesUserExistQuery : IRequest<ZachZoneCommand<bool>>
+public class DoesUserExistQuery : IRequest<ZachZoneCommandResponse<bool>>
 {
     public DoesUserExistQuery(string email)
     {
@@ -14,13 +14,13 @@ public class DoesUserExistQuery : IRequest<ZachZoneCommand<bool>>
     public string Email { get; set; }
 }
 
-public class DoesUserExistQueryHandler(IIdentityService _identityService) : IRequestHandler<DoesUserExistQuery, ZachZoneCommand<bool>>
+public class DoesUserExistQueryHandler(IIdentityService _identityService) : IRequestHandler<DoesUserExistQuery, ZachZoneCommandResponse<bool>>
 {
-    public async Task<ZachZoneCommand<bool>> Handle(DoesUserExistQuery request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse<bool>> Handle(DoesUserExistQuery request, CancellationToken cancellationToken)
     {
         var result = await _identityService.DoesUserExist(request.Email);
 
-        var output = ZachZoneCommand.Success(result);
+        var output = ZachZoneCommandResponse.Success(result);
 
         if (result)
         {

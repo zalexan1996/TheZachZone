@@ -11,7 +11,7 @@ using TZZ.Core.Shared.Services;
 
 namespace TZZ.Core.TheZachZone.Account.Commands;
 
-public class ResetPasswordCommand : IRequest<ZachZoneCommand>
+public class ResetPasswordCommand : IRequest<ZachZoneCommandResponse>
 {
     public required string ResetToken { get; set; }
     public required string NewPassword { get; set; }
@@ -19,15 +19,15 @@ public class ResetPasswordCommand : IRequest<ZachZoneCommand>
 }
 
 public class ResetPasswordCommandHandler(ICurrentUserService _currentUserService, IIdentityService _identityService)
-    : IRequestHandler<ResetPasswordCommand, ZachZoneCommand>
+    : IRequestHandler<ResetPasswordCommand, ZachZoneCommandResponse>
 {
-    public async Task<ZachZoneCommand> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
     {
         var userId = _currentUserService.UserId;
         Guard.Against.Null(userId, null, "User not found.");
 
         var result = await _identityService.ResetPassword(userId.Value, request.ResetToken, request.NewPassword);
 
-        return result ? ZachZoneCommand.Success() : ZachZoneCommand.Failure("summary", "Failed to reset password.");
+        return result ? ZachZoneCommandResponse.Success() : ZachZoneCommandResponse.Failure("summary", "Failed to reset password.");
     }
 }

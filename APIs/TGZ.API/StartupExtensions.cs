@@ -61,6 +61,7 @@ public static class StartupExtensions
             ServeUnknownFileTypes = true,
         });
 
+        app.UseExceptionHandler(_ => { });
         app.MapControllers();
         app.UseAuthentication();
         app.UseAuthorization();

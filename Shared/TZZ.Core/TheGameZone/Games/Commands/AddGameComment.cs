@@ -8,11 +8,11 @@ using TZZ.Domain.Entities.TheZachZone;
 
 namespace TZZ.Core.TheGameZone.Games.Commands;
 
-public record AddGameCommentCommand(int GameInfoId, string Content) : IRequest<ZachZoneCommand<int>>;
+public record AddGameCommentCommand(int GameInfoId, string Content) : IRequest<ZachZoneCommandResponse<int>>;
 
-public class AddGameCommentCommandHandler(IDatabaseService dbContext, ICurrentUserService curService) : IRequestHandler<AddGameCommentCommand, ZachZoneCommand<int>>
+public class AddGameCommentCommandHandler(IDatabaseService dbContext, ICurrentUserService curService) : IRequestHandler<AddGameCommentCommand, ZachZoneCommandResponse<int>>
 {
-    public async Task<ZachZoneCommand<int>> Handle(AddGameCommentCommand request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse<int>> Handle(AddGameCommentCommand request, CancellationToken cancellationToken)
     {
         var author = await dbContext.Set<User>().Where(x => x.Id == curService.UserId).FirstOrDefaultAsync(cancellationToken);
 
@@ -34,6 +34,6 @@ public class AddGameCommentCommandHandler(IDatabaseService dbContext, ICurrentUs
         await dbContext.Add(comment, cancellationToken);
         await dbContext.SaveChanges(cancellationToken);
 
-        return ZachZoneCommand.Success(comment.Id);
+        return ZachZoneCommandResponse.Success(comment.Id);
     }
 }

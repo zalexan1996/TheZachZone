@@ -17,7 +17,7 @@ public class ListUsersDto
     public string? Role { get; set; }
 }
 
-public class ListUsersQuery : IRequest<ZachZoneCommand<List<ListUsersDto>>>
+public class ListUsersQuery : IRequest<ZachZoneCommandResponse<List<ListUsersDto>>>
 {
     public int? UserId { get; set; }
     public string? Email { get; set; }
@@ -25,9 +25,9 @@ public class ListUsersQuery : IRequest<ZachZoneCommand<List<ListUsersDto>>>
 }
 
 public class ListUsersQueryHandler(IDatabaseService dbContext, IIdentityService identityService)
-    : IRequestHandler<ListUsersQuery, ZachZoneCommand<List<ListUsersDto>>>
+    : IRequestHandler<ListUsersQuery, ZachZoneCommandResponse<List<ListUsersDto>>>
 {
-    public async Task<ZachZoneCommand<List<ListUsersDto>>> Handle(ListUsersQuery request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse<List<ListUsersDto>>> Handle(ListUsersQuery request, CancellationToken cancellationToken)
     {
         var results = await dbContext.Set<User>()
             .Where(x => request.UserId == null || request.UserId == x.Id)
@@ -48,6 +48,6 @@ public class ListUsersQueryHandler(IDatabaseService dbContext, IIdentityService 
         {
             r.Role = await identityService.GetClaim(r.UserId, ClaimTypes.Role);
         }
-        return ZachZoneCommand.Success(results);
+        return ZachZoneCommandResponse.Success(results);
     }
 }

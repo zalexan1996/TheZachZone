@@ -11,23 +11,23 @@ public class UserInfoDto
     public string Role { get; set; } = string.Empty;
 }
 
-public class GetUserInfoQuery : IRequest<ZachZoneCommand<UserInfoDto>>
+public class GetUserInfoQuery : IRequest<ZachZoneCommandResponse<UserInfoDto>>
 {
 }
 
 public class GetUserInfoQueryHandler(ICurrentUserService _currentUserService, IIdentityService _identityService)
-    : IRequestHandler<GetUserInfoQuery, ZachZoneCommand<UserInfoDto>>
+    : IRequestHandler<GetUserInfoQuery, ZachZoneCommandResponse<UserInfoDto>>
 {
-    public async Task<ZachZoneCommand<UserInfoDto>> Handle(GetUserInfoQuery request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse<UserInfoDto>> Handle(GetUserInfoQuery request, CancellationToken cancellationToken)
     {
         if (!_currentUserService.IsAuthenticated)
         {
-            return ZachZoneCommand.Failure<UserInfoDto>("summary", "User is not logged in.");
+            return ZachZoneCommandResponse.Failure<UserInfoDto>("summary", "User is not logged in.");
         }
 
         var user = await _identityService.GetUser(_currentUserService.Email!);
         var role = await _identityService.GetClaim(user!.Id, ClaimTypes.Role);
-        return ZachZoneCommand.Success(new UserInfoDto()
+        return ZachZoneCommandResponse.Success(new UserInfoDto()
         {
             Email = user.Email!,
             Role = role ?? "N/A"

@@ -7,11 +7,11 @@ using TZZ.Domain.Entities.TheGameZone;
 namespace TZZ.Core.TheGameZone.Games.Queries;
 
 public record GameInfoDto(int Id, string Name, string Description, string[] Categories, DateOnly UploadDate);
-public record GetGameInfoQuery(int? Id = null, string? Name = null, string? Category = null) : IRequest<ZachZoneCommand<List<GameInfoDto>>>;
+public record GetGameInfoQuery(int? Id = null, string? Name = null, string? Category = null) : IRequest<ZachZoneCommandResponse<List<GameInfoDto>>>;
 
-public class GetGameInfoQueryHandler(IDatabaseService dbContext) : IRequestHandler<GetGameInfoQuery, ZachZoneCommand<List<GameInfoDto>>>
+public class GetGameInfoQueryHandler(IDatabaseService dbContext) : IRequestHandler<GetGameInfoQuery, ZachZoneCommandResponse<List<GameInfoDto>>>
 {
-    public async Task<ZachZoneCommand<List<GameInfoDto>>> Handle(GetGameInfoQuery request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse<List<GameInfoDto>>> Handle(GetGameInfoQuery request, CancellationToken cancellationToken)
     {
         var results = await dbContext.Set<GameInfo>()
             .Where(x => request.Id == null || x.Id == request.Id)
@@ -21,6 +21,6 @@ public class GetGameInfoQueryHandler(IDatabaseService dbContext) : IRequestHandl
             .Select(x => new GameInfoDto(x.Id, x.Name, x.Description, x.Categories, x.UploadDate))
             .ToListAsync(cancellationToken);
 
-        return ZachZoneCommand.Success(results);
+        return ZachZoneCommandResponse.Success(results);
     }
 }

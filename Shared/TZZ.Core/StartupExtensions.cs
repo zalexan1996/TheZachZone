@@ -13,7 +13,7 @@ public static class StartupExtensions
     {
         services.AddMediatR(x =>
         {
-            x.RegisterServicesFromAssemblyContaining<ZachZoneCommand>();
+            x.RegisterServicesFromAssemblyContaining<ZachZoneCommandResponse>();
             x.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
 

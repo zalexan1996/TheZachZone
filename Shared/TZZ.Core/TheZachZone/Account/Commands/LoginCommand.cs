@@ -13,23 +13,23 @@ using TZZ.Core.Shared.Services;
 
 namespace TZZ.Core.TheZachZone.Account.Commands;
 
-public class LoginCommand : IRequest<ZachZoneCommand<bool>>
+public class LoginCommand : IRequest<ZachZoneCommandResponse<bool>>
 {
     public required string Email { get; set; }
     public required string Password { get; set; }
 }
 
-public class LoginCommandHandler(IIdentityService _identityService) : IRequestHandler<LoginCommand, ZachZoneCommand<bool>>
+public class LoginCommandHandler(IIdentityService _identityService) : IRequestHandler<LoginCommand, ZachZoneCommandResponse<bool>>
 {
-    public async Task<ZachZoneCommand<bool>> Handle(LoginCommand request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse<bool>> Handle(LoginCommand request, CancellationToken cancellationToken)
     {
         var signInSuccessful = await _identityService.SignIn(request.Email, request.Password);
 
         if (signInSuccessful)
         {
-            return ZachZoneCommand.Success(true);
+            return ZachZoneCommandResponse.Success(true);
         }
 
-        return ZachZoneCommand.Failure<bool>("Email", "Sign in failed.");
+        return ZachZoneCommandResponse.Failure<bool>("Email", "Sign in failed.");
     }
 }

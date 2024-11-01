@@ -76,7 +76,7 @@ export class AccountClient {
         return Promise.resolve<boolean>(null as any);
     }
 
-    createAccount(command: CreateAccountCommand, cancelToken?: CancelToken): Promise<ZachZoneCommand> {
+    createAccount(command: CreateAccountCommand, cancelToken?: CancelToken): Promise<ZachZoneCommandResponse> {
         let url_ = this.baseUrl + "/Account/CreateAccount";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -104,7 +104,7 @@ export class AccountClient {
         });
     }
 
-    protected processCreateAccount(response: AxiosResponse): Promise<ZachZoneCommand> {
+    protected processCreateAccount(response: AxiosResponse): Promise<ZachZoneCommandResponse> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -118,14 +118,14 @@ export class AccountClient {
             const _responseText = response.data;
             let result200: any = null;
             let resultData200  = _responseText;
-            result200 = ZachZoneCommand.fromJS(resultData200);
-            return Promise.resolve<ZachZoneCommand>(result200);
+            result200 = ZachZoneCommandResponse.fromJS(resultData200);
+            return Promise.resolve<ZachZoneCommandResponse>(result200);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<ZachZoneCommand>(null as any);
+        return Promise.resolve<ZachZoneCommandResponse>(null as any);
     }
 
     login(email: string | undefined, password: string | undefined, cancelToken?: CancelToken): Promise<FileResponse> {
@@ -498,13 +498,13 @@ export class AccountClient {
     }
 }
 
-export class ZachZoneCommand implements IZachZoneCommand {
+export class ZachZoneCommandResponse implements IZachZoneCommandResponse {
     infos?: { [key: string]: string; };
     warnings?: { [key: string]: string; };
     errors?: { [key: string]: string; };
     isValid?: boolean;
 
-    constructor(data?: IZachZoneCommand) {
+    constructor(data?: IZachZoneCommandResponse) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -540,9 +540,9 @@ export class ZachZoneCommand implements IZachZoneCommand {
         }
     }
 
-    static fromJS(data: any): ZachZoneCommand {
+    static fromJS(data: any): ZachZoneCommandResponse {
         data = typeof data === 'object' ? data : {};
-        let result = new ZachZoneCommand();
+        let result = new ZachZoneCommandResponse();
         result.init(data);
         return result;
     }
@@ -575,7 +575,7 @@ export class ZachZoneCommand implements IZachZoneCommand {
     }
 }
 
-export interface IZachZoneCommand {
+export interface IZachZoneCommandResponse {
     infos?: { [key: string]: string; };
     warnings?: { [key: string]: string; };
     errors?: { [key: string]: string; };

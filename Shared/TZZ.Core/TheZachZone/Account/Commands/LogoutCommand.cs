@@ -4,19 +4,19 @@ using TZZ.Core.Shared.Services;
 
 namespace TZZ.Core.TheZachZone.Account.Commands;
 
-public class LogoutCommand : IRequest<ZachZoneCommand>
+public class LogoutCommand : IRequest<ZachZoneCommandResponse>
 {
 }
 
-public class LogoutCommandHandler(IIdentityService _identityService, ICurrentUserService _currentUserService) : IRequestHandler<LogoutCommand, ZachZoneCommand>
+public class LogoutCommandHandler(IIdentityService _identityService, ICurrentUserService _currentUserService) : IRequestHandler<LogoutCommand, ZachZoneCommandResponse>
 {
-    public async Task<ZachZoneCommand> Handle(LogoutCommand request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse> Handle(LogoutCommand request, CancellationToken cancellationToken)
     {
         if (_currentUserService.IsAuthenticated)
         {
             await _identityService.LogoutCurrentUser();
         }
 
-        return ZachZoneCommand.Success();
+        return ZachZoneCommandResponse.Success();
     }
 }

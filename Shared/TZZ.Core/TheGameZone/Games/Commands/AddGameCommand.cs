@@ -9,7 +9,7 @@ using TZZ.Core.Shared.Services;
 
 namespace TZZ.Core.TheGameZone.Games.Commands;
 
-public class AddGameInfoCommand : IRequest<ZachZoneCommand<int>>
+public class AddGameInfoCommand : IRequest<ZachZoneCommandResponse<int>>
 {
     public required string Name { get; set; }
     public required string Description { get; set; }
@@ -18,9 +18,9 @@ public class AddGameInfoCommand : IRequest<ZachZoneCommand<int>>
 }
 
 
-public class AddGameInfoCommandHandler(IDatabaseService dbContext) : IRequestHandler<AddGameInfoCommand, ZachZoneCommand<int>>
+public class AddGameInfoCommandHandler(IDatabaseService dbContext) : IRequestHandler<AddGameInfoCommand, ZachZoneCommandResponse<int>>
 {
-    public async Task<ZachZoneCommand<int>> Handle(AddGameInfoCommand request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse<int>> Handle(AddGameInfoCommand request, CancellationToken cancellationToken)
     {
         var newGame = new GameInfo()
         {
@@ -61,6 +61,6 @@ public class AddGameInfoCommandHandler(IDatabaseService dbContext) : IRequestHan
 
         File.Delete(zipPath);
 
-        return ZachZoneCommand.Success(newEntry.Id);
+        return ZachZoneCommandResponse.Success(newEntry.Id);
     }
 }

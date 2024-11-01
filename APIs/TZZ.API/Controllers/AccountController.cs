@@ -28,7 +28,7 @@ public class AccountController(ISender sender, IIdentityService identityService)
 
     [HttpPost("[action]")]
     [AllowAnonymous]
-    public async Task<ActionResult<ZachZoneCommand>> CreateAccount(CreateAccountCommand command)
+    public async Task<ActionResult<ZachZoneCommandResponse>> CreateAccount(CreateAccountCommand command)
     {
         var result = await sender.Send(command);
 

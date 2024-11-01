@@ -6,14 +6,14 @@ using TZZ.Domain.Entities.TheGameZone;
 
 namespace TZZ.Core.TheGameZone.Games.Queries;
 
-public record LoadGameQuery(int Id) : IRequest<ZachZoneCommand<byte[]>>;
+public record LoadGameQuery(int Id) : IRequest<ZachZoneCommandResponse<byte[]>>;
 
-public class LoadGameQueryHandler(IDatabaseService dbContext) : IRequestHandler<LoadGameQuery, ZachZoneCommand<byte[]>>
+public class LoadGameQueryHandler(IDatabaseService dbContext) : IRequestHandler<LoadGameQuery, ZachZoneCommandResponse<byte[]>>
 {
-    public async Task<ZachZoneCommand<byte[]>> Handle(LoadGameQuery request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse<byte[]>> Handle(LoadGameQuery request, CancellationToken cancellationToken)
     {
         var gameInfo = await dbContext.Set<GameInfo>().SingleAsync(x => x.Id == request.Id, cancellationToken);
 
-        return ZachZoneCommand.Success<byte[]>([]);
+        return ZachZoneCommandResponse.Success<byte[]>([]);
     }
 }

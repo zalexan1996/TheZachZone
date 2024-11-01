@@ -6,15 +6,15 @@ using static TZZ.Common.Shared.Enums.ZachZoneConstants;
 
 namespace TZZ.Core.TheZachZone.Account.Commands;
 
-public class GrantAdminAccessCommand : IRequest<ZachZoneCommand<int>>
+public class GrantAdminAccessCommand : IRequest<ZachZoneCommandResponse<int>>
 {
     public int UserId { get; set; }
 }
 
 public class GrantAdminAccessCommandHandler(IIdentityService identityService)
-    : IRequestHandler<GrantAdminAccessCommand, ZachZoneCommand<int>>
+    : IRequestHandler<GrantAdminAccessCommand, ZachZoneCommandResponse<int>>
 {
-    public async Task<ZachZoneCommand<int>> Handle(GrantAdminAccessCommand request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse<int>> Handle(GrantAdminAccessCommand request, CancellationToken cancellationToken)
     {
         if (await identityService.HasClaim(request.UserId, ClaimTypes.Role, Roles.Admin))
         {
@@ -23,7 +23,7 @@ public class GrantAdminAccessCommandHandler(IIdentityService identityService)
 
         var result = await identityService.AddClaim(request.UserId, ClaimTypes.Role, Roles.Admin);
                 
-        return result ? ZachZoneCommand.Success(request.UserId) 
-            : ZachZoneCommand.Failure<int>(nameof(request.UserId), "Failed to add a role to the requested user.");
+        return result ? ZachZoneCommandResponse.Success(request.UserId) 
+            : ZachZoneCommandResponse.Failure<int>(nameof(request.UserId), "Failed to add a role to the requested user.");
     }
 }

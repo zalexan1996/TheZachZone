@@ -10,6 +10,7 @@ using OpenTelemetry.Trace;
 using TZZ.Core.Shared.Services;
 using TZZ.Domain.Entities.TheZachZone;
 using TZZ.Infrastructure.SQL;
+using TZZ.WebShared.Common;
 using TZZ.WebShared.Common.Services;
 using TZZ.WebShared.Security.Services;
 using static TZZ.Common.Shared.Enums.ZachZoneConstants;
@@ -26,7 +27,7 @@ public static class StartupExtensions
         services.AddCors();
         services.AddHttpContextAccessor();
         services.AddDataProtection(x => x.ApplicationDiscriminator = "TheZachZone");
-
+        services.AddExceptionHandler<ZachZoneExceptionHandler>();
 
         services.AddIdentity<User, Role>()
             .AddEntityFrameworkStores<ZachZoneDbContext>()

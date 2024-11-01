@@ -6,11 +6,11 @@ using TZZ.Domain.Entities.TheGameZone;
 
 namespace TZZ.Core.TheGameZone.Games.Commands;
 
-public record RemoveGameInfoCommand(int Id) : IRequest<ZachZoneCommand>;
+public record RemoveGameInfoCommand(int Id) : IRequest<ZachZoneCommandResponse>;
 
-public class RemoveGameInfoCommandHandler(IDatabaseService dbContext) : IRequestHandler<RemoveGameInfoCommand, ZachZoneCommand>
+public class RemoveGameInfoCommandHandler(IDatabaseService dbContext) : IRequestHandler<RemoveGameInfoCommand, ZachZoneCommandResponse>
 {
-    public async Task<ZachZoneCommand> Handle(RemoveGameInfoCommand request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse> Handle(RemoveGameInfoCommand request, CancellationToken cancellationToken)
     {
         var gameInfo = await dbContext.Set<GameInfo>().SingleAsync(x => x.Id == request.Id, cancellationToken);
 
@@ -24,6 +24,6 @@ public class RemoveGameInfoCommandHandler(IDatabaseService dbContext) : IRequest
         {
             Directory.Delete(uploadDirectory, true);
         }
-        return new ZachZoneCommand();
+        return new ZachZoneCommandResponse();
     }
 }

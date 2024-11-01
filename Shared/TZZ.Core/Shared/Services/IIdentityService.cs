@@ -8,7 +8,7 @@ public interface IIdentityService
 {
     Task<User?> GetUser(string email);
     Task<User?> GetUser(int id);
-    Task<ZachZoneCommand<User>> CreateUser(CreateAccountCommand command);
+    Task<ZachZoneCommandResponse<User>> CreateUser(CreateAccountCommand command);
     Task<bool> DoesUserExist(int userId);
     Task<bool> DoesUserExist(string userName);
     Task<bool> SignIn(string email, string password);

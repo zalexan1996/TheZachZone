@@ -8,15 +8,15 @@ using TZZ.Domain.Entities.TheZachZone;
 
 namespace TZZ.Core.TheZachZone.Account.Commands;
 
-public class UpdateGeneralInformationCommand : IRequest<ZachZoneCommand>
+public class UpdateGeneralInformationCommand : IRequest<ZachZoneCommandResponse>
 {
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
 }
 
-public class UpdateGeneralInformationCommandHandler(IDatabaseService _dbService, ICurrentUserService _currentUserService) : IRequestHandler<UpdateGeneralInformationCommand, ZachZoneCommand>
+public class UpdateGeneralInformationCommandHandler(IDatabaseService _dbService, ICurrentUserService _currentUserService) : IRequestHandler<UpdateGeneralInformationCommand, ZachZoneCommandResponse>
 {
-    public async Task<ZachZoneCommand> Handle(UpdateGeneralInformationCommand request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse> Handle(UpdateGeneralInformationCommand request, CancellationToken cancellationToken)
     {
         var userId = _currentUserService.UserId;
         Guard.Against.Null(userId, null, "User not found.");
@@ -28,6 +28,6 @@ public class UpdateGeneralInformationCommandHandler(IDatabaseService _dbService,
         
         await _dbService.SaveChanges(cancellationToken);
 
-        return ZachZoneCommand.Success();
+        return ZachZoneCommandResponse.Success();
     }
 }

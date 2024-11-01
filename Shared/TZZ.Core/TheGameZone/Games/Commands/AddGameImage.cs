@@ -8,15 +8,15 @@ using TZZ.Domain.Entities.TheGameZone;
 
 namespace TZZ.Core.TheGameZone.Games.Commands;
 
-public class AddGameImageCommand : IRequest<ZachZoneCommand<int>>
+public class AddGameImageCommand : IRequest<ZachZoneCommandResponse<int>>
 {
     public int GameInfoId { get; set; }
     public required IFormFile File { get; set; }
 }
 
-public class AddGameImageCommandHandler(IDatabaseService dbContext) : IRequestHandler<AddGameImageCommand, ZachZoneCommand<int>>
+public class AddGameImageCommandHandler(IDatabaseService dbContext) : IRequestHandler<AddGameImageCommand, ZachZoneCommandResponse<int>>
 {
-    public async Task<ZachZoneCommand<int>> Handle(AddGameImageCommand request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse<int>> Handle(AddGameImageCommand request, CancellationToken cancellationToken)
     {
         var image = new GameImage()
         {
@@ -29,6 +29,6 @@ public class AddGameImageCommandHandler(IDatabaseService dbContext) : IRequestHa
         await dbContext.Add(image, cancellationToken);
         await dbContext.SaveChanges(cancellationToken);
 
-        return ZachZoneCommand.Success(image.Id);
+        return ZachZoneCommandResponse.Success(image.Id);
     }
 }

@@ -10,7 +10,7 @@ namespace TZZ.WebShared.Security.Services;
 
 internal class IdentityService(ICurrentUserService _currentUserService, UserManager<User> _userManager, SignInManager<User> _signInManager) : IIdentityService
 {
-    public async Task<ZachZoneCommand<User>> CreateUser(CreateAccountCommand command)
+    public async Task<ZachZoneCommandResponse<User>> CreateUser(CreateAccountCommand command)
     {
         var result = await _userManager.CreateAsync(new User()
         {
@@ -19,8 +19,8 @@ internal class IdentityService(ICurrentUserService _currentUserService, UserMana
         }, command.Password);
 
         return result.Succeeded ? 
-            ZachZoneCommand.Success((await GetUser(command.Email))!) 
-            : ZachZoneCommand.Failure<User>(result.Errors.ToDictionary(k => k.Code, v => v.Description));
+            ZachZoneCommandResponse.Success((await GetUser(command.Email))!) 
+            : ZachZoneCommandResponse.Failure<User>(result.Errors.ToDictionary(k => k.Code, v => v.Description));
     }
 
     public async Task<bool> DoesUserExist(int userId)
