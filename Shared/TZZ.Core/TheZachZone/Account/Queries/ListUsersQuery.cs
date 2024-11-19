@@ -4,7 +4,6 @@ using TZZ.Common.Shared.Interfaces;
 using TZZ.Core.Shared;
 using TZZ.Core.Shared.Services;
 using TZZ.Domain.Entities.TheZachZone;
-using static TZZ.Common.Shared.Enums.ZachZoneConstants;
 
 namespace TZZ.Core.TheZachZone.Account.Queries;
 
@@ -14,7 +13,7 @@ public class ListUsersDto
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Email { get; set; }
-    public string? Role { get; set; }
+    public string[] Roles { get; set; } = [];
 }
 
 public class ListUsersQuery : IRequest<ZachZoneCommandResponse<List<ListUsersDto>>>
@@ -46,7 +45,7 @@ public class ListUsersQueryHandler(IDatabaseService dbContext, IIdentityService 
 
         foreach (var r in results)
         {
-            r.Role = await identityService.GetClaim(r.UserId, ClaimTypes.Role);
+            r.Roles = await identityService.GetRoles(r.UserId);
         }
         return ZachZoneCommandResponse.Success(results);
     }

@@ -24,9 +24,14 @@ public class ZachZoneCommandResponse
 
     public static ZachZoneCommandResponse<TResult> Failure<TResult>(IDictionary<string, string> errors) where TResult : new()
         => new ZachZoneCommandResponse<TResult>(new())
-    {
-        Errors = errors
-    };
+        {
+            Errors = errors
+        };
+    public static ZachZoneCommandResponse Failure(IDictionary<string, string> errors)
+        => new ZachZoneCommandResponse()
+        {
+            Errors = errors
+        };
 
     public static ZachZoneCommandResponse Success() => new ZachZoneCommandResponse();
     public static ZachZoneCommandResponse<TResult> Success<TResult>(TResult result) => new ZachZoneCommandResponse<TResult>(result);

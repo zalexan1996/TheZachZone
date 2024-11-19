@@ -63,7 +63,7 @@ const createAccount_Click = async () => {
             title: 'Failed to create account.',
             body: 'Please try again later.',
             duration: 3000,
-            severity: 'error'
+            severity: 'danger'
         })
     }
 

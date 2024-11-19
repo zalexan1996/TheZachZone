@@ -6,6 +6,10 @@ using TZZ.Common;
 using TZZ.Core.Shared.Services;
 using TZZ.API.Services;
 using TZZ.Common.Configuration;
+using TZZ.WebShared.Health;
+using TZZ.Common.Shared.Enums;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using System.Net;
 
 namespace TZZ.API;
 
@@ -24,6 +28,29 @@ public static class StartupExtensions
 
     public static void ConfigureTheZachZone(this WebApplication app)
     {
+        var healthcheckDescription = new ApiDescription
+        {
+            HttpMethod = "GET",
+            RelativePath = "/healthcheck",
+        };
+
+        healthcheckDescription.SupportedRequestFormats.Add(new ApiRequestFormat
+        {
+            MediaType = "application/json"
+        });
+
+        healthcheckDescription.SupportedResponseTypes.Add(new ApiResponseType
+        {
+            IsDefaultResponse = true,
+            StatusCode = (int)HttpStatusCode.OK,
+            ApiResponseFormats = new List<ApiResponseFormat> {
+            new ApiResponseFormat
+            {
+                MediaType = "application/json"
+            }
+        }
+        });
+
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();

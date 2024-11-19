@@ -1,11 +1,15 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.Extensions.Options;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using TGZ.API.Controllers;
 using TGZ.API.Services;
 using TZZ.Common.Configuration;
+using TZZ.Common.Shared.Enums;
 using TZZ.Core.Shared.Services;
 using TZZ.Infrastructure.SQL;
 using TZZ.WebShared;
+using TZZ.WebShared.Health;
 
 namespace TGZ.API;
 
@@ -65,5 +69,6 @@ public static class StartupExtensions
         app.MapControllers();
         app.UseAuthentication();
         app.UseAuthorization();
+
     }
 }

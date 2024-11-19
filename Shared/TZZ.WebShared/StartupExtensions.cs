@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -12,6 +13,7 @@ using TZZ.Domain.Entities.TheZachZone;
 using TZZ.Infrastructure.SQL;
 using TZZ.WebShared.Common;
 using TZZ.WebShared.Common.Services;
+using TZZ.WebShared.Health;
 using TZZ.WebShared.Security.Services;
 using static TZZ.Common.Shared.Enums.ZachZoneConstants;
 
@@ -85,5 +87,10 @@ public static class StartupExtensions
             .ConfigureResource(r => r.AddService("The-Zach-Zone"))
                 .WithTracing(t => t.AddAspNetCoreInstrumentation().AddSource("The-Zach-Zone"))
                 .WithMetrics(m => m.AddAspNetCoreInstrumentation().AddMeter("The-Zach-Zone"));
+
+        services.AddHealthChecks()
+            .AddCheck<ResourceUsageHealthCheck>("Resource Usage", tags: ["System"])
+            .AddCheck<ExternalAPIHealthCheck>("External APIs", tags: ["Services"])
+            .AddCheck<DBConnectionHealthCheck>("DB Connection", tags: ["Services"]);
     }
 }

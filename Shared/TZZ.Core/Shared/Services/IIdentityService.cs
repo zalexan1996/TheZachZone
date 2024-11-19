@@ -9,6 +9,7 @@ public interface IIdentityService
     Task<User?> GetUser(string email);
     Task<User?> GetUser(int id);
     Task<ZachZoneCommandResponse<User>> CreateUser(CreateAccountCommand command);
+    Task<ZachZoneCommandResponse> DeleteUser(int userId);
     Task<bool> DoesUserExist(int userId);
     Task<bool> DoesUserExist(string userName);
     Task<bool> SignIn(string email, string password);
@@ -20,6 +21,7 @@ public interface IIdentityService
     Task<string?> GetClaim(int userId, string claimType);
     Task<bool> HasClaim(int userId, string claimType, string? claimValue = null);
     Task<bool> AddClaim(int userId, string claimType, string claimValue);
+    Task<bool> RemoveClaim(int userId, string claimType, string claimValue);
 
     Task<string[]> GetRoles(int userId);
 }

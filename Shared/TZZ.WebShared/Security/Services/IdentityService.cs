@@ -24,6 +24,18 @@ internal class IdentityService(ICurrentUserService _currentUserService, UserMana
             : ZachZoneCommandResponse.Failure<User>(result.Errors.ToDictionary(k => k.Code, v => v.Description));
     }
 
+    public async Task<ZachZoneCommandResponse> DeleteUser(int userId)
+    {
+        var user = await GetUser(userId);
+        Guard.Against.Null(user, null, "User not found.");
+
+        var result = await _userManager.DeleteAsync(user);
+
+        return result.Succeeded 
+            ? ZachZoneCommandResponse.Success() 
+            : ZachZoneCommandResponse.Failure(result.Errors.ToDictionary(k => k.Code, v => v.Description));
+    }
+
     public async Task<bool> DoesUserExist(int userId)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -103,6 +115,15 @@ internal class IdentityService(ICurrentUserService _currentUserService, UserMana
         Guard.Against.Null(user, null, "User not found.");
 
         var result = await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim(claimType, claimValue));
+
+        return result.Succeeded;
+    }
+    public async Task<bool> RemoveClaim(int userId, string claimType, string claimValue)
+    {
+        var user = await GetUser(userId);
+        Guard.Against.Null(user, null, "User not found.");
+
+        var result = await _userManager.RemoveClaimAsync(user, new System.Security.Claims.Claim(claimType, claimValue));
 
         return result.Succeeded;
     }

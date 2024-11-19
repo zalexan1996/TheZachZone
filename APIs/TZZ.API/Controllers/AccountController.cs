@@ -6,6 +6,7 @@ using TZZ.Core.TheZachZone.Account.Queries;
 using Microsoft.AspNetCore.Authorization;
 using TZZ.Core.Shared.Services;
 using TZZ.Common.Shared.Enums;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace TZZ.API.Controllers;
 
@@ -123,4 +124,70 @@ public class AccountController(ISender sender, IIdentityService identityService)
 
         return BadRequest();
     }
+
+    [HttpGet("[action]")]
+    [Authorize(Policy = ZachZoneConstants.Policies.Admin)]
+    public async Task<ActionResult<ListUsersDto[]>> ListUsers()
+    {
+        var result = await sender.Send(new ListUsersQuery());
+
+        if (result.IsValid)
+        {
+            return Ok(result.Result);
+        }
+
+        return BadRequest();
+    }
+
+    [HttpPost("[action]")]
+    [Authorize(Policy = ZachZoneConstants.Policies.Admin)]
+    public async Task<ActionResult<int>> GrantAdminAccess(int userId)
+    {
+        var result = await sender.Send(new GrantAdminAccessCommand()
+        {
+            UserId = userId
+        });
+
+        if (result.IsValid)
+        {
+            return Ok(result.Result);
+        }
+
+        return BadRequest(result);
+    }
+
+    [HttpPost("[action]")]
+    [Authorize(Policy = ZachZoneConstants.Policies.Admin)]
+    public async Task<ActionResult<int>> RevokeAdminAccess(int userId)
+    {
+        var result = await sender.Send(new RevokeAdminAccessCommand()
+        {
+            UserId = userId
+        });
+
+        if (result.IsValid)
+        {
+            return Ok(result.Result);
+        }
+
+        return BadRequest(result);
+    }
+
+    [HttpDelete("[action]")]
+    [Authorize(Policy = ZachZoneConstants.Policies.Admin)]
+    public async Task<ActionResult<ZachZoneCommandResponse>> DeleteUser(int userId)
+    {
+        var result = await sender.Send(new DeleteUserCommand()
+        {
+            UserId = userId
+        });
+
+        if (result.IsValid)
+        {
+            return Ok(result);
+        }
+
+        return BadRequest(result);
+    }
+
 }
