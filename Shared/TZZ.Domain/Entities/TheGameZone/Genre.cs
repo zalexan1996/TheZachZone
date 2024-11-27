@@ -5,7 +5,6 @@ namespace TZZ.Domain.Entities.TheGameZone;
 
 public class Genre
 {
-    public int GenreId { get; set; }
     public required string Name { get; set; }
 }
 
@@ -15,10 +14,12 @@ public class GenreEntityTypeConfiguration : IEntityTypeConfiguration<Genre>
     {
         builder.ToTable(nameof(Genre), "TGZ");
 
-        builder.HasKey(x => x.GenreId);
+        builder.HasKey(x => x.Name);
 
-        builder.Property(x => x.GenreId).UseIdentityColumn();
+        builder.Property(x => x.Name)
+            .IsRequired()
+            .HasMaxLength(100);
 
-        builder.Property(x => x.Name).HasMaxLength(100);
+        builder.HasIndex(x => x.Name).IsUnique();
     }
 }

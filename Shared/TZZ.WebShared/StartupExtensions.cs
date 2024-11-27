@@ -13,7 +13,7 @@ using TZZ.Domain.Entities.TheZachZone;
 using TZZ.Infrastructure.SQL;
 using TZZ.WebShared.Common;
 using TZZ.WebShared.Common.Services;
-using TZZ.WebShared.Health;
+using TZZ.WebShared.Health.Checks;
 using TZZ.WebShared.Security.Services;
 using static TZZ.Common.Shared.Enums.ZachZoneConstants;
 
@@ -28,7 +28,7 @@ public static class StartupExtensions
         services.AddOpenApiDocument();
         services.AddCors();
         services.AddHttpContextAccessor();
-        services.AddDataProtection(x => x.ApplicationDiscriminator = "TheZachZone");
+        services.AddDataProtection(x => x.ApplicationDiscriminator = Constants.Security.ApplicationDiscriminator);
         services.AddExceptionHandler<ZachZoneExceptionHandler>();
 
         services.AddIdentity<User, Role>()
@@ -46,7 +46,7 @@ public static class StartupExtensions
         services.ConfigureApplicationCookie(x =>
         {
             x.SlidingExpiration = true;
-            x.Cookie.Name = "TheZachZone";
+            x.Cookie.Name = Constants.Security.CookieName;
             x.Cookie.HttpOnly = true;
             x.Cookie.Path = "/";
             x.Cookie.SameSite = SameSiteMode.None;
@@ -84,13 +84,13 @@ public static class StartupExtensions
         services.AddTransient<IPathLocatorService, PathLocatorService>();
 
         services.AddOpenTelemetry()
-            .ConfigureResource(r => r.AddService("The-Zach-Zone"))
-                .WithTracing(t => t.AddAspNetCoreInstrumentation().AddSource("The-Zach-Zone"))
-                .WithMetrics(m => m.AddAspNetCoreInstrumentation().AddMeter("The-Zach-Zone"));
+            .ConfigureResource(r => r.AddService(Constants.OTEL.ServiceName))
+                .WithTracing(t => t.AddAspNetCoreInstrumentation().AddSource(Constants.OTEL.ServiceName).AddConsoleExporter())
+                .WithMetrics(m => m.AddAspNetCoreInstrumentation().AddMeter(Constants.OTEL.ServiceName));
 
         services.AddHealthChecks()
-            .AddCheck<ResourceUsageHealthCheck>("Resource Usage", tags: ["System"])
-            .AddCheck<ExternalAPIHealthCheck>("External APIs", tags: ["Services"])
-            .AddCheck<DBConnectionHealthCheck>("DB Connection", tags: ["Services"]);
+            .AddCheck<ResourceUsageHealthCheck>("Resource Usage", tags: [Constants.Health.Tags.System])
+            .AddCheck<ExternalAPIHealthCheck>("External APIs", tags: [Constants.Health.Tags.Services])
+            .AddCheck<DBConnectionHealthCheck>("DB Connection", tags: [Constants.Health.Tags.Services]);
     }
 }

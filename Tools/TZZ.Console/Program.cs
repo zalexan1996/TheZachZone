@@ -45,7 +45,7 @@ app.AddSubCommand("user", x =>
         table.AddColumn("Name");
         table.AddColumn("Roles");
 
-        response.Result?.ForEach(r => table.AddRow(r.UserId.ToString(), r.Email ?? string.Empty, $"{r.FirstName} {r.LastName}", r.Role ?? string.Empty));
+        response.Result?.ForEach(r => table.AddRow(r.UserId.ToString(), r.Email ?? string.Empty, $"{r.FirstName} {r.LastName}", r.Roles.ToString() ?? string.Empty));
         AnsiConsole.Write(table);
 
     });

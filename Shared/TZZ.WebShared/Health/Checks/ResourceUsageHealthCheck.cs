@@ -1,22 +1,11 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TZZ.WebShared.Health;
+namespace TZZ.WebShared.Health.Checks;
 
 #pragma warning disable CA1416 // Validate platform compatibility
 public class ResourceUsageHealthCheck : IHealthCheck
 {
-    private readonly double _maxCpuUsage = 80.0;
-    private readonly double _maxMemoryUsage = 80.0;
-    private readonly double _maxDiskUsage = 85.0;
-
     public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
     {
         var cpu = GetCpuUsage();
@@ -28,28 +17,36 @@ public class ResourceUsageHealthCheck : IHealthCheck
             { "cpu", cpu },
             { "mem", mem },
             { "disk", disk },
-            {"max_cpu", _maxCpuUsage },
-            {"max_mem", _maxMemoryUsage },
-            {"max_disk", _maxDiskUsage },
+            {"max_cpu", Constants.Health.PerformanceThresholds.CPU_DEGRADED },
+            {"max_mem", Constants.Health.PerformanceThresholds.MEM_DEGRADED },
+            {"max_disk", Constants.Health.PerformanceThresholds.DISK_DEGRADED },
         };
 
         // Unhealthy if any of the metrics are at 95% or higher utilization.
-        if (100 - cpu <= 5 || 100 - mem <= 5 || 100 - disk <= 5)
+        if (IsUnhealthy(cpu, mem, disk))
         {
             return Task.FromResult(HealthCheckResult.Unhealthy(
                 $"System resources are exhausted. CPU: {cpu}%, Memory: {mem}%, Disk: {disk}%.",
                 data: data));
         }
 
-        if (cpu > _maxCpuUsage || mem > _maxMemoryUsage || disk > _maxDiskUsage)
+        if (IsDegraded(cpu, mem, disk))
         {
             return Task.FromResult(HealthCheckResult.Degraded(
-                $"System resources are over the threshold. CPU: {cpu}%, Memory: {mem}%, Disk: {disk}%.", 
+                $"System resources are over the threshold. CPU: {cpu}%, Memory: {mem}%, Disk: {disk}%.",
                 data: data));
         }
 
         return Task.FromResult(HealthCheckResult.Healthy("System resources are within acceptable limits.", data: data));
     }
+
+    private bool IsDegraded(double cpu, double mem, double disk) => cpu > Constants.Health.PerformanceThresholds.CPU_DEGRADED
+            || mem > Constants.Health.PerformanceThresholds.MEM_DEGRADED
+            || disk > Constants.Health.PerformanceThresholds.DISK_DEGRADED;
+
+    private bool IsUnhealthy(double cpu, double mem, double disk) => cpu > Constants.Health.PerformanceThresholds.CPU_UNHEALTHY
+            || mem > Constants.Health.PerformanceThresholds.MEM_UNHEALTHY
+            || disk > Constants.Health.PerformanceThresholds.DISK_UNHEALTHY;
 
     private double GetCpuUsage()
     {
@@ -68,7 +65,7 @@ public class ResourceUsageHealthCheck : IHealthCheck
         var drive = new DriveInfo("C");
         double totalSpace = drive.TotalSize;
         double freeSpace = drive.AvailableFreeSpace;
-        return ((totalSpace - freeSpace) / totalSpace) * 100;
+        return (totalSpace - freeSpace) / totalSpace * 100;
     }
 }
 

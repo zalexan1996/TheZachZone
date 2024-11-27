@@ -19,7 +19,7 @@
                 <hr/>
                 <p>{{ game?.description }}</p>
                 <div class="mt-4">
-                    <Badge class="me-1" v-for="category in game?.categories" severity="secondary">{{category}}</Badge>
+                    <Badge class="me-1" v-for="genre in game?.genres" severity="secondary">{{genre}}</Badge>
                 </div>
             </div>
             <div class="col-12 box p-4 mb-4">

@@ -12,7 +12,7 @@ namespace TGZ.API.Controllers;
 public class GameController(ISender sender) : ControllerBase
 {
     [HttpGet("[action]")]
-    public async Task<ActionResult<IList<GameInfoDto>>> GetGames([FromQuery]GetGameInfoQuery query)
+    public async Task<ActionResult<IList<GameDto>>> GetGames([FromQuery]GetGameQuery query)
     {
         var result = await sender.Send(query);
         if (result.IsValid)
@@ -37,7 +37,7 @@ public class GameController(ISender sender) : ControllerBase
 
     [HttpPost("[action]")]
     [Authorize(Policy = ZachZoneConstants.Policies.Default)]
-    public async Task<ActionResult<int>> AddGame(AddGameInfoCommand command)
+    public async Task<ActionResult<int>> AddGame(AddGameCommand command)
     {
         var result = await sender.Send(command);
 

@@ -1,11 +1,6 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TZZ.WebShared.Health;
+namespace TZZ.WebShared.Health.Checks;
 
 public class ExternalAPIHealthCheck : IHealthCheck
 {

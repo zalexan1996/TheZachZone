@@ -9,24 +9,24 @@ using TZZ.Core.Shared.Services;
 
 namespace TZZ.Core.TheGameZone.Games.Commands;
 
-public class AddGameInfoCommand : IRequest<ZachZoneCommandResponse<int>>
+public class AddGameCommand : IRequest<ZachZoneCommandResponse<int>>
 {
     public required string Name { get; set; }
     public required string Description { get; set; }
-    public required int[] GenreIds { get; set; }
+    public required string[] Genres { get; set; }
     public required IFormFile File { get; set; }
 }
 
 
-public class AddGameInfoCommandHandler(IDatabaseService dbContext) : IRequestHandler<AddGameInfoCommand, ZachZoneCommandResponse<int>>
+public class AddGameCommandHandler(IDatabaseService dbContext) : IRequestHandler<AddGameCommand, ZachZoneCommandResponse<int>>
 {
-    public async Task<ZachZoneCommandResponse<int>> Handle(AddGameInfoCommand request, CancellationToken cancellationToken)
+    public async Task<ZachZoneCommandResponse<int>> Handle(AddGameCommand request, CancellationToken cancellationToken)
     {
         var newGame = new Game()
         {
             Name = request.Name,
             Description = request.Description,
-            Genres = dbContext.Set<Genre>().Where(x => request.GenreIds.Contains(x.GenreId)).ToList(),
+            Genres = dbContext.Set<Genre>().Where(x => request.Genres.Contains(x.Name)).ToList(),
             UploadDate = DateOnly.FromDateTime(DateTime.Now),
             Comments = []
         };

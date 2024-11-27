@@ -23,7 +23,7 @@ export class GameClient {
 
     }
 
-    getGames(id: number | null | undefined, name: string | null | undefined, genre: number | null | undefined, cancelToken?: CancelToken): Promise<GameInfoDto[]> {
+    getGames(id: number | null | undefined, name: string | null | undefined, genre: string | null | undefined, cancelToken?: CancelToken): Promise<GameDto[]> {
         let url_ = this.baseUrl + "/Game/GetGames?";
         if (id !== undefined && id !== null)
             url_ += "Id=" + encodeURIComponent("" + id) + "&";
@@ -53,7 +53,7 @@ export class GameClient {
         });
     }
 
-    protected processGetGames(response: AxiosResponse): Promise<GameInfoDto[]> {
+    protected processGetGames(response: AxiosResponse): Promise<GameDto[]> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -70,18 +70,18 @@ export class GameClient {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(GameInfoDto.fromJS(item));
+                    result200!.push(GameDto.fromJS(item));
             }
             else {
                 result200 = <any>null;
             }
-            return Promise.resolve<GameInfoDto[]>(result200);
+            return Promise.resolve<GameDto[]>(result200);
 
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<GameInfoDto[]>(null as any);
+        return Promise.resolve<GameDto[]>(null as any);
     }
 
     loadGame(id: number | undefined, cancelToken?: CancelToken): Promise<string> {
@@ -137,7 +137,7 @@ export class GameClient {
         return Promise.resolve<string>(null as any);
     }
 
-    addGame(name: string | undefined, description: string | undefined, genreIds: number[] | undefined, file: FileParameter | null | undefined, cancelToken?: CancelToken): Promise<number> {
+    addGame(name: string | undefined, description: string | undefined, genres: string[] | undefined, file: FileParameter | null | undefined, cancelToken?: CancelToken): Promise<number> {
         let url_ = this.baseUrl + "/Game/AddGame?";
         if (name === null)
             throw new Error("The parameter 'name' cannot be null.");
@@ -147,10 +147,10 @@ export class GameClient {
             throw new Error("The parameter 'description' cannot be null.");
         else if (description !== undefined)
             url_ += "Description=" + encodeURIComponent("" + description) + "&";
-        if (genreIds === null)
-            throw new Error("The parameter 'genreIds' cannot be null.");
-        else if (genreIds !== undefined)
-            genreIds && genreIds.forEach(item => { url_ += "GenreIds=" + encodeURIComponent("" + item) + "&"; });
+        if (genres === null)
+            throw new Error("The parameter 'genres' cannot be null.");
+        else if (genres !== undefined)
+            genres && genres.forEach(item => { url_ += "Genres=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = new FormData();
@@ -747,58 +747,6 @@ export class MetadataClient {
 
     }
 
-    addGenre(genreName: string | undefined, cancelToken?: CancelToken): Promise<ZachZoneCommandResponse> {
-        let url_ = this.baseUrl + "/metadata/genre?";
-        if (genreName === null)
-            throw new Error("The parameter 'genreName' cannot be null.");
-        else if (genreName !== undefined)
-            url_ += "genreName=" + encodeURIComponent("" + genreName) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            method: "POST",
-            url: url_,
-            headers: {
-                "Accept": "application/json"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processAddGenre(_response);
-        });
-    }
-
-    protected processAddGenre(response: AxiosResponse): Promise<ZachZoneCommandResponse> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = ZachZoneCommandResponse.fromJS(resultData200);
-            return Promise.resolve<ZachZoneCommandResponse>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<ZachZoneCommandResponse>(null as any);
-    }
-
     getGenres( cancelToken?: CancelToken): Promise<string[]> {
         let url_ = this.baseUrl + "/metadata/genre";
         url_ = url_.replace(/[?&]$/, "");
@@ -852,6 +800,110 @@ export class MetadataClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
         return Promise.resolve<string[]>(null as any);
+    }
+
+    addGenre(genreName: string | undefined, cancelToken?: CancelToken): Promise<ZachZoneCommandResponse> {
+        let url_ = this.baseUrl + "/metadata/genre?";
+        if (genreName === null)
+            throw new Error("The parameter 'genreName' cannot be null.");
+        else if (genreName !== undefined)
+            url_ += "genreName=" + encodeURIComponent("" + genreName) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processAddGenre(_response);
+        });
+    }
+
+    protected processAddGenre(response: AxiosResponse): Promise<ZachZoneCommandResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ZachZoneCommandResponse.fromJS(resultData200);
+            return Promise.resolve<ZachZoneCommandResponse>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ZachZoneCommandResponse>(null as any);
+    }
+
+    removeGenre(genreName: string | undefined, cancelToken?: CancelToken): Promise<ZachZoneCommandResponse> {
+        let url_ = this.baseUrl + "/metadata/genre?";
+        if (genreName === null)
+            throw new Error("The parameter 'genreName' cannot be null.");
+        else if (genreName !== undefined)
+            url_ += "genreName=" + encodeURIComponent("" + genreName) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "DELETE",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processRemoveGenre(_response);
+        });
+    }
+
+    protected processRemoveGenre(response: AxiosResponse): Promise<ZachZoneCommandResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ZachZoneCommandResponse.fromJS(resultData200);
+            return Promise.resolve<ZachZoneCommandResponse>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ZachZoneCommandResponse>(null as any);
     }
 }
 
@@ -926,14 +978,14 @@ export class StatisticsClient {
     }
 }
 
-export class GameInfoDto implements IGameInfoDto {
+export class GameDto implements IGameDto {
     id?: number;
     name?: string;
     description?: string;
-    genres?: { [key: string]: string; };
+    genres?: string[];
     uploadDate?: Date;
 
-    constructor(data?: IGameInfoDto) {
+    constructor(data?: IGameDto) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -947,20 +999,18 @@ export class GameInfoDto implements IGameInfoDto {
             this.id = _data["id"];
             this.name = _data["name"];
             this.description = _data["description"];
-            if (_data["genres"]) {
-                this.genres = {} as any;
-                for (let key in _data["genres"]) {
-                    if (_data["genres"].hasOwnProperty(key))
-                        (<any>this.genres)![key] = _data["genres"][key];
-                }
+            if (Array.isArray(_data["genres"])) {
+                this.genres = [] as any;
+                for (let item of _data["genres"])
+                    this.genres!.push(item);
             }
             this.uploadDate = _data["uploadDate"] ? new Date(_data["uploadDate"].toString()) : <any>undefined;
         }
     }
 
-    static fromJS(data: any): GameInfoDto {
+    static fromJS(data: any): GameDto {
         data = typeof data === 'object' ? data : {};
-        let result = new GameInfoDto();
+        let result = new GameDto();
         result.init(data);
         return result;
     }
@@ -970,23 +1020,21 @@ export class GameInfoDto implements IGameInfoDto {
         data["id"] = this.id;
         data["name"] = this.name;
         data["description"] = this.description;
-        if (this.genres) {
-            data["genres"] = {};
-            for (let key in this.genres) {
-                if (this.genres.hasOwnProperty(key))
-                    (<any>data["genres"])[key] = (<any>this.genres)[key];
-            }
+        if (Array.isArray(this.genres)) {
+            data["genres"] = [];
+            for (let item of this.genres)
+                data["genres"].push(item);
         }
         data["uploadDate"] = this.uploadDate ? formatDate(this.uploadDate) : <any>undefined;
         return data;
     }
 }
 
-export interface IGameInfoDto {
+export interface IGameDto {
     id?: number;
     name?: string;
     description?: string;
-    genres?: { [key: string]: string; };
+    genres?: string[];
     uploadDate?: Date;
 }
 

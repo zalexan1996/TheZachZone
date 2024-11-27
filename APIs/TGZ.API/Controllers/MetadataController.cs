@@ -9,22 +9,6 @@ namespace TGZ.API.Controllers;
 [ApiController]
 public class MetadataController(ISender sender) : ControllerBase
 {
-    [HttpPost("genre")]
-    public async Task<ActionResult<ZachZoneCommandResponse>> AddGenre(string genreName)
-    {
-        var result = await sender.Send(new AddGenreCommand()
-        { 
-            GenreName = genreName
-        });
-
-        if (!result.IsValid)
-        {
-            return BadRequest(result.Errors);
-        }
-
-        return Ok();
-    }
-
     [HttpGet("genre")]
     public async Task<ActionResult<IEnumerable<string>>> GetGenres()
     {
@@ -37,4 +21,35 @@ public class MetadataController(ISender sender) : ControllerBase
 
         return Ok(result.Result);
     }
+    [HttpPost("genre")]
+    public async Task<ActionResult<ZachZoneCommandResponse>> AddGenre(string genreName)
+    {
+        var result = await sender.Send(new AddGenreCommand()
+        {
+            GenreName = genreName
+        });
+
+        if (!result.IsValid)
+        {
+            return BadRequest(result.Errors);
+        }
+
+        return Ok();
+    }
+    [HttpDelete("genre")]
+    public async Task<ActionResult<ZachZoneCommandResponse>> RemoveGenre(string genreName)
+    {
+        var result = await sender.Send(new RemoveGenreCommand()
+        {
+            Name = genreName
+        });
+
+        if (!result.IsValid)
+        {
+            return BadRequest(result.Errors);
+        }
+
+        return Ok();
+    }
+
 }
