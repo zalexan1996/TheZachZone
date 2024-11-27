@@ -6,9 +6,9 @@ namespace TZZ.Domain.Entities.TheGameZone;
 public class GameStatistic
 {
     public int Id { get; set; }
-    public int GameInfoId { get; set; }
+    public int GameId { get; set; }
     public DateTime PlayedOn { get; set; }
-    public required GameInfo GameInfo { get; set; }
+    public required Game Game { get; set; }
 }
 
 public class GameStatisticConfig : IEntityTypeConfiguration<GameStatistic>
@@ -17,8 +17,8 @@ public class GameStatisticConfig : IEntityTypeConfiguration<GameStatistic>
     {
         builder.ToTable(nameof(GameStatistic), "TGZ");
 
-        builder.HasOne(x => x.GameInfo)
+        builder.HasOne(x => x.Game)
             .WithMany()
-            .HasForeignKey(x => x.GameInfoId);
+            .HasForeignKey(x => x.GameId);
     }
 }

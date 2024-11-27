@@ -4,7 +4,7 @@ using TZZ.Domain.Entities.TheZachZone;
 
 namespace TZZ.Domain.Entities.TheGameZone;
 
-public class GameComment
+public class Comment
 {
     public int Id { get; set; }
     public int AuthorId { get; set; }
@@ -14,16 +14,16 @@ public class GameComment
     public DateTime? UpdatedOn { get; set; }
     
     public required User Author { get; set; }
-    public required GameInfo GameInfo { get; set; }
+    public required Game Game { get; set; }
 }
 
-public class CommentConfiguration : IEntityTypeConfiguration<GameComment>
+public class CommentConfiguration : IEntityTypeConfiguration<Comment>
 {
-    public void Configure(EntityTypeBuilder<GameComment> builder)
+    public void Configure(EntityTypeBuilder<Comment> builder)
     {
-        builder.ToTable(nameof(GameComment), "TGZ");
+        builder.ToTable(nameof(Comment), "TGZ");
 
-        builder.HasOne(x => x.GameInfo)
+        builder.HasOne(x => x.Game)
             .WithMany(x => x.Comments)
             .HasForeignKey(x => x.GameInfoId);
 

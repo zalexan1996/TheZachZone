@@ -13,9 +13,9 @@ public class AddGamePlayStatisticCommandHandler(IDatabaseService dbContext) : IR
     {
         var newStatistic = new GameStatistic()
         {
-            GameInfoId = request.GameId,
+            GameId = request.GameId,
             PlayedOn = DateTime.Now,
-            GameInfo = dbContext.Set<GameInfo>().Single(x => x.Id == request.GameId)
+            Game = dbContext.Set<Game>().Single(x => x.Id == request.GameId)
         };
 
         await dbContext.Add(newStatistic, cancellationToken);

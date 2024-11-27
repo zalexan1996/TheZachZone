@@ -18,6 +18,6 @@ public class ZachZoneDbContext : IdentityDbContext<User, Role, int>, IDatabaseSe
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(GameInfo).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Game).Assembly);
     }
 }

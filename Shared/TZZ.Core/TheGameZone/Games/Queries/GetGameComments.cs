@@ -23,7 +23,7 @@ public class GetGameCommentsQueryHandler(IDatabaseService dbContext) : IRequestH
 {
     public async Task<ZachZoneCommandResponse<List<CommentDto>>> Handle(GetGameCommentsQuery request, CancellationToken cancellationToken)
     {
-        var results = await dbContext.Set<GameComment>()
+        var results = await dbContext.Set<Comment>()
             .Where(c => c.GameInfoId == request.GameInfoId)
             .OrderBy(x => x.PostedOn)
             .Select(x => new CommentDto()

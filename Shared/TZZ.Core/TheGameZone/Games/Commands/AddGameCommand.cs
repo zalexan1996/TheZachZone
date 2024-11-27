@@ -13,7 +13,7 @@ public class AddGameInfoCommand : IRequest<ZachZoneCommandResponse<int>>
 {
     public required string Name { get; set; }
     public required string Description { get; set; }
-    public required string[] Categories { get; set; }
+    public required int[] GenreIds { get; set; }
     public required IFormFile File { get; set; }
 }
 
@@ -22,19 +22,20 @@ public class AddGameInfoCommandHandler(IDatabaseService dbContext) : IRequestHan
 {
     public async Task<ZachZoneCommandResponse<int>> Handle(AddGameInfoCommand request, CancellationToken cancellationToken)
     {
-        var newGame = new GameInfo()
+        var newGame = new Game()
         {
             Name = request.Name,
             Description = request.Description,
-            Categories = request.Categories,
-            UploadDate = DateOnly.FromDateTime(DateTime.Now)
+            Genres = dbContext.Set<Genre>().Where(x => request.GenreIds.Contains(x.GenreId)).ToList(),
+            UploadDate = DateOnly.FromDateTime(DateTime.Now),
+            Comments = []
         };
 
 
         await dbContext.Add(newGame, cancellationToken);
         await dbContext.SaveChanges(cancellationToken);
 
-        var newEntry = await dbContext.Set<GameInfo>().SingleAsync(x => x.Name == request.Name);
+        var newEntry = await dbContext.Set<Game>().SingleAsync(x => x.Name == request.Name);
         string root = Directory.GetCurrentDirectory();
 
         string uploadDirectory = "wwwroot/games";

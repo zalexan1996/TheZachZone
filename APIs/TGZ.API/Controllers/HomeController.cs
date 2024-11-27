@@ -13,7 +13,7 @@ public class HomeController(IDatabaseService _dbContext) : ControllerBase
     [HttpGet]
     public IActionResult Home()
     {
-        var gi = _dbContext.Set<GameInfo>().ToList();
+        var gi = _dbContext.Set<Game>().ToList();
         return Ok(gi);
     }
 

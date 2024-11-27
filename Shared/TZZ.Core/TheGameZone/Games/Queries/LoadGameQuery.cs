@@ -12,7 +12,7 @@ public class LoadGameQueryHandler(IDatabaseService dbContext) : IRequestHandler<
 {
     public async Task<ZachZoneCommandResponse<byte[]>> Handle(LoadGameQuery request, CancellationToken cancellationToken)
     {
-        var gameInfo = await dbContext.Set<GameInfo>().SingleAsync(x => x.Id == request.Id, cancellationToken);
+        var gameInfo = await dbContext.Set<Game>().SingleAsync(x => x.Id == request.Id, cancellationToken);
 
         return ZachZoneCommandResponse.Success<byte[]>([]);
     }

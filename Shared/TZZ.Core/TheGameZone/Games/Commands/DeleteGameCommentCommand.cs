@@ -12,7 +12,7 @@ public class DeleteGameCommentCommandHandler(IDatabaseService dbContext) : IRequ
 {
     public async Task<ZachZoneCommandResponse> Handle(DeleteGameCommentCommand request, CancellationToken cancellationToken)
     {
-        var comment = await dbContext.Set<GameComment>().SingleAsync(x => x.Id == request.CommentId, cancellationToken);
+        var comment = await dbContext.Set<Comment>().SingleAsync(x => x.Id == request.CommentId, cancellationToken);
 
         dbContext.Remove(comment);
 

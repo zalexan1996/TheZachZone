@@ -21,8 +21,8 @@ public class AddGameImageCommandHandler(IDatabaseService dbContext) : IRequestHa
         var image = new GameImage()
         {
             UploadedOn = DateTime.Now,
-            GameInfoId = request.GameInfoId,
-            GameInfo = await dbContext.Set<GameInfo>().SingleAsync(x => x.Id == request.GameInfoId),
+            GameId = request.GameInfoId,
+            Game = await dbContext.Set<Game>().SingleAsync(x => x.Id == request.GameInfoId),
             Data = await request.File.ToByteArray()
         };
 

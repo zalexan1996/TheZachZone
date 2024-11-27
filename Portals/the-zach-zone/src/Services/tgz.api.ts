@@ -23,14 +23,14 @@ export class GameClient {
 
     }
 
-    getGames(id: number | null | undefined, name: string | null | undefined, category: string | null | undefined, cancelToken?: CancelToken): Promise<GameInfoDto[]> {
+    getGames(id: number | null | undefined, name: string | null | undefined, genre: number | null | undefined, cancelToken?: CancelToken): Promise<GameInfoDto[]> {
         let url_ = this.baseUrl + "/Game/GetGames?";
         if (id !== undefined && id !== null)
             url_ += "Id=" + encodeURIComponent("" + id) + "&";
         if (name !== undefined && name !== null)
             url_ += "Name=" + encodeURIComponent("" + name) + "&";
-        if (category !== undefined && category !== null)
-            url_ += "Category=" + encodeURIComponent("" + category) + "&";
+        if (genre !== undefined && genre !== null)
+            url_ += "Genre=" + encodeURIComponent("" + genre) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: AxiosRequestConfig = {
@@ -137,7 +137,7 @@ export class GameClient {
         return Promise.resolve<string>(null as any);
     }
 
-    addGame(name: string | undefined, description: string | undefined, categories: string[] | undefined, file: FileParameter | null | undefined, cancelToken?: CancelToken): Promise<number> {
+    addGame(name: string | undefined, description: string | undefined, genreIds: number[] | undefined, file: FileParameter | null | undefined, cancelToken?: CancelToken): Promise<number> {
         let url_ = this.baseUrl + "/Game/AddGame?";
         if (name === null)
             throw new Error("The parameter 'name' cannot be null.");
@@ -147,10 +147,10 @@ export class GameClient {
             throw new Error("The parameter 'description' cannot be null.");
         else if (description !== undefined)
             url_ += "Description=" + encodeURIComponent("" + description) + "&";
-        if (categories === null)
-            throw new Error("The parameter 'categories' cannot be null.");
-        else if (categories !== undefined)
-            categories && categories.forEach(item => { url_ += "Categories=" + encodeURIComponent("" + item) + "&"; });
+        if (genreIds === null)
+            throw new Error("The parameter 'genreIds' cannot be null.");
+        else if (genreIds !== undefined)
+            genreIds && genreIds.forEach(item => { url_ += "GenreIds=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = new FormData();
@@ -734,6 +734,127 @@ export class HomeClient {
     }
 }
 
+export class MetadataClient {
+    protected instance: AxiosInstance;
+    protected baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+
+        this.instance = instance || axios.create();
+
+        this.baseUrl = baseUrl ?? "";
+
+    }
+
+    addGenre(genreName: string | undefined, cancelToken?: CancelToken): Promise<ZachZoneCommandResponse> {
+        let url_ = this.baseUrl + "/metadata/genre?";
+        if (genreName === null)
+            throw new Error("The parameter 'genreName' cannot be null.");
+        else if (genreName !== undefined)
+            url_ += "genreName=" + encodeURIComponent("" + genreName) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processAddGenre(_response);
+        });
+    }
+
+    protected processAddGenre(response: AxiosResponse): Promise<ZachZoneCommandResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            result200 = ZachZoneCommandResponse.fromJS(resultData200);
+            return Promise.resolve<ZachZoneCommandResponse>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ZachZoneCommandResponse>(null as any);
+    }
+
+    getGenres( cancelToken?: CancelToken): Promise<string[]> {
+        let url_ = this.baseUrl + "/metadata/genre";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetGenres(_response);
+        });
+    }
+
+    protected processGetGenres(response: AxiosResponse): Promise<string[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(item);
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<string[]>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<string[]>(null as any);
+    }
+}
+
 export class StatisticsClient {
     protected instance: AxiosInstance;
     protected baseUrl: string;
@@ -809,7 +930,7 @@ export class GameInfoDto implements IGameInfoDto {
     id?: number;
     name?: string;
     description?: string;
-    categories?: string[];
+    genres?: { [key: string]: string; };
     uploadDate?: Date;
 
     constructor(data?: IGameInfoDto) {
@@ -826,10 +947,12 @@ export class GameInfoDto implements IGameInfoDto {
             this.id = _data["id"];
             this.name = _data["name"];
             this.description = _data["description"];
-            if (Array.isArray(_data["categories"])) {
-                this.categories = [] as any;
-                for (let item of _data["categories"])
-                    this.categories!.push(item);
+            if (_data["genres"]) {
+                this.genres = {} as any;
+                for (let key in _data["genres"]) {
+                    if (_data["genres"].hasOwnProperty(key))
+                        (<any>this.genres)![key] = _data["genres"][key];
+                }
             }
             this.uploadDate = _data["uploadDate"] ? new Date(_data["uploadDate"].toString()) : <any>undefined;
         }
@@ -847,10 +970,12 @@ export class GameInfoDto implements IGameInfoDto {
         data["id"] = this.id;
         data["name"] = this.name;
         data["description"] = this.description;
-        if (Array.isArray(this.categories)) {
-            data["categories"] = [];
-            for (let item of this.categories)
-                data["categories"].push(item);
+        if (this.genres) {
+            data["genres"] = {};
+            for (let key in this.genres) {
+                if (this.genres.hasOwnProperty(key))
+                    (<any>data["genres"])[key] = (<any>this.genres)[key];
+            }
         }
         data["uploadDate"] = this.uploadDate ? formatDate(this.uploadDate) : <any>undefined;
         return data;
@@ -861,7 +986,7 @@ export interface IGameInfoDto {
     id?: number;
     name?: string;
     description?: string;
-    categories?: string[];
+    genres?: { [key: string]: string; };
     uploadDate?: Date;
 }
 
@@ -1011,6 +1136,90 @@ export interface IGameImageDto {
     gameInfoId?: number;
     uploadedOn?: Date;
     data?: string;
+}
+
+export class ZachZoneCommandResponse implements IZachZoneCommandResponse {
+    infos?: { [key: string]: string; };
+    warnings?: { [key: string]: string; };
+    errors?: { [key: string]: string; };
+    isValid?: boolean;
+
+    constructor(data?: IZachZoneCommandResponse) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (_data["infos"]) {
+                this.infos = {} as any;
+                for (let key in _data["infos"]) {
+                    if (_data["infos"].hasOwnProperty(key))
+                        (<any>this.infos)![key] = _data["infos"][key];
+                }
+            }
+            if (_data["warnings"]) {
+                this.warnings = {} as any;
+                for (let key in _data["warnings"]) {
+                    if (_data["warnings"].hasOwnProperty(key))
+                        (<any>this.warnings)![key] = _data["warnings"][key];
+                }
+            }
+            if (_data["errors"]) {
+                this.errors = {} as any;
+                for (let key in _data["errors"]) {
+                    if (_data["errors"].hasOwnProperty(key))
+                        (<any>this.errors)![key] = _data["errors"][key];
+                }
+            }
+            this.isValid = _data["isValid"];
+        }
+    }
+
+    static fromJS(data: any): ZachZoneCommandResponse {
+        data = typeof data === 'object' ? data : {};
+        let result = new ZachZoneCommandResponse();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (this.infos) {
+            data["infos"] = {};
+            for (let key in this.infos) {
+                if (this.infos.hasOwnProperty(key))
+                    (<any>data["infos"])[key] = (<any>this.infos)[key];
+            }
+        }
+        if (this.warnings) {
+            data["warnings"] = {};
+            for (let key in this.warnings) {
+                if (this.warnings.hasOwnProperty(key))
+                    (<any>data["warnings"])[key] = (<any>this.warnings)[key];
+            }
+        }
+        if (this.errors) {
+            data["errors"] = {};
+            for (let key in this.errors) {
+                if (this.errors.hasOwnProperty(key))
+                    (<any>data["errors"])[key] = (<any>this.errors)[key];
+            }
+        }
+        data["isValid"] = this.isValid;
+        return data;
+    }
+}
+
+export interface IZachZoneCommandResponse {
+    infos?: { [key: string]: string; };
+    warnings?: { [key: string]: string; };
+    errors?: { [key: string]: string; };
+    isValid?: boolean;
 }
 
 export class AddGamePlayStatisticCommand implements IAddGamePlayStatisticCommand {

@@ -15,12 +15,12 @@ export const useGameStore = defineStore('game', () => {
         return games.value
     }
 
-    const addGame = async (name: string, description: string, categories: string[], file: File) => {
+    const addGame = async (name: string, description: string, genre: string, file: File) => {
         let fileParameter = {
             data: file,
             fileName: 'game.zip'
         } as FileParameter
-        return await client.addGame(name, description, categories, fileParameter)
+        return await client.addGame(name, description, genre, fileParameter)
     }
 
     const deleteGame = async(id: number) => {
@@ -51,6 +51,7 @@ export const useGameStore = defineStore('game', () => {
         images.value = await client.getGameImages(gameInfoId);
         return images.value
     }
+
     return {
         loadGames,
         addGame,

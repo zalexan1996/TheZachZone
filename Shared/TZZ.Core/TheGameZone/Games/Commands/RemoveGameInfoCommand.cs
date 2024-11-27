@@ -12,7 +12,7 @@ public class RemoveGameInfoCommandHandler(IDatabaseService dbContext) : IRequest
 {
     public async Task<ZachZoneCommandResponse> Handle(RemoveGameInfoCommand request, CancellationToken cancellationToken)
     {
-        var gameInfo = await dbContext.Set<GameInfo>().SingleAsync(x => x.Id == request.Id, cancellationToken);
+        var gameInfo = await dbContext.Set<Game>().SingleAsync(x => x.Id == request.Id, cancellationToken);
 
         dbContext.Remove(gameInfo);
         await dbContext.SaveChanges(cancellationToken);

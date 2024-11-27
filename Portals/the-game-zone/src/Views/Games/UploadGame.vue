@@ -33,8 +33,8 @@
             <div class="row">
                 <InputText for="name" v-model="name" class="col-7" label="Name" 
                     placeholder="Provide a name for your game." helpText="The name of your game should be a hook to entice potential players."/>
-                <InputText for="tag" v-model="tag" class="col-auto" label="Tag"
-                    placeholder="Choose a tag that best describes your game." :options="['Puzzle', 'Horror']"
+                <InputText for="genre" v-model="genre" class="col-auto" label="Genre"
+                    placeholder="Choose the genre that best describes your game." :options="Object.values(genres)"
                     type="select" helpText="Choose the option that best describes your game."/>
                 <Checkbox for="makePublic" v-model="makePublic" class="col-auto" label="Make Public" placeholder="Should this game be visible to everybody?" helpText="You will be able to change this setting later"/>
             </div>
@@ -53,19 +53,25 @@
     </div>
 </template>
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import { InputText, Checkbox } from 'tzz-shared'
 import { ErrorMessage, useForm, useIsFormValid } from 'vee-validate'
 import * as yup from 'yup'
 import { useGameStore } from '@/Stores/gameStore.ts'
 import { useRouter } from 'vue-router'
+import { useMetadataStore } from '@/Stores/metadataStore'
+
 const routerStore = useRouter()
 const gameStore = useGameStore()
+const metadataStore = useMetadataStore()
+
+const genres = ref({})
 
 const form = useForm({
     validationSchema: {
         name: yup.string().required('The name is required.'),
         description: yup.string().required('The description is required.'),
-        tag: yup.string().required('The tag is required.'),
+        genre: yup.string().required('The genre is required.'),
         makePublic: yup.bool().required(),
         file: yup.mixed().required('You must upload a file.')
     },
@@ -75,7 +81,7 @@ const form = useForm({
 
 const [name] = form.defineField('name')
 const [description] = form.defineField('description')
-const [tag] = form.defineField('tag')
+const [genre] = form.defineField('genre')
 const [makePublic] = form.defineField('makePublic')
 const [file] = form.defineField('file')
 const isFormValid = useIsFormValid()
@@ -86,7 +92,7 @@ const onFileUpload = async (e) => {
 }
 
 const onSubmit = async () => {
-    const id = await gameStore.addGame(name.value, description.value, [tag.value], file.value)
+    const id = await gameStore.addGame(name.value, description.value, [genre.value], file.value)
     routerStore.push({
         name: 'GameInfo',
         params: { id: id }
@@ -94,6 +100,10 @@ const onSubmit = async () => {
 }
 
 makePublic.value = false
+
+onMounted(async () => {
+    genres.value = await metadataStore.getGenres();
+})
 </script>
 
 <style scoped lang="scss">

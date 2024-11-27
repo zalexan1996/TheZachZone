@@ -15,9 +15,9 @@ public class GetGameImagesQueryHandler(IDatabaseService dbContext) : IRequestHan
     public async Task<ZachZoneCommandResponse<List<GameImageDto>>> Handle(GetGameImagesQuery request, CancellationToken cancellationToken)
     {
         var images = await dbContext.Set<GameImage>()
-            .Where(i => i.GameInfoId == request.GameInfoId)
+            .Where(i => i.GameId == request.GameInfoId)
             .OrderBy(x => x.UploadedOn)
-            .Select(x => new GameImageDto(x.Id, x.GameInfoId, x.UploadedOn, x.Data))
+            .Select(x => new GameImageDto(x.Id, x.GameId, x.UploadedOn, x.Data))
             .ToListAsync(cancellationToken);
 
         return ZachZoneCommandResponse.Success(images);

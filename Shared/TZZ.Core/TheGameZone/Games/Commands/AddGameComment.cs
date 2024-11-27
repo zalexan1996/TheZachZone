@@ -21,14 +21,14 @@ public class AddGameCommentCommandHandler(IDatabaseService dbContext, ICurrentUs
             throw new ArgumentException("User not authenticated.");
         }
 
-        var comment = new GameComment()
+        var comment = new Comment()
         {
             Author = author,
             AuthorId = author.Id,
             Content = request.Content,
             GameInfoId = request.GameInfoId,
             PostedOn = DateTime.Now,
-            GameInfo = await dbContext.Set<GameInfo>().SingleAsync(x => x.Id == request.GameInfoId, cancellationToken)
+            Game = await dbContext.Set<Game>().SingleAsync(x => x.Id == request.GameInfoId, cancellationToken)
         };
 
         await dbContext.Add(comment, cancellationToken);
