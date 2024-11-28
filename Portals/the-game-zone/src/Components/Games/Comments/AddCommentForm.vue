@@ -28,5 +28,6 @@ const addComment = async () => {
     } as AddGameCommentCommand)
 
     await gameStore.loadComments(props.gameInfoId!);
+    content.value = ''
 }
 </script>

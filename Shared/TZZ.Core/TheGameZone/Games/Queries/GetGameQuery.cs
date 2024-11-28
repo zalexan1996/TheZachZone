@@ -13,6 +13,8 @@ public class GameDto
     public required string Description { get; set; }
     public IEnumerable<string> Genres { get; set; } = [];
     public DateOnly UploadDate { get; set; }
+    public int AuthorId { get; set; }
+    public required string Author { get; set; }
 }
 public record GetGameQuery(int? Id = null, string? Name = null, string? Genre = null) : IRequest<ZachZoneCommandResponse<List<GameDto>>>;
 
@@ -31,7 +33,9 @@ public class GetGameQueryHandler(IDatabaseService dbContext) : IRequestHandler<G
                 Name = x.Name,
                 Description = x.Description,
                 Genres = x.Genres.Select(x => x.Name),
-                UploadDate = x.UploadDate
+                UploadDate = x.UploadDate,
+                AuthorId = x.AuthorId,
+                Author = x.Author.DisplayName
             })
             .ToListAsync(cancellationToken);
 

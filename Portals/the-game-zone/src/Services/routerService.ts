@@ -9,6 +9,7 @@ import AdminMetadata from '@views/Admin/AdminMetadata.vue'
 import AdminUserManagement from '@views/Admin/AdminUserManagement.vue'
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 import AdminHome from '@/Views/Admin/AdminHome.vue'
+import ReviewGame from '@views/Games/ReviewGame.vue'
 
 const routes: RouteRecordRaw[] = [
     {
@@ -40,6 +41,11 @@ const routes: RouteRecordRaw[] = [
         path: '/games/:id/play',
         name: 'Play-Game',
         component: PlayGame
+    },
+    {
+        path: '/games/:id/review',
+        name: 'Review-Game',
+        component: ReviewGame
     },
     {
         path: '/upload',

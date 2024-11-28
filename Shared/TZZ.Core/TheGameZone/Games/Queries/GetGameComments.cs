@@ -29,7 +29,7 @@ public class GetGameCommentsQueryHandler(IDatabaseService dbContext) : IRequestH
             .Select(x => new CommentDto()
             {
                 AuthorId = x.AuthorId,
-                AuthorName = $"{x.Author.FirstName} {x.Author.LastName}",
+                AuthorName = x.Author.DisplayName,
                 Content = x.Content,
                 GameInfoId = x.GameInfoId,
                 PostedOn = x.PostedOn,

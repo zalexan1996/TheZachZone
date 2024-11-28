@@ -2,6 +2,8 @@ import { AddGameCommentCommand, CommentDto, GameClient, GameImageDto, GameInfoDt
 import { TGZ_API_BASE_URL, AxiosInstance } from '@services/axiosService'
 import {defineStore} from 'pinia'
 import { ref } from 'vue'
+import { SubmitReviewCommand } from '@services/tgz.api'
+import { GetReviewsQuery } from '../Services/tgz.api'
 
 export const useGameStore = defineStore('game', () => {
     const client = new GameClient(TGZ_API_BASE_URL, AxiosInstance)
@@ -52,6 +54,17 @@ export const useGameStore = defineStore('game', () => {
         return images.value
     }
 
+    const getReviewsForGame = async (gameId: number) => {
+        return await client.getReviews(gameId)
+    }
+
+    const submitReview = async (gameId: number, content: any) => {
+        await client.submitReview({
+            gameId: gameId,
+            content: content
+        } as SubmitReviewCommand);
+    }
+
     return {
         loadGames,
         addGame,
@@ -62,6 +75,8 @@ export const useGameStore = defineStore('game', () => {
         addComment,
         addImage,
         getImages,
+        submitReview,
+        getReviewsForGame,
         games,
         comments,
         images

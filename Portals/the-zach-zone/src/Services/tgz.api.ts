@@ -545,6 +545,118 @@ export class GameClient {
         }
         return Promise.resolve<number>(null as any);
     }
+
+    getReviews(gameId: number | null | undefined, reviewId: number | null | undefined, cancelToken?: CancelToken): Promise<ReviewDto[]> {
+        let url_ = this.baseUrl + "/Game/GetReviews?";
+        if (gameId !== undefined && gameId !== null)
+            url_ += "GameId=" + encodeURIComponent("" + gameId) + "&";
+        if (reviewId !== undefined && reviewId !== null)
+            url_ += "ReviewId=" + encodeURIComponent("" + reviewId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetReviews(_response);
+        });
+    }
+
+    protected processGetReviews(response: AxiosResponse): Promise<ReviewDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ReviewDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<ReviewDto[]>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ReviewDto[]>(null as any);
+    }
+
+    submitReview(command: SubmitReviewCommand, cancelToken?: CancelToken): Promise<number> {
+        let url_ = this.baseUrl + "/Game/SubmitReview";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processSubmitReview(_response);
+        });
+    }
+
+    protected processSubmitReview(response: AxiosResponse): Promise<number> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return Promise.resolve<number>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<number>(null as any);
+    }
 }
 
 export class HealthClient {
@@ -984,6 +1096,8 @@ export class GameDto implements IGameDto {
     description?: string;
     genres?: string[];
     uploadDate?: Date;
+    authorId?: number;
+    author?: string;
 
     constructor(data?: IGameDto) {
         if (data) {
@@ -1005,6 +1119,8 @@ export class GameDto implements IGameDto {
                     this.genres!.push(item);
             }
             this.uploadDate = _data["uploadDate"] ? new Date(_data["uploadDate"].toString()) : <any>undefined;
+            this.authorId = _data["authorId"];
+            this.author = _data["author"];
         }
     }
 
@@ -1026,6 +1142,8 @@ export class GameDto implements IGameDto {
                 data["genres"].push(item);
         }
         data["uploadDate"] = this.uploadDate ? formatDate(this.uploadDate) : <any>undefined;
+        data["authorId"] = this.authorId;
+        data["author"] = this.author;
         return data;
     }
 }
@@ -1036,6 +1154,8 @@ export interface IGameDto {
     description?: string;
     genres?: string[];
     uploadDate?: Date;
+    authorId?: number;
+    author?: string;
 }
 
 export class CommentDto implements ICommentDto {
@@ -1184,6 +1304,98 @@ export interface IGameImageDto {
     gameInfoId?: number;
     uploadedOn?: Date;
     data?: string;
+}
+
+export class ReviewDto implements IReviewDto {
+    reviewId?: number;
+    content?: string;
+    createdOn?: Date;
+    authorId?: number;
+    author?: string;
+
+    constructor(data?: IReviewDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.reviewId = _data["reviewId"];
+            this.content = _data["content"];
+            this.createdOn = _data["createdOn"] ? new Date(_data["createdOn"].toString()) : <any>undefined;
+            this.authorId = _data["authorId"];
+            this.author = _data["author"];
+        }
+    }
+
+    static fromJS(data: any): ReviewDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ReviewDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["reviewId"] = this.reviewId;
+        data["content"] = this.content;
+        data["createdOn"] = this.createdOn ? this.createdOn.toISOString() : <any>undefined;
+        data["authorId"] = this.authorId;
+        data["author"] = this.author;
+        return data;
+    }
+}
+
+export interface IReviewDto {
+    reviewId?: number;
+    content?: string;
+    createdOn?: Date;
+    authorId?: number;
+    author?: string;
+}
+
+export class SubmitReviewCommand implements ISubmitReviewCommand {
+    gameId?: number;
+    content?: string;
+
+    constructor(data?: ISubmitReviewCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.gameId = _data["gameId"];
+            this.content = _data["content"];
+        }
+    }
+
+    static fromJS(data: any): SubmitReviewCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new SubmitReviewCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["gameId"] = this.gameId;
+        data["content"] = this.content;
+        return data;
+    }
+}
+
+export interface ISubmitReviewCommand {
+    gameId?: number;
+    content?: string;
 }
 
 export class ZachZoneCommandResponse implements IZachZoneCommandResponse {

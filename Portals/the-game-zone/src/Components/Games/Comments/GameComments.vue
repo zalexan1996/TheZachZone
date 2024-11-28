@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue'
+import { watch, onMounted } from 'vue'
 import { useGameStore } from '@/Stores/gameStore.ts'
 import Comment from './Comment.vue'
 import AddCommentForm from './AddCommentForm.vue'
@@ -20,6 +20,12 @@ interface IProps {
 const props = defineProps<IProps>()
 watch(props, () => {
     if (!!props.gameInfoId) {
+        gameStore.loadComments(props.gameInfoId);
+    }
+})
+
+onMounted(() => {
+    if (props.gameInfoId) {
         gameStore.loadComments(props.gameInfoId);
     }
 })

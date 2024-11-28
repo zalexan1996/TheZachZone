@@ -130,4 +130,32 @@ public class GameController(ISender sender) : ControllerBase
 
         return BadRequest(result.Errors);
     }
+
+    [HttpGet("[action]")]
+    [Authorize(Policy = ZachZoneConstants.Policies.Default)]
+    public async Task<ActionResult<IEnumerable<ReviewDto>>> GetReviews([FromQuery]GetReviewsQuery query)
+    {
+        var result = await sender.Send(query);
+
+        if (result.IsValid)
+        {
+            return Ok(result.Result);
+        }
+
+        return BadRequest(result.Errors);
+    }
+
+    [HttpPost("[action]")]
+    [Authorize(Policy = ZachZoneConstants.Policies.Default)]
+    public async Task<ActionResult<int>> SubmitReview(SubmitReviewCommand command)
+    {
+        var result = await sender.Send(command);
+
+        if (result.IsValid)
+        {
+            return Ok(result);
+        }
+
+        return BadRequest(result.Errors);
+    }
 }

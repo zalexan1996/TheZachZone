@@ -1,15 +1,18 @@
 ﻿using Ardalis.GuardClauses;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using TZZ.Common;
+using TZZ.Common.Shared.Interfaces;
 using TZZ.Core.Shared;
 using TZZ.Core.Shared.Services;
 using TZZ.Core.TheZachZone.Account.Commands;
+using TZZ.Domain.Entities.TheGameZone;
 using TZZ.Domain.Entities.TheZachZone;
 using static TZZ.Common.Shared.Enums.ZachZoneConstants;
 
 namespace TZZ.WebShared.Security.Services;
 
-internal class IdentityService(ICurrentUserService _currentUserService, UserManager<User> _userManager, SignInManager<User> _signInManager) : IIdentityService
+internal class IdentityService(IDatabaseService dbContext, ICurrentUserService _currentUserService, UserManager<User> _userManager, SignInManager<User> _signInManager) : IIdentityService
 {
     public async Task<ZachZoneCommandResponse<User>> CreateUser(CreateAccountCommand command)
     {
@@ -29,11 +32,32 @@ internal class IdentityService(ICurrentUserService _currentUserService, UserMana
         var user = await GetUser(userId);
         Guard.Against.Null(user, null, "User not found.");
 
-        var result = await _userManager.DeleteAsync(user);
+        using var txn = await dbContext.BeginTransaction(default);
 
-        return result.Succeeded 
-            ? ZachZoneCommandResponse.Success() 
-            : ZachZoneCommandResponse.Failure(result.Errors.ToDictionary(k => k.Code, v => v.Description));
+        try
+        {
+            // Delete user's games first.
+            var games = dbContext.Set<Game>()
+                .Where(x => x.AuthorId == userId).ToList();
+            dbContext.RemoveRange(games);
+            await dbContext.SaveChanges(default);
+
+            await txn.CommitAsync();
+
+            // Delete user account.
+            var result = await _userManager.DeleteAsync(user);
+
+            return result.Succeeded
+                ? ZachZoneCommandResponse.Success()
+                : ZachZoneCommandResponse.Failure(result.Errors.ToDictionary(k => k.Code, v => v.Description));
+        }
+        catch (Exception e)
+        {
+            await txn.RollbackAsync();
+            return ZachZoneCommandResponse.Failure("Database Error", e.Message);
+        }
+
+
     }
 
     public async Task<bool> DoesUserExist(int userId)

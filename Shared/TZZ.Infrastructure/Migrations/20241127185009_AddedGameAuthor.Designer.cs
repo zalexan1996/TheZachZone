@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TZZ.Infrastructure.SQL;
 
@@ -11,9 +12,11 @@ using TZZ.Infrastructure.SQL;
 namespace TZZ.Infrastructure.Migrations
 {
     [DbContext(typeof(ZachZoneDbContext))]
-    partial class ZachZoneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241127185009_AddedGameAuthor")]
+    partial class AddedGameAuthor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -262,40 +265,6 @@ namespace TZZ.Infrastructure.Migrations
                     b.ToTable("Genre", "TGZ");
                 });
 
-            modelBuilder.Entity("TZZ.Domain.Entities.TheGameZone.Review", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("GameId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GameId");
-
-                    b.HasIndex("AuthorId", "GameId")
-                        .IsUnique();
-
-                    b.ToTable("Review", "TGZ");
-                });
-
             modelBuilder.Entity("TZZ.Domain.Entities.TheZachZone.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -490,7 +459,7 @@ namespace TZZ.Infrastructure.Migrations
                     b.HasOne("TZZ.Domain.Entities.TheZachZone.User", "Author")
                         .WithMany()
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Author");
@@ -514,25 +483,6 @@ namespace TZZ.Infrastructure.Migrations
                         .HasForeignKey("GameId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Game");
-                });
-
-            modelBuilder.Entity("TZZ.Domain.Entities.TheGameZone.Review", b =>
-                {
-                    b.HasOne("TZZ.Domain.Entities.TheZachZone.User", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TZZ.Domain.Entities.TheGameZone.Game", "Game")
-                        .WithMany()
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
 
                     b.Navigation("Game");
                 });
