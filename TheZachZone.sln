@@ -23,6 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		README.md = README.md
+		prometheus-dev.yaml = prometheus-dev.yaml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TZZ.API", "APIs\TZZ.API\TZZ.API.csproj", "{078465A6-6B16-4145-9C0B-A89DA901F0B0}"

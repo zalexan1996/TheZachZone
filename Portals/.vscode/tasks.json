@@ -25,5 +25,10 @@
 			"problemMatcher": [],
 			"label": "launch: pocket-persona"
 		},
+		{
+			"type": "shell",
+			"command": "docker run -p 9090:9090 --name Prometheus bitnami/prometheus",
+			"label": "Run Prometheus"
+		}
 	]
 }

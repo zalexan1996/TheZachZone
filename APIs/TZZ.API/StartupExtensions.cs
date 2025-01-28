@@ -57,6 +57,8 @@ public static class StartupExtensions
             app.UseSwaggerUI();
         }
 
+
+        app.UseOpenTelemetryPrometheusScrapingEndpoint();
         app.UseHttpsRedirection();
 
         app.UseCors(x => {
@@ -68,10 +70,10 @@ public static class StartupExtensions
                     "http://thegamezone.dryrlent.ddns.net:8010"]);
         });
 
-
         app.UseExceptionHandler(_ => { });
         app.MapControllers();
         app.UseAuthentication();
         app.UseAuthorization();
+
     }
 }

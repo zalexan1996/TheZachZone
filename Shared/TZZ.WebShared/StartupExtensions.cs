@@ -86,7 +86,9 @@ public static class StartupExtensions
         services.AddOpenTelemetry()
             .ConfigureResource(r => r.AddService(Constants.OTEL.ServiceName))
                 .WithTracing(t => t.AddAspNetCoreInstrumentation().AddSource(Constants.OTEL.ServiceName).AddConsoleExporter())
-                .WithMetrics(m => m.AddAspNetCoreInstrumentation().AddMeter(Constants.OTEL.ServiceName));
+                .WithMetrics(m => m.AddAspNetCoreInstrumentation()
+                    .AddMeter(Constants.OTEL.ServiceName)
+                    .AddPrometheusExporter().AddConsoleExporter());
 
         services.AddHealthChecks()
             .AddCheck<ResourceUsageHealthCheck>("Resource Usage", tags: [Constants.Health.Tags.System])

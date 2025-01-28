@@ -41,6 +41,7 @@ public static class StartupExtensions
         }
 
 
+        app.UseOpenTelemetryPrometheusScrapingEndpoint();
         app.UseHttpsRedirection();
         
         app.Use(async (ctx, next) =>
