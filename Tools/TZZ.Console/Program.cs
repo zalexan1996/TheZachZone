@@ -23,6 +23,7 @@ app.AddSubCommand("user", x =>
 {
     x.AddCommand("list", async (ISender sender, int? userId, string? email, string? name) =>
     {
+
         var response = await sender.Send(new ListUsersQuery()
         {
             UserId = userId,
@@ -45,7 +46,7 @@ app.AddSubCommand("user", x =>
         table.AddColumn("Name");
         table.AddColumn("Roles");
 
-        response.Result?.ForEach(r => table.AddRow(r.UserId.ToString(), r.Email ?? string.Empty, $"{r.FirstName} {r.LastName}", r.Roles.ToString() ?? string.Empty));
+        response.Result?.ForEach(r => table.AddRow(r.UserId.ToString(), r.Email ?? string.Empty, $"{r.FirstName} {r.LastName}", string.Join(", ", r.Roles)));
         AnsiConsole.Write(table);
 
     });

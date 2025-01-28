@@ -55,11 +55,6 @@ public static class StartupExtensions
                 .WithOrigins(security.AllowedOrigins);
         });
 
-        app.UseStaticFiles(new StaticFileOptions()
-        {
-            ServeUnknownFileTypes = true,
-        });
-
         app.UseExceptionHandler(_ => { });
         app.MapControllers();
         app.UseAuthentication();

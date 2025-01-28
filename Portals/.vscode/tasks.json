@@ -17,5 +17,13 @@
 			"problemMatcher": [],
 			"label": "launch: the-game-zone"
 		},
+		{
+			"type": "npm",
+			"script": "dev",
+			"path": "pocket-persona",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "launch: pocket-persona"
+		},
 	]
 }

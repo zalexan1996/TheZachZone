@@ -5,7 +5,7 @@
         <InputText for="email" v-model="email" label="Email" :disabled="true" title="Your email is read only."/>
         <div class="d-flex flex-column align-items-start justify-content-start">
             <label class="form-label">Role: </label>
-            <Badge style="min-width: 20rem;" :severity="roleSeverity">{{ accountStore.userInfo.role }}</Badge>
+            <Badge v-for="r in roles" style="min-width: 20rem;" :severity="getSeverity(r)">{{ r }}</Badge>
         </div>
         <button :disabled="!(isFormValid && isFormDirty)" class="btn btn-success mt-4" @click="save_Click">Save Changes</button>
     </div>
@@ -30,12 +30,13 @@ const form = useForm({
 const [firstName] = form.defineField('firstName')
 const [lastName] = form.defineField('lastName')
 const email = ref<string>('')
+const roles = ref<string[]>([])
 const isFormValid = useIsFormValid();
 const isFormDirty = useIsFormDirty();
 
-const roleSeverity = computed(() => {
-    return accountStore.userInfo.role == 'Admin' ? 'warning' : 'info'
-})
+function getSeverity (role: string) {
+    return role == 'Admin' ? 'warning' : 'info'
+}
 const save_Click = async () => {
     accountStore.updateGeneralInformation({
         firstName: firstName.value,
@@ -62,6 +63,7 @@ onMounted(async () => {
     firstName.value = generalInformation.firstName
     lastName.value = generalInformation.lastName
     email.value = generalInformation.email
+    roles.value = generalInformation.roles
 })
 
 </script>
