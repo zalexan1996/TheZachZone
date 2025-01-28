@@ -1,4 +1,4 @@
-import HomeView from '@views/Home/Home.vue'
+import HomeView from '@views/Home/HomeView.vue'
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
 
 const routes: RouteRecordRaw[] = [
