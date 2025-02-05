@@ -29,6 +29,11 @@
 			"type": "shell",
 			"command": "docker run -p 9090:9090 --name Prometheus bitnami/prometheus",
 			"label": "Run Prometheus"
+		},
+		{
+			"type": "shell",
+			"command": "docker run -p 9091:3000 --name Grafana grafana/grafana",
+			"label": "Run Grafana"
 		}
 	]
 }

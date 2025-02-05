@@ -35,23 +35,13 @@ public static class StartupExtensions
             app.UseSwaggerUI();
         }
 
-
+        app.UseOpenTelemetryPrometheusScrapingEndpoint();
         app.UseHttpsRedirection();
-
-        app.Use(async (ctx, next) =>
-        {
-            ctx.Response?.Headers?.Append("Cross-Origin-Opener-Policy", "same-origin");
-            ctx.Response?.Headers?.Append("Cross-Origin-Embedder-Policy", "require-corp");
-            ctx.Response?.Headers?.Append("Cross-Origin-Resource-Policy", "cross-origin");
-            ctx.Response?.Headers?.Append("Content-Security-Policy", "frame-ancestors 'self' http://localhost:8010");
-            await next.Invoke();
-        });
 
         app.UseCors(x => {
             x.AllowAnyHeader()
                 .AllowCredentials()
                 .AllowAnyMethod()
-                .WithHeaders("Cross-Origin-Opener-Policy", "Cross-Origin-Embedder-Policy", "Cross-Origin-Resource-Policy", "Content-Type")
                 .WithOrigins(security.AllowedOrigins);
         });
 

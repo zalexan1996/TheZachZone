@@ -1,5 +1,3 @@
-using OpenTelemetry.Logs;
-using OpenTelemetry.Resources;
 using TZZ.API;
 using TZZ.Common;
 using TZZ.Core;

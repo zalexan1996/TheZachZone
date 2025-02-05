@@ -237,6 +237,61 @@ namespace TZZ.Infrastructure.Migrations
                     b.ToTable("SocialLink", "PP");
                 });
 
+            modelBuilder.Entity("TZZ.Domain.Entities.PocketPersona.SocialLinkDialogue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ExtraRequirement")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SocialLinkRankId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Order")
+                        .IsUnique();
+
+                    b.HasIndex("SocialLinkRankId");
+
+                    b.ToTable("SocialLinkDialogue", "PP");
+                });
+
+            modelBuilder.Entity("TZZ.Domain.Entities.PocketPersona.SocialLinkRank", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Rank")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Requirement")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SocialLinkId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SocialLinkId");
+
+                    b.ToTable("SocialLinkRank", "PP");
+                });
+
             modelBuilder.Entity("TZZ.Domain.Entities.TheGameZone.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -591,6 +646,28 @@ namespace TZZ.Infrastructure.Migrations
                     b.Navigation("Arcana");
 
                     b.Navigation("Character");
+                });
+
+            modelBuilder.Entity("TZZ.Domain.Entities.PocketPersona.SocialLinkDialogue", b =>
+                {
+                    b.HasOne("TZZ.Domain.Entities.PocketPersona.SocialLinkRank", "SocialLinkRank")
+                        .WithMany()
+                        .HasForeignKey("SocialLinkRankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SocialLinkRank");
+                });
+
+            modelBuilder.Entity("TZZ.Domain.Entities.PocketPersona.SocialLinkRank", b =>
+                {
+                    b.HasOne("TZZ.Domain.Entities.PocketPersona.SocialLink", "SocialLink")
+                        .WithMany()
+                        .HasForeignKey("SocialLinkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SocialLink");
                 });
 
             modelBuilder.Entity("TZZ.Domain.Entities.TheGameZone.Comment", b =>

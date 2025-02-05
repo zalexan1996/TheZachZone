@@ -20,3 +20,14 @@ scrape_configs:
         insecure_skip_verify: true
     static_configs:
       - targets: ["host.docker.internal:8011"]
+  
+  - job_name: "PocketPersona"
+    scheme: https
+    tls_config:
+        insecure_skip_verify: true
+    static_configs:
+      - targets: ["host.docker.internal:8021"]
+  
+  - job_name: "Node"
+    static_configs:
+      - targets: ["localhost:9100"]

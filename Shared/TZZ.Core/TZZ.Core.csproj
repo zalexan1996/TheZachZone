@@ -6,16 +6,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hardware.Info" Version="101.0.0" />
     <PackageReference Include="MediatR" Version="12.3.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="PocketPersona\Arcana\" />
   </ItemGroup>
 
   <PropertyGroup>

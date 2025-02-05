@@ -4,13 +4,10 @@
 			"path": "Portals"
 		},
 		{
-			"path": "Documentation/The Zach Zone Vault/.obsidian/snippets"
-		},
-		{
-			"path": "Documentation/The Zach Zone Vault"
-		},
-		{
 			"path": "APIs"
+		},
+		{
+			"path": "Tools/Scripts"
 		}
 	],
 	"settings": {}

@@ -1,0 +1,47 @@
+
+@import './_theme.scss';
+
+@import url('/node_modules/bootstrap/scss/bootstrap.scss');
+@import url('/node_modules/@fortawesome/fontawesome-free/css/all.css');
+
+body {
+    background-image: url('public/background-dark.jpg');
+    background-size: contain;
+    
+    background-color: #0d0d0d !important;
+    color: #d92323 !important;
+}
+
+p, span, td, th, label {
+    font-size: 20px !important;
+}
+
+input {
+    color: #dedede !important;
+    background-color: #0d0d0dde !important;
+}
+::placeholder {
+    color: #dedede7d !important;
+}
+
+
+.clickable {
+    cursor: pointer;
+}
+
+table {
+    background-color: #aaaaaa1a;
+    border: solid 1px black;
+    border-radius: 8px;
+}
+tr:nth-child(even) {
+    background-color: #aaaaaa0c;
+}
+td, th {
+    padding: {
+        top: 5px;
+        bottom: 5px;
+        left: 8px;
+        right: 8px;
+    }
+}

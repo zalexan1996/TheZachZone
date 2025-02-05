@@ -1,15 +1,12 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using TZZ.API.Controllers;
-using TZZ.Infrastructure.SQL;
+﻿using TZZ.API.Controllers;
 using TZZ.WebShared;
-using TZZ.Common;
 using TZZ.Core.Shared.Services;
 using TZZ.API.Services;
 using TZZ.Common.Configuration;
-using TZZ.WebShared.Health;
-using TZZ.Common.Shared.Enums;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using System.Net;
+using Ardalis.GuardClauses;
+using Microsoft.Extensions.Options;
 
 namespace TZZ.API;
 
@@ -28,6 +25,12 @@ public static class StartupExtensions
 
     public static void ConfigureTheZachZone(this WebApplication app)
     {
+        using var serviceScope = app.Services.CreateScope();
+        var appSettings = serviceScope.ServiceProvider.GetService<IOptions<AppSettings>>()?.Value;
+        var security = serviceScope.ServiceProvider.GetService<IOptions<Security>>()?.Value;
+        Guard.Against.Null(appSettings, null, "Failed to bind AppSettings from configuration.");
+        Guard.Against.Null(security, null, "Failed to bind Security from configuration.");
+
         var healthcheckDescription = new ApiDescription
         {
             HttpMethod = "GET",
@@ -44,11 +47,11 @@ public static class StartupExtensions
             IsDefaultResponse = true,
             StatusCode = (int)HttpStatusCode.OK,
             ApiResponseFormats = new List<ApiResponseFormat> {
-            new ApiResponseFormat
-            {
-                MediaType = "application/json"
+                new ApiResponseFormat
+                {
+                    MediaType = "application/json"
+                }
             }
-        }
         });
 
         if (app.Environment.IsDevelopment())
@@ -63,11 +66,9 @@ public static class StartupExtensions
 
         app.UseCors(x => {
             x.AllowAnyHeader()
-            .AllowCredentials()
+                .AllowCredentials()
                 .AllowAnyMethod()
-                .WithOrigins(["http://localhost:8000", "http://localhost:8010", 
-                    "http://thezachzone.dryrlent.ddns.net:8000", 
-                    "http://thegamezone.dryrlent.ddns.net:8010"]);
+                .WithOrigins(security.AllowedOrigins);
         });
 
         app.UseExceptionHandler(_ => { });

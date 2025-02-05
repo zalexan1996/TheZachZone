@@ -17,9 +17,11 @@ public static class StartupExtensions
             x.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
 
+        services.AddTransient<ResourceService>();
         services.Configure<AppSettings>(configuration.GetSection(nameof(AppSettings)));
         services.Configure<Security>(configuration.GetSection(nameof(Security)));
         services.Configure<TelemetrySettings>(configuration.GetSection(nameof(TelemetrySettings)));
+
         services.AddSingleton(typeof(ITelemetryService<>), typeof(TelemetryService<>));
     }
 }

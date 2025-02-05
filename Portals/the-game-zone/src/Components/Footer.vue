@@ -14,7 +14,7 @@
     border-top: 1px solid black;
     padding: {
         top: 6px;
-        bottom: 6px;
+        bottom: 0px;
     }
     color: rgb(165, 165, 165);
 };

@@ -14,6 +14,7 @@ using TZZ.Infrastructure.SQL;
 using TZZ.WebShared.Common;
 using TZZ.WebShared.Common.Services;
 using TZZ.WebShared.Health.Checks;
+using TZZ.WebShared.Health.Telemetry;
 using TZZ.WebShared.Security.Services;
 using static TZZ.Common.Shared.Enums.ZachZoneConstants;
 
@@ -84,15 +85,18 @@ public static class StartupExtensions
         services.AddTransient<IPathLocatorService, PathLocatorService>();
 
         services.AddOpenTelemetry()
-            .ConfigureResource(r => r.AddService(Constants.OTEL.ServiceName))
+            
+            .ConfigureResource(r => r.AddService(Constants.OTEL.ServiceName).AddTelemetrySdk().AddEnvironmentVariableDetector())
                 .WithTracing(t => t.AddAspNetCoreInstrumentation().AddSource(Constants.OTEL.ServiceName).AddConsoleExporter())
                 .WithMetrics(m => m.AddAspNetCoreInstrumentation()
                     .AddMeter(Constants.OTEL.ServiceName)
-                    .AddPrometheusExporter().AddConsoleExporter());
+                    .AddPrometheusExporter().AddConsoleExporter().AddInstrumentation<ResourceInstrumentation>());
 
         services.AddHealthChecks()
             .AddCheck<ResourceUsageHealthCheck>("Resource Usage", tags: [Constants.Health.Tags.System])
             .AddCheck<ExternalAPIHealthCheck>("External APIs", tags: [Constants.Health.Tags.Services])
             .AddCheck<DBConnectionHealthCheck>("DB Connection", tags: [Constants.Health.Tags.Services]);
+
+        services.AddHostedService<ResourceTelemetryService>();
     }
 }
