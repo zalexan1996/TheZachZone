@@ -26,6 +26,14 @@
 			"label": "launch: pocket-persona"
 		},
 		{
+			"type": "npm",
+			"script": "start",
+			"path": "planet-earth",
+			"group": "build",
+			"problemMatcher": [],
+			"label": "launch: planet-earth"
+		},
+		{
 			"type": "shell",
 			"command": "docker run -p 9090:9090 --name Prometheus bitnami/prometheus",
 			"label": "Run Prometheus"
@@ -34,6 +42,17 @@
 			"type": "shell",
 			"command": "docker run -p 9091:3000 --name Grafana grafana/grafana",
 			"label": "Run Grafana"
+		},
+		{
+			"type": "process",
+			"label": "Launch All",
+			"dependsOn": [
+				"launch: the-zach-zone",
+				"launch: the-game-zone",
+				"launch: pocket-persona",
+				"launch: planet-earth"
+			],
+			"group": "build"
 		}
 	]
 }

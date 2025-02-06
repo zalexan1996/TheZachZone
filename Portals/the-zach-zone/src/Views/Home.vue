@@ -5,7 +5,7 @@
         <BigButton title="Agile Life" icon="fa fa-book"/>
         <BigButton title="Pocket Persona" icon="fa fa-p" href="http://localhost:8020"/>
         <BigButton title="The School Zone" icon="fa fa-school"/>
-        <BigButton title="Planet Earth" icon="fa fa-earth-americas"/>
+        <BigButton title="Planet Earth" icon="fa fa-earth-americas" href="http://localhost:8030"/>
         <RouterLink v-if="isLoggedIn" class="btn btn-primary" :to="{name: 'Account'}">View Account</RouterLink>
         <button v-if="isLoggedIn" class="btn btn-primary" @click="logout_Click">Logout</button>
     </div>
