@@ -144,22 +144,3 @@ stages:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: 'TheGameZone'
           publishLocation: 'Container'
-- stage: Deploy
-  jobs:
-    - deployment: TheZachZone
-      displayName: 'Deploy: The Zach Zone'
-      environment:
-        name: TheZachZone
-        resourceName: Zach-PC
-        resourceType: VirtualMachine
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-              - download: current
-                artifact: TheZachZone
-              - download: current
-                artifact: TheGameZone
-              - download: current
-                artifact: MigrationsBundle
-              
