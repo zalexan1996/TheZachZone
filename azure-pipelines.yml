@@ -1,8 +1,4 @@
 # ASP.NET
-# Build and test ASP.NET projects.
-# Add steps that publish symbols, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
-
 trigger:
 - master
 pool:
@@ -91,9 +87,22 @@ stages:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)/bundle'
           ArtifactName: 'MigrationsBundle'
           publishLocation: 'Container'
+      - task: ArchiveFiles@2
+        inputs:
+          rootFolderOrFile: '$(build.artifactstagingdirectory)/TZZ.API'
+          includeRootFolder: true
+          archiveType: 'zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/TZZ.API.zip'
+          replaceExistingArchive: true
+      - task: AzureWebApp@1
+        inputs:
+          azureSubscription: 'Training Subscription(1e723e72-3846-4308-a9d1-6c83493eccfd)'
+          appType: 'webApp'
+          appName: 'TheZachZone'
+          package: '$(build.artifactstagingdirectory)/TZZ.API.zip'
+          deploymentMethod: zipDeploy
   - job: BuildTGZ
     displayName: Build The Game Zone
-
     steps:
       - task: NuGetToolInstaller@1
       - task: DotNetCoreCLI@2
