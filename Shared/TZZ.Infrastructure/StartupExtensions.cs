@@ -13,7 +13,16 @@ public static class StartupExtensions
     {
         services.AddDbContext<IDatabaseService, ZachZoneDbContext>(x =>
         {
-            x.UseSqlServer(configuration.GetConnectionString("Default"));
+            var dbType = Environment.GetEnvironmentVariable("DB_TYPE");
+
+            if (dbType == "SqlServer")
+            {
+                x.UseSqlServer(configuration.GetConnectionString("Default"));
+            }
+            else
+            {
+                x.UseInMemoryDatabase("TheZachZone");
+            }
         });
             
     }
