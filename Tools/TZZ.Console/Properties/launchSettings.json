@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TZZ.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "user list"
+    }
+  }
+}

@@ -1,0 +1,102 @@
+
+@import '/node_modules/@fortawesome/fontawesome-free/css/all.css';
+
+$dark: #0e2a4d;
+$grey: #3c4857;
+$light: #cfe1e6;
+
+$primary: #0b3e7c;
+$secondary: #242c36;
+$danger: rgb(107, 25, 25);
+$warning: #9e5511;
+$success: #198754;
+$info: #11829e;
+
+.bg-dark {
+  background-color: $dark;  
+} 
+
+.primary {
+    background: $primary;
+    color: $light;
+}
+
+.secondary {
+    background-color: $secondary;
+    color: $light;
+}
+
+.danger {
+    background-color: $danger;
+    color: $light;
+}
+
+.warning {
+    background: $warning;
+    color: $light;
+}
+
+.success {
+    background: $success;
+    color: $light;
+}
+
+.info {
+    background: $info;
+    color: $light;
+}
+
+.border-primary {
+    border: solid 1px $primary;
+    border-radius: 10px;
+}
+
+.border-secondary {
+    border: solid 1px $secondary;
+    border-radius: 10px;
+}
+
+.border-info {
+    border: solid 1px $info;
+    border-radius: 10px;
+}
+
+.border-warning {
+    border: solid 1px $warning;
+    border-radius: 10px;
+}
+
+.border-danger {
+    border: solid 1px $danger;
+    border-radius: 10px;
+}
+
+.border-success {
+    border: solid 1px $success;
+    border-radius: 10px;
+}
+
+.text-primary {
+    color: $primary;
+}
+.text-secondary {
+    color: $secondary;
+}
+.text-info {
+    color: $info;
+}
+.text-warning {
+    color: $warning;
+}
+.text-danger {
+    color: $danger;
+}
+.text-success {
+    color: $success;
+}
+
+
+.btn-outline-grey {
+    color: $grey;
+    border-color: $grey;
+}

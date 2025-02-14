@@ -1,0 +1,13 @@
+.vs/
+Bin/
+Debug/
+obj/
+node_modules/
+/APIs/TGZ.API/wwwroot/games/
+dist/
+
+*.log
+*.png~
+
+localhost.pem
+localhost-key.pem

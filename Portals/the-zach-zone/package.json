@@ -1,0 +1,31 @@
+{
+  "name": "the-zach-zone",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.6.0",
+    "axios": "^1.7.7",
+    "bootstrap": "^5.3.3",
+    "openid-client": "^5.6.5",
+    "pinia": "^2.2.0",
+    "tzz-shared": "file:../tzz-shared",
+    "vee-validate": "^4.13.2",
+    "vue": "^3.4.31",
+    "vue-router": "^4.4.0",
+    "yup": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.12",
+    "@vitejs/plugin-vue": "^5.0.5",
+    "sass": "^1.77.8",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.4",
+    "vue-tsc": "^2.0.24"
+  }
+}

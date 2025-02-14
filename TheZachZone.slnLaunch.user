@@ -1,0 +1,19 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "APIs\\TGZ.API\\TGZ.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "APIs\\TZZ.API\\TZZ.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "APIs\\PP.API\\PP.API.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

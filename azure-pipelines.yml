@@ -1,0 +1,165 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+trigger:
+- master
+pool:
+  vmImage: 'windows-latest'
+  
+variables:
+  solution: './TheZachZone.sln'
+  tzzProjectDir: './APIs/TZZ.API'
+  tgzProjectDir: './APIs/TGZ.API'
+  tzzSharedDir: './Portals/tzz-shared'
+  tzzPortalDir: './Portals/the-zach-zone'
+  tgzPortalDir: './Portals/the-game-zone'
+  tzzProject: '$(tzzProjectDir)/TZZ.API.csproj'
+  tgzProject: '$(tgzProjectDir)/TGZ.API.csproj'
+  infrastructureProject: 'Shared\TZZ.Infrastructure/TZZ.Infrastructure.csproj'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Debug'
+
+stages:
+- stage: Build
+  displayName: Build
+  jobs:
+  - job: BuildTZZ
+    displayName: Build The Zach Zone
+
+    steps:
+      - task: NuGetToolInstaller@1
+      - task: DotNetCoreCLI@2
+        displayName: Build The Zach Zone
+        inputs:
+          command: 'build'
+          projects: '$(tzzProject)'
+          configuration: $buildConfiguration
+      - task: DotNetCoreCLI@2
+        displayName: Publish TheZachZone
+        inputs:
+          command: 'publish'
+          publishWebProjects: false
+          projects: '$(tzzProject)'
+          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/TZZ.API --no-build'
+          zipAfterPublish: false
+          modifyOutputPath: false
+      - task: Npm@1
+        displayName: 'npm: Install tzz-shared'
+        inputs:
+          command: 'install'
+          workingDir: $(tzzSharedDir)
+      - task: Npm@1
+        displayName: 'npm: Build tzz-shared'
+        inputs:
+          command: 'custom'
+          workingDir: $(tzzSharedDir)
+          customCommand: run build
+      - task: Npm@1
+        displayName: 'npm: Install TheZachZone'
+        inputs:
+          command: 'install'
+          workingDir: $(tzzPortalDir)
+      - task: Npm@1
+        displayName: 'npm: Build TheZachZone'
+        inputs:
+          command: 'custom'
+          workingDir: $(tzzPortalDir)
+          customCommand: run build
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(tzzPortalDir)/dist'
+          Contents: '**'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/tzz-portal'
+      - task: PublishBuildArtifacts@1
+        displayName: Publish The Zach Zone
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'TheZachZone'
+          publishLocation: 'Container'
+      - task: PowerShell@2
+        displayName: Build Migrations Bundle
+        inputs:
+          targetType: 'inline'
+          script: |
+            dotnet tool install dotnet-ef --global --version 8.0.0
+            dotnet ef migrations bundle --project $(infrastructureProject) --force --verbose --self-contained --runtime win-x64 --output $(Build.ArtifactStagingDirectory)/bundle/efbundle.exe
+      - task: PublishBuildArtifacts@1
+        displayName: Publish Migrations Bundle
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)/bundle'
+          ArtifactName: 'MigrationsBundle'
+          publishLocation: 'Container'
+  - job: BuildTGZ
+    displayName: Build The Game Zone
+
+    steps:
+      - task: NuGetToolInstaller@1
+      - task: DotNetCoreCLI@2
+        displayName: Build The Game Zone
+        inputs:
+          command: 'build'
+          projects: '$(tgzProject)'
+          configuration: $buildConfiguration
+      - task: DotNetCoreCLI@2
+        displayName: Publish TheGameZone
+        inputs:
+          command: 'publish'
+          publishWebProjects: false
+          projects: '$(tgzProject)'
+          arguments: '--configuration $(BuildConfiguration) --output $(build.artifactstagingdirectory)/TGZ.API --no-build'
+          zipAfterPublish: false
+          modifyOutputPath: false
+      - task: Npm@1
+        displayName: 'npm: Install tzz-shared'
+        inputs:
+          command: 'install'
+          workingDir: $(tzzSharedDir)
+      - task: Npm@1
+        displayName: 'npm: Build tzz-shared'
+        inputs:
+          command: 'custom'
+          workingDir: $(tzzSharedDir)
+          customCommand: run build
+      - task: Npm@1
+        displayName: 'npm: Install TheGameZone'
+        inputs:
+          command: 'install'
+          workingDir: $(tgzPortalDir)
+      - task: Npm@1
+        displayName: 'npm: Build TheGameZone'
+        inputs:
+          command: 'custom'
+          workingDir: $(tgzPortalDir)
+          customCommand: run build
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(tgzPortalDir)/dist'
+          Contents: '**'
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/tgz-portal'
+      - task: PublishBuildArtifacts@1
+        displayName: Publish The Game Zone
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'TheGameZone'
+          publishLocation: 'Container'
+- stage: Deploy
+  jobs:
+    - deployment: TheZachZone
+      displayName: 'Deploy: The Zach Zone'
+      environment:
+        name: TheZachZone
+        resourceName: Zach-PC
+        resourceType: VirtualMachine
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - download: current
+                artifact: TheZachZone
+              - download: current
+                artifact: TheGameZone
+              - download: current
+                artifact: MigrationsBundle
+              

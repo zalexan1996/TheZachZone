@@ -1,0 +1,35 @@
+
+@import './_theme.scss';
+
+
+// Third Party Styles
+@import '/node_modules/bootstrap/scss/bootstrap.scss';
+@import '/node_modules/@fortawesome/fontawesome-free/css/all.css';
+
+// Fonts
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+
+#app {
+    width: 100vw;
+    height: 100vh;
+}
+body {
+    background-color: #1a171d !important;
+    background-image: url('/dot-mask.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "Raleway", sans-serif;
+    font-style: normal;
+    color: #eab1f8;
+}
+
+.big-header {
+    font-size: 72px;
+    margin-bottom: 0px;
+    background: linear-gradient(to left, #ad40d8 50%,#ad40d8 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 60%;
+}

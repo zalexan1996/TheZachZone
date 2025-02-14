@@ -1,0 +1,3 @@
+<template>
+    game-categories
+</template>
