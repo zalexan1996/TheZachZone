@@ -45,11 +45,12 @@ const addCharacter = async () => {
 onMounted(async () => {
     await gameStore.getGames()
 })
+
 </script>
 
 <template>
     <div class="d-flex flex-flex-row align-items-end justify-content-start p-3">
-        <InputText label="Name" type="text" v-model="name"
+        <InputText label="Name" type="text" v-model="name" :options="gameStore.games"
             placeholder="Provide a name for the character.." class="mx-3 mb-0" for="name"/>
 
         <InputText label="Game" type="select" v-model="gameId" :options="gameOptions"

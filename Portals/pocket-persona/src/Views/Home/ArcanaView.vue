@@ -3,6 +3,7 @@ import ArcanaTable from '@/components/Arcana/ArcanaTable.vue';
 import AddArcanaForm from '@/components/Arcana/AddArcanaForm.vue'
 import { Panel } from 'tzz-shared'
 
+
 </script>
 
 <template>

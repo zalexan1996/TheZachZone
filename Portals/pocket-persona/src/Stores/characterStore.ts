@@ -10,6 +10,7 @@ export const useCharacterStore = defineStore('character', () => {
 
     const getCharacters = async () => {
         characters.value = await client.getCharacters();
+        return characters.value
     }
 
     const addCharacter = async (character: AddCharacterCommand) => {

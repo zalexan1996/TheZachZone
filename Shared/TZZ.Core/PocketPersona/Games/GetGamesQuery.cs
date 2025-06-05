@@ -23,7 +23,7 @@ public class GetGamesQueryHandler(IDatabaseService dbContext)
         var results = await dbContext.Set<Game>().Select(x => new GameDto()
         {
             Id = x.Id,
-            Name = x.Name,
+            Name = x.Name
         }).ToListAsync(cancellationToken);
 
         return ZachZoneCommandResponse.Success(results.AsEnumerable());
