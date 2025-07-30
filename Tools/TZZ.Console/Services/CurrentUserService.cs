@@ -1,16 +1,11 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TZZ.Core.Shared.Services;
+using TZZ.Core.Common.Services;
 
 namespace TZZ.Console.Services;
 
 
 public class CurrentUserService : ICurrentUserService
 {
-    public HttpContext HttpContext => throw new NotImplementedException();
-    public string Site => "TZZ.Console";
+  public HttpContext HttpContext => throw new NotSupportedException("The HTTP Context is not accessible to a console application.");
+  public string Site => "TZZ.Console";
 }

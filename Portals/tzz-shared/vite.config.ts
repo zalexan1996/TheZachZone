@@ -33,7 +33,8 @@ export default defineConfig({
         'vee-validate',
         'bootstrap',
         '@fortawesome/fontawesome-free',
-        'pinia'
+        'pinia',
+        '@popperjs'
       ],
       output: {
         globals: {

@@ -5,7 +5,7 @@
         <input v-else-if="$props.type == 'password'" type="password" v-model="model" class="form-control" :readonly="$props.readonly" :disabled="$props.disabled" :placeholder="$props.placeholder" @change="e => emit('change', e)"/>
         <textarea v-else-if="$props.type == 'textarea'" v-model="model" class="form-control" :readonly="$props.readonly" :disabled="$props.disabled" :placeholder="$props.placeholder" @change="e => emit('change', e)">
         </textarea>
-        <select v-else-if="$props.type == 'select'" v-model="model" class="form-select" :readonly="$props.readonly" :disabled="$props.disabled" :placeholder="$props.placeholder" @change="e => emit('change', e)">
+        <select v-else-if="$props.type == 'select'" v-model="model" class="form-select w-100" :readonly="$props.readonly" :disabled="$props.disabled" :placeholder="$props.placeholder" @change="e => emit('change', e)">
             <option v-for="o in $props.options" :value="o[0]">{{ o[1] }}</option>
         </select>
         <ErrorMessage class="text-danger" :name="$props.for"></ErrorMessage>
@@ -33,7 +33,7 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const emit = defineEmits(['change'])
 
-const model = defineModel<string>()
+const model = defineModel<string|number>()
 </script>
 
 <style scoped lang="scss">
@@ -42,9 +42,9 @@ const model = defineModel<string>()
     flex-direction: column;
     align-items: start;
     margin-bottom: 1rem;
-
+    text-align: start;
     input, select, label {
-        min-width: 20rem;
+        // min-width: 15rem;
         &:disabled {
             filter: brightness(75%);
         }

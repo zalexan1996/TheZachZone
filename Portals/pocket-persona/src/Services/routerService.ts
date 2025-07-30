@@ -1,9 +1,11 @@
+import { useGlobalStore } from '@/Stores/globalStore'
+import ArcanaProfile from '@/Views/Arcana/ArcanaProfile.vue'
+import CharacterProfile from '@/Views/Character/CharacterProfile.vue'
+import GameProfile from '@/Views/Game/GameProfile.vue'
 import HomeView from '@views/Home/HomeView.vue'
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router"
-import GamesView from '../Views/Home/GamesView.vue'
-import ArcanaView from '../Views/Home/ArcanaView.vue'
-import CharactersView from '../Views/Home/CharactersView.vue'
-import SocialLinksView from '../Views/Home/SocialLinksView.vue'
+import { EntityType } from './entityService'
+
 
 const routes: RouteRecordRaw[] = [
     {
@@ -12,27 +14,49 @@ const routes: RouteRecordRaw[] = [
         component: HomeView
     },
     {
-        path: '/games',
-        name: 'Games',
-        component: GamesView
+        path: '/game/:id(\\d+)',
+        name: 'Game',
+        component: GameProfile
     },
     {
-        path: '/arcana',
+        path: '/character/:id(\\d+)',
+        name: 'Character',
+        component: CharacterProfile
+    },
+    {
+        path: '/arcana/:id(\\d+)',
         name: 'Arcana',
-        component: ArcanaView
-    },
-    {
-        path: '/characters',
-        name: 'Characters',
-        component: CharactersView
-    },
-    {
-        path: '/socialLinks',
-        name: 'SocialLinks',
-        component: SocialLinksView
-    },
+        component: ArcanaProfile
+    }
 ]
-export const CreatePPRouter = () => createRouter({
-    history: createWebHistory(),
-    routes: routes
-})
+export const CreatePPRouter = () => {
+
+    // Create the router
+    let router = createRouter({
+        history: createWebHistory(),
+        routes: routes
+    })
+    
+    // Add router guards to fetch all store data.
+    router.beforeEach(async (_to, _from, next) => {
+        const globalStore = useGlobalStore()
+        await globalStore.load()
+        next()
+    })
+
+    return router;
+}
+
+
+
+export const getRouteNameByEntityType = (entityType: EntityType) => {
+    switch (entityType.toLowerCase())
+    {
+        case 'character':
+            return 'Character'
+        case 'game':
+            return 'Game'
+        case 'arcana':
+            return 'Arcana'
+    }
+}

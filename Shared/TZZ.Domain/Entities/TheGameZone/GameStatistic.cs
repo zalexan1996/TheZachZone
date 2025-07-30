@@ -5,20 +5,20 @@ namespace TZZ.Domain.Entities.TheGameZone;
 
 public class GameStatistic
 {
-    public int Id { get; set; }
-    public int GameId { get; set; }
-    public DateTime PlayedOn { get; set; }
-    public required Game Game { get; set; }
+  public int Id { get; set; }
+  public int GameId { get; set; }
+  public DateTime PlayedOn { get; set; }
+  public required Game Game { get; set; }
 }
 
 public class GameStatisticConfig : IEntityTypeConfiguration<GameStatistic>
 {
-    public void Configure(EntityTypeBuilder<GameStatistic> builder)
-    {
-        builder.ToTable(nameof(GameStatistic), "TGZ");
+  public void Configure(EntityTypeBuilder<GameStatistic> builder)
+  {
+    builder.ToTable(nameof(GameStatistic), "TGZ");
 
-        builder.HasOne(x => x.Game)
-            .WithMany()
-            .HasForeignKey(x => x.GameId);
-    }
+    builder.HasOne(x => x.Game)
+      .WithMany()
+      .HasForeignKey(x => x.GameId);
+  }
 }

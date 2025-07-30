@@ -2,8 +2,8 @@
 import { computed } from 'vue'
 import { RouterView } from 'vue-router';
 import { ToastPanel, useSiteSwitcherStore, SiteSwitcherPanel, Panel } from 'tzz-shared'
-import Footer from '@/components/Footer.vue';
-import NavBar from '@/components/NavBar.vue';
+import Footer from '@/components/Footer/Footer.vue';
+import Header from '@/components/Header.vue';
 const siteSwitcherStore = useSiteSwitcherStore();
 
 const mainStyle = computed(() => {
@@ -14,16 +14,17 @@ const mainStyle = computed(() => {
 <template>
   <div id="grid" class="w-100 h-100">
     <main class="w-100 h-100" :style="mainStyle">
-      <div class="d-flex w-100 h-100 justify-content-center align-items-center py-4 px-4">
+      <div class="container h-100">
+        <div class="row h-100">
+
           <Panel style="background-color: #0d0d0dd0" id="master-panel">
             <div class="d-flex flex-column justify-content-start align-items-stretch h-100">
-              <div class="d-flex flex-row justify-content-between align-items-start">
-                <h3 class="text-white">Pocket Persona</h3>
-              </div>
-              <NavBar/>
+              <Header class="w-100"/>
               <RouterView class="h-100"/>
             </div>
           </Panel>
+        </div>
+
       </div>
     </main>
     <SiteSwitcherPanel id="site-switcher"/>

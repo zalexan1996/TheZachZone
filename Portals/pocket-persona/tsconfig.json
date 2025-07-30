@@ -10,6 +10,7 @@
     "allowSyntheticDefaultImports": true,
     "noEmit": true,
     "jsx": "preserve",
+    "baseUrl": ".",
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -23,19 +24,18 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "paths": {
+      "@/*": [
+        "./src/*",
+      ],
+      "@components/*": ["./src/Components/*"],
+      "@views/*": ["./src/Views/*"],
+      "@services/*": ["./src/Services/*"],
+      "@stores/*": ["./src/Stores/*"],
+      "@games/*": ["./public/games/*"]
+    }
   },
 
-  "include": ["vite.config.ts"],
-  
-  "paths": {
-    "@/*": [
-      "./src/*",
-    ],
-    "@components/*": ["./src/Components/*"],
-    "@views/*": ["./src/Views/*"],
-    "@services/*": ["./src/Services/*"],
-    "@stores/*": ["./src/Stores/*"],
-    "@games/*": ["./public/games/*"]
-  }
+  "include": ["vite.config.ts", "src/**/*", "src/**/**/*"],
 }

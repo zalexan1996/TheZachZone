@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import "@/assets/styles/style.scss"
-import 'bootstrap'
+import '/node_modules/bootstrap/dist/js/bootstrap.bundle.js'
 import { CreatePPRouter } from './Services/routerService.ts'
 import { createPinia } from 'pinia'
 import App from '@views/App.vue'

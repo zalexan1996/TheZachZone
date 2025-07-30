@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "TZZ.Common": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DB_TYPE": "SqlServer"
+      }
+    }
+  }
+}

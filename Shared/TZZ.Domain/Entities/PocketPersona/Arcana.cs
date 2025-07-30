@@ -5,22 +5,22 @@ namespace TZZ.Domain.Entities.PocketPersona;
 
 public class Arcana
 {
-    public int Id { get; set; }
-    public required string Name { get; set; }
+  public int Id { get; set; }
+  public required string Name { get; set; }
 }
 
 public class ArcanaEntityTypeConfiguration : IEntityTypeConfiguration<Arcana>
 {
-    public void Configure(EntityTypeBuilder<Arcana> builder)
-    {
-        builder.ToTable(nameof(Arcana), "PP");
+  public void Configure(EntityTypeBuilder<Arcana> builder)
+  {
+    builder.ToTable(nameof(Arcana), "PP");
 
-        builder.HasKey(x => x.Id);
+    builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Id).UseIdentityColumn();
+    builder.Property(x => x.Id).UseIdentityColumn();
 
-        builder.Property(x => x.Name).HasMaxLength(100);
+    builder.Property(x => x.Name).HasMaxLength(100);
 
-        builder.HasIndex(x => x.Name).IsUnique();
-    }
+    builder.HasIndex(x => x.Name).IsUnique();
+  }
 }

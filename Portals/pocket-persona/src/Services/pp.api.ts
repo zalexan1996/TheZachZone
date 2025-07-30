@@ -10,6 +10,75 @@
 
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, CancelToken } from 'axios';
 
+export class ActivityLogClient {
+    protected instance: AxiosInstance;
+    protected baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+
+        this.instance = instance || axios.create();
+
+        this.baseUrl = baseUrl ?? "";
+
+    }
+
+    getActivityLogs( cancelToken?: CancelToken): Promise<ActivityLog[]> {
+        let url_ = this.baseUrl + "/ActivityLog/GetActivityLogs";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetActivityLogs(_response);
+        });
+    }
+
+    protected processGetActivityLogs(response: AxiosResponse): Promise<ActivityLog[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ActivityLog.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<ActivityLog[]>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<ActivityLog[]>(null as any);
+    }
+}
+
 export class ArcanaClient {
     protected instance: AxiosInstance;
     protected baseUrl: string;
@@ -433,11 +502,8 @@ export class CharacterClient {
         return Promise.resolve<FileResponse>(null as any);
     }
 
-    updateCharacter(id: string, command: UpdateCharacterCommand, cancelToken?: CancelToken): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/character/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+    updateCharacter(command: UpdateCharacterCommand, cancelToken?: CancelToken): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/character/UpdateCharacter";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(command);
@@ -445,7 +511,7 @@ export class CharacterClient {
         let options_: AxiosRequestConfig = {
             data: content_,
             responseType: "blob",
-            method: "PUT",
+            method: "POST",
             url: url_,
             headers: {
                 "Content-Type": "application/json",
@@ -466,6 +532,68 @@ export class CharacterClient {
     }
 
     protected processUpdateCharacter(response: AxiosResponse): Promise<FileResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
+            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+            if (fileName) {
+                fileName = decodeURIComponent(fileName);
+            } else {
+                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            }
+            return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<FileResponse>(null as any);
+    }
+
+    setCharacterIcon(characterId: number | undefined, file: FileParameter | null | undefined, cancelToken?: CancelToken): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/character/SetCharacterIcon?";
+        if (characterId === null)
+            throw new Error("The parameter 'characterId' cannot be null.");
+        else if (characterId !== undefined)
+            url_ += "CharacterId=" + encodeURIComponent("" + characterId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (file !== null && file !== undefined)
+            content_.append("File", file.data, file.fileName ? file.fileName : "File");
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            responseType: "blob",
+            method: "POST",
+            url: url_,
+            headers: {
+                "Accept": "application/octet-stream"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processSetCharacterIcon(_response);
+        });
+    }
+
+    protected processSetCharacterIcon(response: AxiosResponse): Promise<FileResponse> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -736,6 +864,79 @@ export class GameClient {
     }
 }
 
+export class SearchClient {
+    protected instance: AxiosInstance;
+    protected baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+
+        this.instance = instance || axios.create();
+
+        this.baseUrl = baseUrl ?? "";
+
+    }
+
+    search(term: string | undefined, cancelToken?: CancelToken): Promise<SearchResultDto[]> {
+        let url_ = this.baseUrl + "/Search/Search?";
+        if (term === null)
+            throw new Error("The parameter 'term' cannot be null.");
+        else if (term !== undefined)
+            url_ += "term=" + encodeURIComponent("" + term) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processSearch(_response);
+        });
+    }
+
+    protected processSearch(response: AxiosResponse): Promise<SearchResultDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(SearchResultDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<SearchResultDto[]>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<SearchResultDto[]>(null as any);
+    }
+}
+
 export class SocialLinkClient {
     protected instance: AxiosInstance;
     protected baseUrl: string;
@@ -804,8 +1005,8 @@ export class SocialLinkClient {
         return Promise.resolve<SocialLinkDto[]>(null as any);
     }
 
-    addSocialLink(command: AddSocialLinkCommand, cancelToken?: CancelToken): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/socialLink";
+    setSocialLink(command: SetSocialLinkCommand, cancelToken?: CancelToken): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/socialLink/SetSocialLink";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(command);
@@ -829,11 +1030,11 @@ export class SocialLinkClient {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.processAddSocialLink(_response);
+            return this.processSetSocialLink(_response);
         });
     }
 
-    protected processAddSocialLink(response: AxiosResponse): Promise<FileResponse> {
+    protected processSetSocialLink(response: AxiosResponse): Promise<FileResponse> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -861,7 +1062,7 @@ export class SocialLinkClient {
         return Promise.resolve<FileResponse>(null as any);
     }
 
-    removeSocialLink(id: number, cancelToken?: CancelToken): Promise<FileResponse> {
+    deleteSocialLink(id: number, cancelToken?: CancelToken): Promise<FileResponse> {
         let url_ = this.baseUrl + "/socialLink/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -885,11 +1086,11 @@ export class SocialLinkClient {
                 throw _error;
             }
         }).then((_response: AxiosResponse) => {
-            return this.processRemoveSocialLink(_response);
+            return this.processDeleteSocialLink(_response);
         });
     }
 
-    protected processRemoveSocialLink(response: AxiosResponse): Promise<FileResponse> {
+    protected processDeleteSocialLink(response: AxiosResponse): Promise<FileResponse> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -916,526 +1117,199 @@ export class SocialLinkClient {
         }
         return Promise.resolve<FileResponse>(null as any);
     }
+}
 
-    updateSocialLink(id: string, command: UpdateSocialLinkCommand, cancelToken?: CancelToken): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/socialLink/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
+export class ActivityLog implements IActivityLog {
+    activityLogId?: number;
+    activity?: string;
+    entityType?: string;
+    entityId?: number;
+    timestamp?: Date;
+    userId?: number | undefined;
+    user?: User | undefined;
 
-        const content_ = JSON.stringify(command);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            responseType: "blob",
-            method: "PUT",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processUpdateSocialLink(_response);
-        });
-    }
-
-    protected processUpdateSocialLink(response: AxiosResponse): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
+    constructor(data?: IActivityLog) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
             }
         }
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
-            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
-            if (fileName) {
-                fileName = decodeURIComponent(fileName);
-            } else {
-                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            }
-            return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers });
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<FileResponse>(null as any);
     }
 
-    getSocialLinkRanks(query: GetSocialLinkRankQuery, cancelToken?: CancelToken): Promise<SocialLinkRankDto[]> {
-        let url_ = this.baseUrl + "/socialLink/rank";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(query);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "GET",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetSocialLinkRanks(_response);
-        });
+    init(_data?: any) {
+        if (_data) {
+            this.activityLogId = _data["activityLogId"];
+            this.activity = _data["activity"];
+            this.entityType = _data["entityType"];
+            this.entityId = _data["entityId"];
+            this.timestamp = _data["timestamp"] ? new Date(_data["timestamp"].toString()) : <any>undefined;
+            this.userId = _data["userId"];
+            this.user = _data["user"] ? User.fromJS(_data["user"]) : <any>undefined;
+        }
     }
 
-    protected processGetSocialLinkRanks(response: AxiosResponse): Promise<SocialLinkRankDto[]> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(SocialLinkRankDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return Promise.resolve<SocialLinkRankDto[]>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<SocialLinkRankDto[]>(null as any);
+    static fromJS(data: any): ActivityLog {
+        data = typeof data === 'object' ? data : {};
+        let result = new ActivityLog();
+        result.init(data);
+        return result;
     }
 
-    addSocialLinkRank(command: AddSocialLinkRankCommand, cancelToken?: CancelToken): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/socialLink/rank";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(command);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            responseType: "blob",
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processAddSocialLinkRank(_response);
-        });
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["activityLogId"] = this.activityLogId;
+        data["activity"] = this.activity;
+        data["entityType"] = this.entityType;
+        data["entityId"] = this.entityId;
+        data["timestamp"] = this.timestamp ? this.timestamp.toISOString() : <any>undefined;
+        data["userId"] = this.userId;
+        data["user"] = this.user ? this.user.toJSON() : <any>undefined;
+        return data;
     }
+}
 
-    protected processAddSocialLinkRank(response: AxiosResponse): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
+export interface IActivityLog {
+    activityLogId?: number;
+    activity?: string;
+    entityType?: string;
+    entityId?: number;
+    timestamp?: Date;
+    userId?: number | undefined;
+    user?: User | undefined;
+}
+
+export class IdentityUserOfInteger implements IIdentityUserOfInteger {
+    id?: number;
+    userName?: string | undefined;
+    normalizedUserName?: string | undefined;
+    email?: string | undefined;
+    normalizedEmail?: string | undefined;
+    emailConfirmed?: boolean;
+    passwordHash?: string | undefined;
+    securityStamp?: string | undefined;
+    concurrencyStamp?: string | undefined;
+    phoneNumber?: string | undefined;
+    phoneNumberConfirmed?: boolean;
+    twoFactorEnabled?: boolean;
+    lockoutEnd?: Date | undefined;
+    lockoutEnabled?: boolean;
+    accessFailedCount?: number;
+
+    constructor(data?: IIdentityUserOfInteger) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
             }
         }
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
-            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
-            if (fileName) {
-                fileName = decodeURIComponent(fileName);
-            } else {
-                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            }
-            return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers });
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<FileResponse>(null as any);
     }
 
-    updateSocialLinkRank(command: UpdateSocialLinkRankCommand, cancelToken?: CancelToken): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/socialLink/rank";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(command);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            responseType: "blob",
-            method: "PUT",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processUpdateSocialLinkRank(_response);
-        });
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.userName = _data["userName"];
+            this.normalizedUserName = _data["normalizedUserName"];
+            this.email = _data["email"];
+            this.normalizedEmail = _data["normalizedEmail"];
+            this.emailConfirmed = _data["emailConfirmed"];
+            this.passwordHash = _data["passwordHash"];
+            this.securityStamp = _data["securityStamp"];
+            this.concurrencyStamp = _data["concurrencyStamp"];
+            this.phoneNumber = _data["phoneNumber"];
+            this.phoneNumberConfirmed = _data["phoneNumberConfirmed"];
+            this.twoFactorEnabled = _data["twoFactorEnabled"];
+            this.lockoutEnd = _data["lockoutEnd"] ? new Date(_data["lockoutEnd"].toString()) : <any>undefined;
+            this.lockoutEnabled = _data["lockoutEnabled"];
+            this.accessFailedCount = _data["accessFailedCount"];
+        }
     }
 
-    protected processUpdateSocialLinkRank(response: AxiosResponse): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
-            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
-            if (fileName) {
-                fileName = decodeURIComponent(fileName);
-            } else {
-                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            }
-            return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers });
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<FileResponse>(null as any);
+    static fromJS(data: any): IdentityUserOfInteger {
+        data = typeof data === 'object' ? data : {};
+        let result = new IdentityUserOfInteger();
+        result.init(data);
+        return result;
     }
 
-    removeSocialLinkRank(id: number | undefined, cancelToken?: CancelToken): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/socialLink/rank?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
-        url_ = url_.replace(/[?&]$/, "");
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["userName"] = this.userName;
+        data["normalizedUserName"] = this.normalizedUserName;
+        data["email"] = this.email;
+        data["normalizedEmail"] = this.normalizedEmail;
+        data["emailConfirmed"] = this.emailConfirmed;
+        data["passwordHash"] = this.passwordHash;
+        data["securityStamp"] = this.securityStamp;
+        data["concurrencyStamp"] = this.concurrencyStamp;
+        data["phoneNumber"] = this.phoneNumber;
+        data["phoneNumberConfirmed"] = this.phoneNumberConfirmed;
+        data["twoFactorEnabled"] = this.twoFactorEnabled;
+        data["lockoutEnd"] = this.lockoutEnd ? this.lockoutEnd.toISOString() : <any>undefined;
+        data["lockoutEnabled"] = this.lockoutEnabled;
+        data["accessFailedCount"] = this.accessFailedCount;
+        return data;
+    }
+}
 
-        let options_: AxiosRequestConfig = {
-            responseType: "blob",
-            method: "DELETE",
-            url: url_,
-            headers: {
-                "Accept": "application/octet-stream"
-            },
-            cancelToken
-        };
+export interface IIdentityUserOfInteger {
+    id?: number;
+    userName?: string | undefined;
+    normalizedUserName?: string | undefined;
+    email?: string | undefined;
+    normalizedEmail?: string | undefined;
+    emailConfirmed?: boolean;
+    passwordHash?: string | undefined;
+    securityStamp?: string | undefined;
+    concurrencyStamp?: string | undefined;
+    phoneNumber?: string | undefined;
+    phoneNumberConfirmed?: boolean;
+    twoFactorEnabled?: boolean;
+    lockoutEnd?: Date | undefined;
+    lockoutEnabled?: boolean;
+    accessFailedCount?: number;
+}
 
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processRemoveSocialLinkRank(_response);
-        });
+export class User extends IdentityUserOfInteger implements IUser {
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    displayName?: string;
+
+    constructor(data?: IUser) {
+        super(data);
     }
 
-    protected processRemoveSocialLinkRank(response: AxiosResponse): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
+    init(_data?: any) {
+        super.init(_data);
+        if (_data) {
+            this.firstName = _data["firstName"];
+            this.lastName = _data["lastName"];
+            this.displayName = _data["displayName"];
         }
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
-            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
-            if (fileName) {
-                fileName = decodeURIComponent(fileName);
-            } else {
-                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            }
-            return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers });
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<FileResponse>(null as any);
     }
 
-    getSocialLinkDialogues(query: GetSocialLinkDialogueQuery, cancelToken?: CancelToken): Promise<SocialLinkDialogueDto[]> {
-        let url_ = this.baseUrl + "/socialLink/dialogue";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(query);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            method: "GET",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processGetSocialLinkDialogues(_response);
-        });
+    static fromJS(data: any): User {
+        data = typeof data === 'object' ? data : {};
+        let result = new User();
+        result.init(data);
+        return result;
     }
 
-    protected processGetSocialLinkDialogues(response: AxiosResponse): Promise<SocialLinkDialogueDto[]> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(SocialLinkDialogueDto.fromJS(item));
-            }
-            else {
-                result200 = <any>null;
-            }
-            return Promise.resolve<SocialLinkDialogueDto[]>(result200);
-
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<SocialLinkDialogueDto[]>(null as any);
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["displayName"] = this.displayName;
+        super.toJSON(data);
+        return data;
     }
+}
 
-    addSocialLinkDialogue(command: AddSocialLinkDialogueCommand, cancelToken?: CancelToken): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/socialLink/dialogue";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(command);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            responseType: "blob",
-            method: "POST",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processAddSocialLinkDialogue(_response);
-        });
-    }
-
-    protected processAddSocialLinkDialogue(response: AxiosResponse): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
-            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
-            if (fileName) {
-                fileName = decodeURIComponent(fileName);
-            } else {
-                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            }
-            return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers });
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<FileResponse>(null as any);
-    }
-
-    updateSocialLinkDialogue(command: UpdateSocialLinkDialogueCommand, cancelToken?: CancelToken): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/socialLink/dialogue";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(command);
-
-        let options_: AxiosRequestConfig = {
-            data: content_,
-            responseType: "blob",
-            method: "PUT",
-            url: url_,
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/octet-stream"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processUpdateSocialLinkDialogue(_response);
-        });
-    }
-
-    protected processUpdateSocialLinkDialogue(response: AxiosResponse): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
-            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
-            if (fileName) {
-                fileName = decodeURIComponent(fileName);
-            } else {
-                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            }
-            return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers });
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<FileResponse>(null as any);
-    }
-
-    removeSocialLinkDialogue(id: number | undefined, cancelToken?: CancelToken): Promise<FileResponse> {
-        let url_ = this.baseUrl + "/socialLink/dialogue?";
-        if (id === null)
-            throw new Error("The parameter 'id' cannot be null.");
-        else if (id !== undefined)
-            url_ += "id=" + encodeURIComponent("" + id) + "&";
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_: AxiosRequestConfig = {
-            responseType: "blob",
-            method: "DELETE",
-            url: url_,
-            headers: {
-                "Accept": "application/octet-stream"
-            },
-            cancelToken
-        };
-
-        return this.instance.request(options_).catch((_error: any) => {
-            if (isAxiosError(_error) && _error.response) {
-                return _error.response;
-            } else {
-                throw _error;
-            }
-        }).then((_response: AxiosResponse) => {
-            return this.processRemoveSocialLinkDialogue(_response);
-        });
-    }
-
-    protected processRemoveSocialLinkDialogue(response: AxiosResponse): Promise<FileResponse> {
-        const status = response.status;
-        let _headers: any = {};
-        if (response.headers && typeof response.headers === "object") {
-            for (const k in response.headers) {
-                if (response.headers.hasOwnProperty(k)) {
-                    _headers[k] = response.headers[k];
-                }
-            }
-        }
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
-            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
-            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
-            if (fileName) {
-                fileName = decodeURIComponent(fileName);
-            } else {
-                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            }
-            return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers });
-        } else if (status !== 200 && status !== 204) {
-            const _responseText = response.data;
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-        }
-        return Promise.resolve<FileResponse>(null as any);
-    }
+export interface IUser extends IIdentityUserOfInteger {
+    firstName?: string | undefined;
+    lastName?: string | undefined;
+    displayName?: string;
 }
 
 export class ArcanaDto implements IArcanaDto {
@@ -1558,6 +1432,7 @@ export class CharacterDto implements ICharacterDto {
     characterId?: number;
     name?: string;
     gameId?: number;
+    imageData?: string;
 
     constructor(data?: ICharacterDto) {
         if (data) {
@@ -1573,6 +1448,7 @@ export class CharacterDto implements ICharacterDto {
             this.characterId = _data["characterId"];
             this.name = _data["name"];
             this.gameId = _data["gameId"];
+            this.imageData = _data["imageData"];
         }
     }
 
@@ -1588,6 +1464,7 @@ export class CharacterDto implements ICharacterDto {
         data["characterId"] = this.characterId;
         data["name"] = this.name;
         data["gameId"] = this.gameId;
+        data["imageData"] = this.imageData;
         return data;
     }
 }
@@ -1596,6 +1473,7 @@ export interface ICharacterDto {
     characterId?: number;
     name?: string;
     gameId?: number;
+    imageData?: string;
 }
 
 export class AddCharacterCommand implements IAddCharacterCommand {
@@ -1685,6 +1563,8 @@ export interface IUpdateCharacterCommand {
 export class GameDto implements IGameDto {
     id?: number;
     name?: string;
+    primaryColor?: string;
+    secondaryColor?: string;
 
     constructor(data?: IGameDto) {
         if (data) {
@@ -1699,6 +1579,8 @@ export class GameDto implements IGameDto {
         if (_data) {
             this.id = _data["id"];
             this.name = _data["name"];
+            this.primaryColor = _data["primaryColor"];
+            this.secondaryColor = _data["secondaryColor"];
         }
     }
 
@@ -1713,6 +1595,8 @@ export class GameDto implements IGameDto {
         data = typeof data === 'object' ? data : {};
         data["id"] = this.id;
         data["name"] = this.name;
+        data["primaryColor"] = this.primaryColor;
+        data["secondaryColor"] = this.secondaryColor;
         return data;
     }
 }
@@ -1720,10 +1604,14 @@ export class GameDto implements IGameDto {
 export interface IGameDto {
     id?: number;
     name?: string;
+    primaryColor?: string;
+    secondaryColor?: string;
 }
 
 export class AddGameCommand implements IAddGameCommand {
     name?: string;
+    primaryColor?: string;
+    secondaryColor?: string;
 
     constructor(data?: IAddGameCommand) {
         if (data) {
@@ -1737,6 +1625,8 @@ export class AddGameCommand implements IAddGameCommand {
     init(_data?: any) {
         if (_data) {
             this.name = _data["name"];
+            this.primaryColor = _data["primaryColor"];
+            this.secondaryColor = _data["secondaryColor"];
         }
     }
 
@@ -1750,12 +1640,16 @@ export class AddGameCommand implements IAddGameCommand {
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
+        data["primaryColor"] = this.primaryColor;
+        data["secondaryColor"] = this.secondaryColor;
         return data;
     }
 }
 
 export interface IAddGameCommand {
     name?: string;
+    primaryColor?: string;
+    secondaryColor?: string;
 }
 
 export class UpdateGameCommand implements IUpdateGameCommand {
@@ -1798,11 +1692,52 @@ export interface IUpdateGameCommand {
     name?: string;
 }
 
+export class SearchResultDto implements ISearchResultDto {
+    entityType?: string;
+    entityId?: number;
+
+    constructor(data?: ISearchResultDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.entityType = _data["entityType"];
+            this.entityId = _data["entityId"];
+        }
+    }
+
+    static fromJS(data: any): SearchResultDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SearchResultDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["entityType"] = this.entityType;
+        data["entityId"] = this.entityId;
+        return data;
+    }
+}
+
+export interface ISearchResultDto {
+    entityType?: string;
+    entityId?: number;
+}
+
 export class SocialLinkDto implements ISocialLinkDto {
     socialLinkId?: number;
     name?: string;
     characterId?: number;
     arcanaId?: number;
+    gameId?: number;
 
     constructor(data?: ISocialLinkDto) {
         if (data) {
@@ -1819,6 +1754,7 @@ export class SocialLinkDto implements ISocialLinkDto {
             this.name = _data["name"];
             this.characterId = _data["characterId"];
             this.arcanaId = _data["arcanaId"];
+            this.gameId = _data["gameId"];
         }
     }
 
@@ -1835,6 +1771,7 @@ export class SocialLinkDto implements ISocialLinkDto {
         data["name"] = this.name;
         data["characterId"] = this.characterId;
         data["arcanaId"] = this.arcanaId;
+        data["gameId"] = this.gameId;
         return data;
     }
 }
@@ -1844,14 +1781,15 @@ export interface ISocialLinkDto {
     name?: string;
     characterId?: number;
     arcanaId?: number;
+    gameId?: number;
 }
 
-export class AddSocialLinkCommand implements IAddSocialLinkCommand {
+export class SetSocialLinkCommand implements ISetSocialLinkCommand {
     name?: string;
     arcanaId?: number;
     characterId?: number;
 
-    constructor(data?: IAddSocialLinkCommand) {
+    constructor(data?: ISetSocialLinkCommand) {
         if (data) {
             for (var property in data) {
                 if (data.hasOwnProperty(property))
@@ -1868,9 +1806,9 @@ export class AddSocialLinkCommand implements IAddSocialLinkCommand {
         }
     }
 
-    static fromJS(data: any): AddSocialLinkCommand {
+    static fromJS(data: any): SetSocialLinkCommand {
         data = typeof data === 'object' ? data : {};
-        let result = new AddSocialLinkCommand();
+        let result = new SetSocialLinkCommand();
         result.init(data);
         return result;
     }
@@ -1884,442 +1822,15 @@ export class AddSocialLinkCommand implements IAddSocialLinkCommand {
     }
 }
 
-export interface IAddSocialLinkCommand {
+export interface ISetSocialLinkCommand {
     name?: string;
     arcanaId?: number;
     characterId?: number;
 }
 
-export class UpdateSocialLinkCommand implements IUpdateSocialLinkCommand {
-    id?: number;
-    name?: string;
-    arcanaId?: number;
-    characterId?: number;
-
-    constructor(data?: IUpdateSocialLinkCommand) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"];
-            this.name = _data["name"];
-            this.arcanaId = _data["arcanaId"];
-            this.characterId = _data["characterId"];
-        }
-    }
-
-    static fromJS(data: any): UpdateSocialLinkCommand {
-        data = typeof data === 'object' ? data : {};
-        let result = new UpdateSocialLinkCommand();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id;
-        data["name"] = this.name;
-        data["arcanaId"] = this.arcanaId;
-        data["characterId"] = this.characterId;
-        return data;
-    }
-}
-
-export interface IUpdateSocialLinkCommand {
-    id?: number;
-    name?: string;
-    arcanaId?: number;
-    characterId?: number;
-}
-
-export class SocialLinkRankDto implements ISocialLinkRankDto {
-    socialLinkRankId?: number;
-    socialLinkId?: number;
-    rank?: number;
-    requirement?: string | undefined;
-
-    constructor(data?: ISocialLinkRankDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.socialLinkRankId = _data["socialLinkRankId"];
-            this.socialLinkId = _data["socialLinkId"];
-            this.rank = _data["rank"];
-            this.requirement = _data["requirement"];
-        }
-    }
-
-    static fromJS(data: any): SocialLinkRankDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new SocialLinkRankDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["socialLinkRankId"] = this.socialLinkRankId;
-        data["socialLinkId"] = this.socialLinkId;
-        data["rank"] = this.rank;
-        data["requirement"] = this.requirement;
-        return data;
-    }
-}
-
-export interface ISocialLinkRankDto {
-    socialLinkRankId?: number;
-    socialLinkId?: number;
-    rank?: number;
-    requirement?: string | undefined;
-}
-
-export class GetSocialLinkRankQuery implements IGetSocialLinkRankQuery {
-    socialLinkRankId?: number | undefined;
-    socialLinkId?: number | undefined;
-    rank?: number | undefined;
-
-    constructor(data?: IGetSocialLinkRankQuery) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.socialLinkRankId = _data["socialLinkRankId"];
-            this.socialLinkId = _data["socialLinkId"];
-            this.rank = _data["rank"];
-        }
-    }
-
-    static fromJS(data: any): GetSocialLinkRankQuery {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetSocialLinkRankQuery();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["socialLinkRankId"] = this.socialLinkRankId;
-        data["socialLinkId"] = this.socialLinkId;
-        data["rank"] = this.rank;
-        return data;
-    }
-}
-
-export interface IGetSocialLinkRankQuery {
-    socialLinkRankId?: number | undefined;
-    socialLinkId?: number | undefined;
-    rank?: number | undefined;
-}
-
-export class AddSocialLinkRankCommand implements IAddSocialLinkRankCommand {
-    socialLinkId?: number;
-    rank?: number;
-    requirement?: string | undefined;
-
-    constructor(data?: IAddSocialLinkRankCommand) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.socialLinkId = _data["socialLinkId"];
-            this.rank = _data["rank"];
-            this.requirement = _data["requirement"];
-        }
-    }
-
-    static fromJS(data: any): AddSocialLinkRankCommand {
-        data = typeof data === 'object' ? data : {};
-        let result = new AddSocialLinkRankCommand();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["socialLinkId"] = this.socialLinkId;
-        data["rank"] = this.rank;
-        data["requirement"] = this.requirement;
-        return data;
-    }
-}
-
-export interface IAddSocialLinkRankCommand {
-    socialLinkId?: number;
-    rank?: number;
-    requirement?: string | undefined;
-}
-
-export class UpdateSocialLinkRankCommand implements IUpdateSocialLinkRankCommand {
-    socialLinkRankId?: number;
-    socialLinkId?: number;
-    rank?: number;
-    requirement?: string | undefined;
-
-    constructor(data?: IUpdateSocialLinkRankCommand) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.socialLinkRankId = _data["socialLinkRankId"];
-            this.socialLinkId = _data["socialLinkId"];
-            this.rank = _data["rank"];
-            this.requirement = _data["requirement"];
-        }
-    }
-
-    static fromJS(data: any): UpdateSocialLinkRankCommand {
-        data = typeof data === 'object' ? data : {};
-        let result = new UpdateSocialLinkRankCommand();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["socialLinkRankId"] = this.socialLinkRankId;
-        data["socialLinkId"] = this.socialLinkId;
-        data["rank"] = this.rank;
-        data["requirement"] = this.requirement;
-        return data;
-    }
-}
-
-export interface IUpdateSocialLinkRankCommand {
-    socialLinkRankId?: number;
-    socialLinkId?: number;
-    rank?: number;
-    requirement?: string | undefined;
-}
-
-export class SocialLinkDialogueDto implements ISocialLinkDialogueDto {
-    socialLinkDialogueId?: number;
-    text?: string;
-    order?: number;
-    requirement?: string | undefined;
-    socialLinkId?: number;
-    socialLinkRankId?: number;
-
-    constructor(data?: ISocialLinkDialogueDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.socialLinkDialogueId = _data["socialLinkDialogueId"];
-            this.text = _data["text"];
-            this.order = _data["order"];
-            this.requirement = _data["requirement"];
-            this.socialLinkId = _data["socialLinkId"];
-            this.socialLinkRankId = _data["socialLinkRankId"];
-        }
-    }
-
-    static fromJS(data: any): SocialLinkDialogueDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new SocialLinkDialogueDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["socialLinkDialogueId"] = this.socialLinkDialogueId;
-        data["text"] = this.text;
-        data["order"] = this.order;
-        data["requirement"] = this.requirement;
-        data["socialLinkId"] = this.socialLinkId;
-        data["socialLinkRankId"] = this.socialLinkRankId;
-        return data;
-    }
-}
-
-export interface ISocialLinkDialogueDto {
-    socialLinkDialogueId?: number;
-    text?: string;
-    order?: number;
-    requirement?: string | undefined;
-    socialLinkId?: number;
-    socialLinkRankId?: number;
-}
-
-export class GetSocialLinkDialogueQuery implements IGetSocialLinkDialogueQuery {
-    socialLinkDialogueId?: number | undefined;
-    socialLinkRankId?: number | undefined;
-    socialLinkId?: number | undefined;
-
-    constructor(data?: IGetSocialLinkDialogueQuery) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.socialLinkDialogueId = _data["socialLinkDialogueId"];
-            this.socialLinkRankId = _data["socialLinkRankId"];
-            this.socialLinkId = _data["socialLinkId"];
-        }
-    }
-
-    static fromJS(data: any): GetSocialLinkDialogueQuery {
-        data = typeof data === 'object' ? data : {};
-        let result = new GetSocialLinkDialogueQuery();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["socialLinkDialogueId"] = this.socialLinkDialogueId;
-        data["socialLinkRankId"] = this.socialLinkRankId;
-        data["socialLinkId"] = this.socialLinkId;
-        return data;
-    }
-}
-
-export interface IGetSocialLinkDialogueQuery {
-    socialLinkDialogueId?: number | undefined;
-    socialLinkRankId?: number | undefined;
-    socialLinkId?: number | undefined;
-}
-
-export class AddSocialLinkDialogueCommand implements IAddSocialLinkDialogueCommand {
-    socialLinkRankId?: number;
-    order?: number;
-    text?: string;
-    requirement?: string | undefined;
-
-    constructor(data?: IAddSocialLinkDialogueCommand) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.socialLinkRankId = _data["socialLinkRankId"];
-            this.order = _data["order"];
-            this.text = _data["text"];
-            this.requirement = _data["requirement"];
-        }
-    }
-
-    static fromJS(data: any): AddSocialLinkDialogueCommand {
-        data = typeof data === 'object' ? data : {};
-        let result = new AddSocialLinkDialogueCommand();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["socialLinkRankId"] = this.socialLinkRankId;
-        data["order"] = this.order;
-        data["text"] = this.text;
-        data["requirement"] = this.requirement;
-        return data;
-    }
-}
-
-export interface IAddSocialLinkDialogueCommand {
-    socialLinkRankId?: number;
-    order?: number;
-    text?: string;
-    requirement?: string | undefined;
-}
-
-export class UpdateSocialLinkDialogueCommand implements IUpdateSocialLinkDialogueCommand {
-    socialLinkDialogueId?: number;
-    socialLinkRankId?: number;
-    order?: number;
-    text?: string;
-    requirement?: string | undefined;
-
-    constructor(data?: IUpdateSocialLinkDialogueCommand) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.socialLinkDialogueId = _data["socialLinkDialogueId"];
-            this.socialLinkRankId = _data["socialLinkRankId"];
-            this.order = _data["order"];
-            this.text = _data["text"];
-            this.requirement = _data["requirement"];
-        }
-    }
-
-    static fromJS(data: any): UpdateSocialLinkDialogueCommand {
-        data = typeof data === 'object' ? data : {};
-        let result = new UpdateSocialLinkDialogueCommand();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["socialLinkDialogueId"] = this.socialLinkDialogueId;
-        data["socialLinkRankId"] = this.socialLinkRankId;
-        data["order"] = this.order;
-        data["text"] = this.text;
-        data["requirement"] = this.requirement;
-        return data;
-    }
-}
-
-export interface IUpdateSocialLinkDialogueCommand {
-    socialLinkDialogueId?: number;
-    socialLinkRankId?: number;
-    order?: number;
-    text?: string;
-    requirement?: string | undefined;
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }
 
 export interface FileResponse {

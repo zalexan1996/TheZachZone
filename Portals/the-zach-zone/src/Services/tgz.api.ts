@@ -1262,7 +1262,7 @@ export class GameImageDto implements IGameImageDto {
     imageId?: number;
     gameInfoId?: number;
     uploadedOn?: Date;
-    data?: string;
+    data?: number[];
 
     constructor(data?: IGameImageDto) {
         if (data) {
@@ -1278,7 +1278,11 @@ export class GameImageDto implements IGameImageDto {
             this.imageId = _data["imageId"];
             this.gameInfoId = _data["gameInfoId"];
             this.uploadedOn = _data["uploadedOn"] ? new Date(_data["uploadedOn"].toString()) : <any>undefined;
-            this.data = _data["data"];
+            if (Array.isArray(_data["data"])) {
+                this.data = [] as any;
+                for (let item of _data["data"])
+                    this.data!.push(item);
+            }
         }
     }
 
@@ -1294,7 +1298,11 @@ export class GameImageDto implements IGameImageDto {
         data["imageId"] = this.imageId;
         data["gameInfoId"] = this.gameInfoId;
         data["uploadedOn"] = this.uploadedOn ? this.uploadedOn.toISOString() : <any>undefined;
-        data["data"] = this.data;
+        if (Array.isArray(this.data)) {
+            data["data"] = [];
+            for (let item of this.data)
+                data["data"].push(item);
+        }
         return data;
     }
 }
@@ -1303,7 +1311,7 @@ export interface IGameImageDto {
     imageId?: number;
     gameInfoId?: number;
     uploadedOn?: Date;
-    data?: string;
+    data?: number[];
 }
 
 export class ReviewDto implements IReviewDto {

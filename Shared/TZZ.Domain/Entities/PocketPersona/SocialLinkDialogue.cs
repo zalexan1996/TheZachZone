@@ -5,30 +5,32 @@ namespace TZZ.Domain.Entities.PocketPersona;
 
 public class SocialLinkDialogue
 {
-    public int Id { get; set; }
-    public required string Text { get; set; }
-    public int Order { get; set; }
-    public string? ExtraRequirement { get; set; }
-    public int SocialLinkRankId { get; set; }
+  public int Id { get; set; }
+  public required string Text { get; set; }
+  public int Rank { get; set; }
+  public int Order { get; set; }
+  public string? ExtraRequirement { get; set; }
 
-    public required SocialLinkRank SocialLinkRank { get; set; }
+  public int SocialLinkId { get; set; }
+
+  public required SocialLink SocialLink { get; set; }
 }
 
 public class SocialLinkDialogueEntityTypeConfiguration : IEntityTypeConfiguration<SocialLinkDialogue>
 {
-    public void Configure(EntityTypeBuilder<SocialLinkDialogue> builder)
-    {
-        builder.ToTable(nameof(SocialLinkDialogue), "PP");
-        builder.HasKey(x => x.Id);
+  public void Configure(EntityTypeBuilder<SocialLinkDialogue> builder)
+  {
+    builder.ToTable(nameof(SocialLinkDialogue), "PP");
+    builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Id).UseIdentityColumn();
+    builder.Property(x => x.Id).UseIdentityColumn();
 
-        builder.HasOne(x => x.SocialLinkRank)
-            .WithMany()
-            .HasForeignKey(x => x.SocialLinkRankId)
-            .OnDelete(DeleteBehavior.Cascade);
+    builder.HasOne(x => x.SocialLink)
+      .WithMany(x => x.Dialogues)
+      .HasForeignKey(x => x.SocialLinkId)
+      .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasIndex(x => x.Order)
-            .IsUnique();
-    }
+    builder.HasIndex(x => new { x.Rank, x.Order })
+      .IsUnique();
+  }
 }

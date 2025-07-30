@@ -1,23 +1,20 @@
-﻿using Azure;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TZZ.Core.Shared;
-using TZZ.Core.Shared.Behaviors;
-using TZZ.Core.Shared.Services;
+using TZZ.Core.Common;
+using TZZ.Core.Common.Services;
+
 namespace TZZ.WebShared.Common;
 
 public class ZachZoneExceptionHandler(ITelemetryService<ZachZoneExceptionHandler> telemetryService) : IExceptionHandler
 {
-    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception ex, CancellationToken cancellationToken)
-    {
+  public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
+  {
+    telemetryService.Logger.LogCommandException(
+      commandName: httpContext.Request.Path.Value!,
+      exception: exception.Message,
+      innerException: exception.InnerException?.Message ?? string.Empty);
 
-        telemetryService.LogError("'{Command}' threw an exception: {Exception}, {InnerException}", httpContext.Request.Path, ex.Message, ex.InnerException?.Message);
-        await httpContext.Response.WriteAsJsonAsync(ZachZoneCommandResponse.Failure("Exception", ex.Message));
-        return true;
-    }
+    await httpContext.Response.WriteAsJsonAsync(ZachZoneCommandResponse.Failure("Exception", exception.Message), cancellationToken);
+    return true;
+  }
 }

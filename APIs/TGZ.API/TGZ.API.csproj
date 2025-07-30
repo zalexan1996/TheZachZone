@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	  <NoWarn>$(NoWarn);CA1062;CA2007</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

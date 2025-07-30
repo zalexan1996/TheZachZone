@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using TZZ.Core.Shared;
-using TZZ.Core.Shared.Services;
+using TZZ.Core.Common;
+using TZZ.Core.Common.Services;
 
 namespace TZZ.Core.TheZachZone.Account.Commands;
 
@@ -8,15 +8,15 @@ public class LogoutCommand : IRequest<ZachZoneCommandResponse>
 {
 }
 
-public class LogoutCommandHandler(IIdentityService _identityService, ICurrentUserService _currentUserService) : IRequestHandler<LogoutCommand, ZachZoneCommandResponse>
+public class LogoutCommandHandler(IIdentityService identityService, ICurrentUserService currentUserService) : IRequestHandler<LogoutCommand, ZachZoneCommandResponse>
 {
-    public async Task<ZachZoneCommandResponse> Handle(LogoutCommand request, CancellationToken cancellationToken)
+  public async Task<ZachZoneCommandResponse> Handle(LogoutCommand request, CancellationToken cancellationToken)
+  {
+    if (currentUserService.IsAuthenticated)
     {
-        if (_currentUserService.IsAuthenticated)
-        {
-            await _identityService.LogoutCurrentUser();
-        }
-
-        return ZachZoneCommandResponse.Success();
+      await identityService.LogoutCurrentUser();
     }
+
+    return ZachZoneCommandResponse.Success();
+  }
 }

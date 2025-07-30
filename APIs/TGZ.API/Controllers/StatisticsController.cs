@@ -8,16 +8,16 @@ namespace TGZ.API.Controllers;
 [Route("[controller]")]
 public class StatisticsController(ISender sender) : ControllerBase
 {
-    [HttpPost("[action]")]
-    public async Task<ActionResult> AddGameplayTimestamp(AddGamePlayStatisticCommand command)
+  [HttpPost("[action]")]
+  public async Task<ActionResult> AddGameplayTimestamp(AddGamePlayStatisticCommand command)
+  {
+    var result = await sender.Send(command);
+
+    if (result.IsValid)
     {
-        var result = await sender.Send(command);
-
-        if (result.IsValid)
-        {
-            return Ok();
-        }
-
-        return BadRequest();
+      return Ok();
     }
+
+    return BadRequest();
+  }
 }
