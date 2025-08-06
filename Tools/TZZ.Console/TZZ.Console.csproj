@@ -8,7 +8,7 @@
 	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	<EnableNETAnalyzers>true</EnableNETAnalyzers>
 	<AnalysisMode>AllEnabledByDefault</AnalysisMode>
-	  <NoWarn>$(NoWarn);CA2007</NoWarn>
+	  <NoWarn>$(NoWarn);CA1062;CA2007;CA1862;CA1311;CA1304;CA1305;CA1822</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

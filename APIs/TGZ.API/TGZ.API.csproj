@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
   <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
 	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	  <NoWarn>$(NoWarn);CA1062;CA2007</NoWarn>
+	  <NoWarn>$(NoWarn);CA1062;CA2007;CA1862;CA1311;CA1304;CA1305</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

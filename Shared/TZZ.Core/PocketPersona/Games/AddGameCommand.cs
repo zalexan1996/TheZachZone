@@ -19,7 +19,7 @@ public class AddGameCommandHandler(IDatabaseService dbContext, IPublisher publis
 {
   public async Task<ZachZoneCommandResponse> Handle(AddGameCommand request, CancellationToken cancellationToken)
   {
-    if (await dbContext.Entity<Game>().AnyAsync(x => x.Name.Contains(request.Name, StringComparison.CurrentCultureIgnoreCase), cancellationToken))
+    if (await dbContext.Entity<Game>().AnyAsync(x => x.Name.ToLower() == request.Name.ToLower(), cancellationToken))
     {
       return ZachZoneCommandResponse.Failure(nameof(AddGameCommand.Name), "The specified game already exists.");
     }

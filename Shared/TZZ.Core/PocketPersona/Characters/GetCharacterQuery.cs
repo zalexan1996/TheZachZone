@@ -32,7 +32,7 @@ public class GetCharacterQueryHandler(IDatabaseService dbContext)
     }
     if (!string.IsNullOrEmpty(request.Name))
     {
-      query = query.Where(x => x.Name.Contains(request.Name, StringComparison.CurrentCultureIgnoreCase));
+      query = query.Where(x => x.Name.ToLower() == request.Name.ToLower());
     }
     if (request.GameId.HasValue)
     {

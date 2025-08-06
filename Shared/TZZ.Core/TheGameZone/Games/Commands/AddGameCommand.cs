@@ -56,7 +56,7 @@ public class AddGameCommandHandler(IDatabaseService dbContext, ICurrentUserServi
       Directory.CreateDirectory(uploadDirectory);
     }
 
-    string gamePath = Path.Combine(root, uploadDirectory, newEntry.Id.ToString(CultureInfo.InvariantCulture));
+    string gamePath = Path.Combine(root, uploadDirectory, newEntry.Id.ToString());
     if (!Directory.Exists(gamePath))
     {
       Directory.CreateDirectory(gamePath);

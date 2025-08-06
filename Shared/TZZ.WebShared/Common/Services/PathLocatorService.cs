@@ -14,5 +14,5 @@ public class PathLocatorService(IOptions<AppSettings> appSettingsOptions) : IPat
     => Path.Combine(GetStaticFilesPath(), "games");
 
   public string GetUploadedGameDirectory(int gameId)
-    => Path.Combine(GetStaticFilesPath(), "games", gameId.ToString(CultureInfo.InvariantCulture));
+    => Path.Combine(GetStaticFilesPath(), "games", gameId.ToString());
 }

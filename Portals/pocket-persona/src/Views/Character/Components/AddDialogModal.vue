@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { AddSocialLinkDialogCommand } from '@/Services/pp.api';
 import { InputText, Modal } from 'tzz-shared';
 import { useForm, useIsFormValid, useIsFormDirty } from 'vee-validate';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import * as yup from 'yup'
 
 interface IProps {
-    isVisible: boolean
+    isVisible: boolean,
+    socialLinkId: number
 }
 const props = defineProps<IProps>();
 const emits = defineEmits(['cancel', 'submit'])
@@ -29,12 +31,21 @@ const isFormDirty = useIsFormDirty()
 
 watch(() => props.isVisible, () => isVisible.value = props.isVisible)
 
+const formData = computed(() => {
+    return {
+        text: text.value,
+        optionalRequirement: requirement.value,
+        order: order.value,
+        rank: rank.value,
+        socialLinkId: props.socialLinkId
+    } as AddSocialLinkDialogCommand
+})
 </script>
 
 <template>
     <Modal title="Add Dialog" :is-visible="isVisible" 
         :is-submit-disabled="!(isFormValid && isFormDirty)"
-        @submit="() => emits('submit')" 
+        @submit="() => emits('submit', formData)" 
         @cancel="() => emits('cancel')">
         <div class="d-flex flex-column justify-content-start align-items-stretch">
             <div class="container=fluid">

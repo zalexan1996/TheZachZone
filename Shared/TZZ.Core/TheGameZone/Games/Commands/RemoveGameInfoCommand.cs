@@ -20,7 +20,7 @@ public class RemoveGameInfoCommandHandler(IDatabaseService dbContext) : IRequest
 
 
     string root = Directory.GetCurrentDirectory();
-    string uploadDirectory = Path.Combine(root, "wwwroot", "games", request.Id.ToString(CultureInfo.InvariantCulture));
+    string uploadDirectory = Path.Combine(root, "wwwroot", "games", request.Id.ToString());
     if (Directory.Exists(uploadDirectory))
     {
       Directory.Delete(uploadDirectory, true);

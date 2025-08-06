@@ -5,43 +5,26 @@
             <button class="btn btn-outline-primary" @click="isDialogModalVisible = true"><span class="fa fa-plus"></span>Add</button>
         </div>
         <div class="px-3 d-flex flex-column justify-content-start align-items-stretch" style="max-height: 600px; overflow-y: scroll;">
-            <div class="dialog-rank-group">
-                <p>Rank 1</p>
+            <div v-for="(dtos, rank) of globalStore.socialLinkStore.groupedDialog" class="dialog-rank-group">
+                <p>Rank {{ rank }}</p>
                 <hr/>
-                <div class="dialog-entry" :style="backgroundColorStyle">
-                    <p>Hello there.</p>
-                </div>
-                <div class="dialog-entry" :style="backgroundColorStyle">
-                    <p>Hi.</p>
-                </div>
-            </div>
-            <div class="dialog-rank-group">
-                <p>Rank 2</p>
-                <hr/>
-                <div class="dialog-entry" :style="backgroundColorStyle">
-                    <p>Loren Ipsum.</p>
-                </div>
-                <div class="dialog-entry" :style="backgroundColorStyle">
-                    <p>poopen sharten farten</p>
-                </div>
-            </div>
-            <div class="dialog-rank-group">
-                <p>Rank 3</p>
-                <hr/>
-                <div class="dialog-entry" :style="backgroundColorStyle">
-                    <p>Hello there.</p>
-                </div>
-                <div class="dialog-entry" :style="backgroundColorStyle">
-                    <p>Hi.</p>
+                <div v-for="d in dtos.sort((x, y) => x.order! - y.order!)" class="dialog-entry" :style="backgroundColorStyle">
+                    <div class="d-flex flex-row justify-content-between align-items-center">
+                        <p>{{ d.order }} - {{ d.text }}</p>
+                        <button @click="() => onDelete(d.socialLinkDialogId!)">
+                            <i class="fa fa-trash pe-3"></i>
+                        </button>
+                    </div>
+                    <i v-if="d.optionalRequirement">Requires : {{ d.optionalRequirement }}</i>
                 </div>
             </div>
         </div>
     </Panel>
-    <AddDialogModal :is-visible="isDialogModalVisible" @cancel="isDialogModalVisible = false" @submit="isDialogModalVisible = false"/>
+    <AddDialogModal :is-visible="isDialogModalVisible" @cancel="isDialogModalVisible = false" @submit="onSubmit" :social-link-id="socialLinkId"/>
 </template>
 
 <script setup lang="ts">
-import { SocialLinkDto } from '@/Services/pp.api';
+import { AddSocialLinkDialogCommand, SocialLinkDto } from '@/Services/pp.api';
 import { useGlobalStore } from '@/Stores/globalStore';
 import { Panel } from 'tzz-shared';
 import { computed, onMounted, ref } from 'vue';
@@ -80,9 +63,19 @@ function toHexWithAlpha(color: string, alpha = 1) {
     return `#${toHex(r)}${toHex(g)}${toHex(b)}${toHex(a)}`;
 }
 
+const onSubmit = async (formData: AddSocialLinkDialogCommand) => {
+    isDialogModalVisible.value = false
+
+    await globalStore.socialLinkStore.addSocialLinkDialog(formData);
+}
+
+const onDelete = async (id: number) => {
+    throw "TODO"
+}
 
 onMounted(() => {
     socialLink.value = globalStore.socialLinkStore.getSocialLinkDetails(props.socialLinkId)
+    globalStore.socialLinkStore.getSocialLinkDialog(props.socialLinkId)
 })
 </script>
 

@@ -17,7 +17,7 @@ public class AddArcanaCommandHandler(IDatabaseService dbContext, IPublisher publ
 {
   public async Task<ZachZoneCommandResponse> Handle(AddArcanaCommand request, CancellationToken cancellationToken)
   {
-    if (await dbContext.Entity<Arcana>().AnyAsync(x => x.Name.Contains(request.Name, StringComparison.CurrentCultureIgnoreCase), cancellationToken))
+    if (await dbContext.Entity<Arcana>().AnyAsync(x => x.Name.ToLower() == request.Name.ToLower(), cancellationToken))
     {
       return ZachZoneCommandResponse.Failure(nameof(AddArcanaCommand.Name), "The specified Arcana already exists.");
     }

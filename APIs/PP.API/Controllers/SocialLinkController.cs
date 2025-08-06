@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TZZ.Core.PocketPersona.SocialLinks;
+using TZZ.Core.PocketPersona.SocialLinks.Dialog;
 
 namespace PP.API.Controllers;
 
@@ -51,4 +52,48 @@ public class SocialLinkController(ISender sender) : ControllerBase
     return Ok();
   }
   #endregion SocialLink
+
+
+  #region Dialogue
+
+  [HttpGet("[action]")]
+  public async Task<ActionResult<List<SocialLinkDialogDto>>> GetDialog(int socialLinkId)
+  {
+    var result = await sender.Send(new GetSocialLinkDialogQuery(socialLinkId));
+
+    if (!result.IsValid)
+    {
+      return BadRequest(result.Errors);
+    }
+
+    return Ok(result.Result);
+  }
+
+  [HttpPost("[action]")]
+  public async Task<ActionResult> AddDialog(AddSocialLinkDialogCommand command)
+  {
+    var result = await sender.Send(command);
+
+    if (!result.IsValid)
+    {
+      return BadRequest(result.Errors);
+    }
+
+    return Ok();
+  }
+
+  [HttpDelete("[action]")]
+  public async Task<ActionResult> DeleteDialog(int socialLinkDialogId)
+  {
+    var result = await sender.Send(new DeleteSocialLinkDialogCommand(socialLinkDialogId));
+
+    if (!result.IsValid)
+    {
+      return BadRequest(result.Errors);
+    }
+
+    return Ok();
+  }
+
+  #endregion Dialogue
 }

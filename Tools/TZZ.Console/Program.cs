@@ -47,7 +47,7 @@ app.AddSubCommand("user", x =>
     table.AddColumn("Name");
     table.AddColumn("Roles");
 
-    response.Result?.ForEach(r => table.AddRow(r.UserId.ToString(CultureInfo.InvariantCulture), r.Email ?? string.Empty, $"{r.FirstName} {r.LastName}", string.Join(", ", r.Roles)));
+    response.Result?.ForEach(r => table.AddRow(r.UserId.ToString(), r.Email ?? string.Empty, $"{r.FirstName} {r.LastName}", string.Join(", ", r.Roles)));
     AnsiConsole.Write(table);
 
   });

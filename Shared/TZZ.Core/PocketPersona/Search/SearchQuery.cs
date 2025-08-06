@@ -15,17 +15,17 @@ public class SearchQueryHandler(IDatabaseService dbContext)
   public async Task<ZachZoneCommandResponse<List<SearchResultDto>>> Handle(SearchQuery request, CancellationToken cancellationToken)
   {
     var arcanaItems = await dbContext.Entity<Arcana>()
-      .Where(a => a.Name.Contains(request.term, StringComparison.CurrentCultureIgnoreCase))
+      .Where(a => a.Name.ToLower() == request.term.ToLower())
       .Select(x => new SearchResultDto(ActivityLogEntityTypes.Arcana, x.Id))
       .ToListAsync(cancellationToken);
 
     var gameItems = await dbContext.Entity<Game>()
-      .Where(g => g.Name.Contains(request.term, StringComparison.CurrentCultureIgnoreCase))
+      .Where(g => g.Name.ToLower() == request.term.ToLower())
       .Select(x => new SearchResultDto(ActivityLogEntityTypes.Game, x.Id))
       .ToListAsync(cancellationToken);
 
     var characterItems = await dbContext.Entity<Character>()
-      .Where(c => c.Name.Contains(request.term, StringComparison.CurrentCultureIgnoreCase))
+      .Where(c => c.Name.ToLower() == request.term.ToLower())
       .Select(x => new SearchResultDto(ActivityLogEntityTypes.Character, x.Id))
       .ToListAsync(cancellationToken);
 

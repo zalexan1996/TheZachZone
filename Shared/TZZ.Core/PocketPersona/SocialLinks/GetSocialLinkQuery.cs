@@ -33,7 +33,7 @@ public class GetSocialLinkQueryHandler(IDatabaseService dbContext)
     }
     if (!string.IsNullOrEmpty(request.Name))
     {
-      query = query.Where(x => x.Name.Contains(request.Name, StringComparison.CurrentCultureIgnoreCase));
+      query = query.Where(x => x.Name.ToLower() == request.Name.ToLower());
     }
 
     var records = await query.Select(x => new SocialLinkDto()

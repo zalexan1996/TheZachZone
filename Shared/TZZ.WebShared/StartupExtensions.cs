@@ -88,7 +88,7 @@ public static class StartupExtensions
         .WithTracing(t => t.AddAspNetCoreInstrumentation().AddSource(OtelConstants.ServiceName).AddConsoleExporter())
         .WithMetrics(m => m.AddAspNetCoreInstrumentation()
           .AddMeter(OtelConstants.ServiceName)
-          .AddPrometheusExporter().AddConsoleExporter().AddInstrumentation<ResourceInstrumentation>());
+          .AddPrometheusExporter().AddInstrumentation<ResourceInstrumentation>());
 
     services.AddHealthChecks()
       .AddCheck<ResourceUsageHealthCheck>("Resource Usage", tags: [TagConstants.System])

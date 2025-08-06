@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { ref } from "vue";
-import { SocialLinkDto, SocialLinkClient, SetSocialLinkCommand } from '../Services/pp.api'
+import { computed, ref } from "vue";
+import { SocialLinkDto, SocialLinkClient, SetSocialLinkCommand, AddSocialLinkDialogCommand, SocialLinkDialogDto } from '../Services/pp.api'
 import { PP_API_BASE_URL, AxiosInstance } from '../Services/axiosService';
 import { useActivityStore } from "./activityStore";
 
@@ -9,6 +9,22 @@ export const useSocialLinkStore = defineStore('social-link', () => {
     const activityStore = useActivityStore();
     
     const socialLinks = ref<SocialLinkDto[]>([]);
+    const socialLinkDialog = ref<SocialLinkDialogDto[]>([])
+
+    const groupedDialog = computed(() => {
+        if (socialLinkDialog.value.length == 0) {
+            return {} as Record<number, SocialLinkDialogDto[]>;
+        } 
+
+        return socialLinkDialog.value.reduce((group, d) => {
+            const key = d.rank!
+            if (!group[key]) {
+                group[key] = []
+            }
+            group[key].push(d as SocialLinkDialogDto)
+            return group
+        }, {} as Record<number, SocialLinkDialogDto[]>)
+    })
 
     const load = async () => {
         socialLinks.value = await client.getSocialLinks()
@@ -40,13 +56,27 @@ export const useSocialLinkStore = defineStore('social-link', () => {
         await load();
         await activityStore.load();
     }
+
+    const getSocialLinkDialog = async (socialLinkId: number) => {
+        socialLinkDialog.value = await client.getDialog(socialLinkId)
+        return socialLinkDialog.value
+    }
+    const addSocialLinkDialog = async (command: AddSocialLinkDialogCommand) => {
+        await client.addDialog(command)
+        await getSocialLinkDialog(command.socialLinkId!)
+    }
     return {
         socialLinks,
+        socialLinkDialog,
+        groupedDialog,
+
         load,
         getForGame,
         getForCharacter,
         getSocialLinkDetails,
         addSocialLink,
-        deleteSocialLink
+        deleteSocialLink,
+        getSocialLinkDialog,
+        addSocialLinkDialog
     }
 })

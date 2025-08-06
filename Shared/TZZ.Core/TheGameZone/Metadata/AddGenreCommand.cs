@@ -16,7 +16,7 @@ public class AddGenreCommandHandler(IDatabaseService dbContext)
 {
   public async Task<ZachZoneCommandResponse> Handle(AddGenreCommand request, CancellationToken cancellationToken)
   {
-    if (dbContext.Entity<Genre>().Any(x => x.Name.Contains(request.GenreName, StringComparison.CurrentCultureIgnoreCase)))
+    if (await dbContext.Entity<Genre>().AnyAsync(x => x.Name.ToLower() == request.GenreName.ToLower(), cancellationToken))
     {
       return ZachZoneCommandResponse.Failure("GenreName", "Requested genre already exists.");
     }

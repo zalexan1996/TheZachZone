@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TZZ.Infrastructure.SQL;
 
@@ -11,9 +12,11 @@ using TZZ.Infrastructure.SQL;
 namespace TZZ.Infrastructure.Migrations
 {
     [DbContext(typeof(ZachZoneDbContext))]
-    partial class ZachZoneDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250730215758_UpdatedCharacterProfile")]
+    partial class UpdatedCharacterProfile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

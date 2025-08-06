@@ -1117,6 +1117,179 @@ export class SocialLinkClient {
         }
         return Promise.resolve<FileResponse>(null as any);
     }
+
+    getDialog(socialLinkId: number | undefined, cancelToken?: CancelToken): Promise<SocialLinkDialogDto[]> {
+        let url_ = this.baseUrl + "/socialLink/GetDialog?";
+        if (socialLinkId === null)
+            throw new Error("The parameter 'socialLinkId' cannot be null.");
+        else if (socialLinkId !== undefined)
+            url_ += "socialLinkId=" + encodeURIComponent("" + socialLinkId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "GET",
+            url: url_,
+            headers: {
+                "Accept": "application/json"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processGetDialog(_response);
+        });
+    }
+
+    protected processGetDialog(response: AxiosResponse): Promise<SocialLinkDialogDto[]> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            let result200: any = null;
+            let resultData200  = _responseText;
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(SocialLinkDialogDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return Promise.resolve<SocialLinkDialogDto[]>(result200);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<SocialLinkDialogDto[]>(null as any);
+    }
+
+    addDialog(command: AddSocialLinkDialogCommand, cancelToken?: CancelToken): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/socialLink/AddDialog";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(command);
+
+        let options_: AxiosRequestConfig = {
+            data: content_,
+            responseType: "blob",
+            method: "POST",
+            url: url_,
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/octet-stream"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processAddDialog(_response);
+        });
+    }
+
+    protected processAddDialog(response: AxiosResponse): Promise<FileResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
+            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+            if (fileName) {
+                fileName = decodeURIComponent(fileName);
+            } else {
+                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            }
+            return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<FileResponse>(null as any);
+    }
+
+    deleteDialog(socialLinkDialogId: number | undefined, cancelToken?: CancelToken): Promise<FileResponse> {
+        let url_ = this.baseUrl + "/socialLink/DeleteDialog?";
+        if (socialLinkDialogId === null)
+            throw new Error("The parameter 'socialLinkDialogId' cannot be null.");
+        else if (socialLinkDialogId !== undefined)
+            url_ += "socialLinkDialogId=" + encodeURIComponent("" + socialLinkDialogId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            responseType: "blob",
+            method: "DELETE",
+            url: url_,
+            headers: {
+                "Accept": "application/octet-stream"
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processDeleteDialog(_response);
+        });
+    }
+
+    protected processDeleteDialog(response: AxiosResponse): Promise<FileResponse> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
+            let fileNameMatch = contentDisposition ? /filename\*=(?:(\\?['"])(.*?)\1|(?:[^\s]+'.*?')?([^;\n]*))/g.exec(contentDisposition) : undefined;
+            let fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[3] || fileNameMatch[2] : undefined;
+            if (fileName) {
+                fileName = decodeURIComponent(fileName);
+            } else {
+                fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+                fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            }
+            return Promise.resolve({ fileName: fileName, status: status, data: new Blob([response.data], { type: response.headers["content-type"] }), headers: _headers });
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<FileResponse>(null as any);
+    }
 }
 
 export class ActivityLog implements IActivityLog {
@@ -1826,6 +1999,114 @@ export interface ISetSocialLinkCommand {
     name?: string;
     arcanaId?: number;
     characterId?: number;
+}
+
+export class SocialLinkDialogDto implements ISocialLinkDialogDto {
+    socialLinkDialogId?: number;
+    socialLinkId?: number;
+    rank?: number;
+    order?: number;
+    text?: string;
+    optionalRequirement?: string | undefined;
+
+    constructor(data?: ISocialLinkDialogDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.socialLinkDialogId = _data["socialLinkDialogId"];
+            this.socialLinkId = _data["socialLinkId"];
+            this.rank = _data["rank"];
+            this.order = _data["order"];
+            this.text = _data["text"];
+            this.optionalRequirement = _data["optionalRequirement"];
+        }
+    }
+
+    static fromJS(data: any): SocialLinkDialogDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SocialLinkDialogDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["socialLinkDialogId"] = this.socialLinkDialogId;
+        data["socialLinkId"] = this.socialLinkId;
+        data["rank"] = this.rank;
+        data["order"] = this.order;
+        data["text"] = this.text;
+        data["optionalRequirement"] = this.optionalRequirement;
+        return data;
+    }
+}
+
+export interface ISocialLinkDialogDto {
+    socialLinkDialogId?: number;
+    socialLinkId?: number;
+    rank?: number;
+    order?: number;
+    text?: string;
+    optionalRequirement?: string | undefined;
+}
+
+export class AddSocialLinkDialogCommand implements IAddSocialLinkDialogCommand {
+    socialLinkId?: number;
+    rank?: number;
+    order?: number;
+    optionalRequirement?: string | undefined;
+    text?: string;
+
+    constructor(data?: IAddSocialLinkDialogCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.socialLinkId = _data["socialLinkId"];
+            this.rank = _data["rank"];
+            this.order = _data["order"];
+            this.optionalRequirement = _data["optionalRequirement"];
+            this.text = _data["text"];
+        }
+    }
+
+    static fromJS(data: any): AddSocialLinkDialogCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new AddSocialLinkDialogCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["socialLinkId"] = this.socialLinkId;
+        data["rank"] = this.rank;
+        data["order"] = this.order;
+        data["optionalRequirement"] = this.optionalRequirement;
+        data["text"] = this.text;
+        return data;
+    }
+}
+
+export interface IAddSocialLinkDialogCommand {
+    socialLinkId?: number;
+    rank?: number;
+    order?: number;
+    optionalRequirement?: string | undefined;
+    text?: string;
 }
 
 export interface FileParameter {

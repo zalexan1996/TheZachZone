@@ -63,7 +63,7 @@ public sealed class IdentityService(IDatabaseService dbContext, ICurrentUserServ
 
   public async Task<bool> DoesUserExist(int userId)
   {
-    var user = await userManager.FindByIdAsync(userId.ToString(CultureInfo.InvariantCulture));
+    var user = await userManager.FindByIdAsync(userId.ToString());
     return user is not null;
   }
 
@@ -80,7 +80,7 @@ public sealed class IdentityService(IDatabaseService dbContext, ICurrentUserServ
 
   public async Task<User?> GetUser(int id)
   {
-    return await userManager.FindByIdAsync(id.ToString(CultureInfo.InvariantCulture));
+    return await userManager.FindByIdAsync(id.ToString());
   }
 
   public async Task<bool> SignIn(string email, string password)

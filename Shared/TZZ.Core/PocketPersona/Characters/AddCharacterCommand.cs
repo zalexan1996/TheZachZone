@@ -18,7 +18,7 @@ public class AddCharacterCommandHandler(IDatabaseService dbContext, IPublisher p
 {
   public async Task<ZachZoneCommandResponse> Handle(AddCharacterCommand request, CancellationToken cancellationToken)
   {
-    if (await dbContext.Entity<Character>().AnyAsync(x => x.Name.Contains(request.Name, StringComparison.CurrentCultureIgnoreCase), cancellationToken))
+    if (await dbContext.Entity<Character>().AnyAsync(x => x.Name.ToLower() == request.Name.ToLower(), cancellationToken))
     {
       return ZachZoneCommandResponse.Failure(nameof(AddCharacterCommand.Name), "The specified Character already exists.");
     }
