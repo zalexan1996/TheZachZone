@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TZZ.Core.PocketPersona.SocialLinks;
 using TZZ.Core.PocketPersona.SocialLinks.Dialog;
+using TZZ.Core.PocketPersona.SocialLinks.Gifts;
 
 namespace PP.API.Controllers;
 
@@ -96,4 +97,46 @@ public class SocialLinkController(ISender sender) : ControllerBase
   }
 
   #endregion Dialogue
+
+  #region Gifts
+  
+  [HttpGet("[action]")]
+  public async Task<ActionResult<List<SocialLinkGiftDto>>> GetGifts(int socialLinkId)
+  {
+    var result = await sender.Send(new GetSocialLinkGiftsQuery(socialLinkId));
+
+    if (!result.IsValid)
+    {
+      return BadRequest(result.Errors);
+    }
+
+    return Ok(result.Result);
+  }
+
+  [HttpPost("[action]")]
+  public async Task<ActionResult> AddGift(AddSocialLinkGiftCommand command)
+  {
+    var result = await sender.Send(command);
+
+    if (!result.IsValid)
+    {
+      return BadRequest(result.Errors);
+    }
+
+    return Ok();
+  }
+
+  [HttpDelete("[action]")]
+  public async Task<ActionResult> DeleteGift(int socialLinkGiftId)
+  {
+    var result = await sender.Send(new DeleteSocialLinkGiftCommand(socialLinkGiftId));
+
+    if (!result.IsValid)
+    {
+      return BadRequest(result.Errors);
+    }
+
+    return Ok();
+  }
+  #endregion Gifts
 }

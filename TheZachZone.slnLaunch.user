@@ -13,10 +13,6 @@
       {
         "Path": "APIs\\PP.API\\PP.API.csproj",
         "Action": "Start"
-      },
-      {
-        "Path": "APIs\\Crapazon.API\\Crapazon.API.csproj",
-        "Action": "Start"
       }
     ]
   }

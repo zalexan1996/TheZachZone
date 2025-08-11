@@ -13,6 +13,7 @@ public class SocialLink
   public required Character Character { get; set; }
   public required Arcana Arcana { get; set; }
   public IList<SocialLinkDialogue> Dialogues { get; init; } = [];
+  public IList<SocialLinkGift> Gifts { get; init; } = [];
 }
 
 public class SocialLinkEntityTypeConfiguration : IEntityTypeConfiguration<SocialLink>

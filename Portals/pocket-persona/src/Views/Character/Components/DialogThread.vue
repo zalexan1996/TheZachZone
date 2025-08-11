@@ -4,15 +4,17 @@
             <h4 class="mb-1 mt-1">Social Link Dialog</h4>
             <button class="btn btn-outline-primary" @click="isDialogModalVisible = true"><span class="fa fa-plus"></span>Add</button>
         </div>
-        <div class="px-3 d-flex flex-column justify-content-start align-items-stretch" style="max-height: 600px; overflow-y: scroll;">
+        
+        <p v-if="globalStore.socialLinkStore.socialLinkDialog.length == 0" class="m-3">No dialogue entries have been added yet...</p>
+        <div v-else class="px-3 d-flex flex-column justify-content-start align-items-stretch pb-4" style="max-height: 600px; overflow-y: scroll;">
             <div v-for="(dtos, rank) of globalStore.socialLinkStore.groupedDialog" class="dialog-rank-group">
                 <p>Rank {{ rank }}</p>
                 <hr/>
                 <div v-for="d in dtos.sort((x, y) => x.order! - y.order!)" class="dialog-entry" :style="backgroundColorStyle">
                     <div class="d-flex flex-row justify-content-between align-items-center">
                         <p>{{ d.order }} - {{ d.text }}</p>
-                        <button @click="() => onDelete(d.socialLinkDialogId!)">
-                            <i class="fa fa-trash pe-3"></i>
+                        <button @click="() => onDelete(d.socialLinkDialogId!)" class="btn btn-danger">
+                            <i class="fa fa-trash px-1"></i>
                         </button>
                     </div>
                     <i v-if="d.optionalRequirement">Requires : {{ d.optionalRequirement }}</i>
@@ -70,7 +72,8 @@ const onSubmit = async (formData: AddSocialLinkDialogCommand) => {
 }
 
 const onDelete = async (id: number) => {
-    throw "TODO"
+    await globalStore.socialLinkStore.deleteSocialLinkDialog(id);
+    globalStore.socialLinkStore.getSocialLinkDialog(props.socialLinkId)
 }
 
 onMounted(() => {

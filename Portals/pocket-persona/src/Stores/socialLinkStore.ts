@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
-import { SocialLinkDto, SocialLinkClient, SetSocialLinkCommand, AddSocialLinkDialogCommand, SocialLinkDialogDto } from '../Services/pp.api'
+import { SocialLinkDto, SocialLinkClient, SetSocialLinkCommand, AddSocialLinkDialogCommand, SocialLinkDialogDto, SocialLinkGiftDto } from '../Services/pp.api'
 import { PP_API_BASE_URL, AxiosInstance } from '../Services/axiosService';
 import { useActivityStore } from "./activityStore";
 
@@ -10,6 +10,7 @@ export const useSocialLinkStore = defineStore('social-link', () => {
     
     const socialLinks = ref<SocialLinkDto[]>([]);
     const socialLinkDialog = ref<SocialLinkDialogDto[]>([])
+    const socialLinkGifts = ref<SocialLinkGiftDto[]>([])
 
     const groupedDialog = computed(() => {
         if (socialLinkDialog.value.length == 0) {
@@ -65,9 +66,30 @@ export const useSocialLinkStore = defineStore('social-link', () => {
         await client.addDialog(command)
         await getSocialLinkDialog(command.socialLinkId!)
     }
+
+    const deleteSocialLinkDialog = async (dialogId: number) => {
+        await client.deleteDialog(dialogId);
+    }
+    
+    
+    const getSocialLinkGifts = async (socialLinkId: number) => {
+        socialLinkGifts.value = await client.getGifts(socialLinkId)
+        return socialLinkGifts.value
+    }
+    const addSocialLinkGift = async (command: AddSocialLinkDialogCommand) => {
+        await client.addGift(command)
+        await getSocialLinkGifts(command.socialLinkId!)
+    }
+
+    const deleteSocialLinkGift = async (giftId: number) => {
+        await client.deleteGift(giftId);
+    }
+    
+
     return {
         socialLinks,
         socialLinkDialog,
+        socialLinkGifts,
         groupedDialog,
 
         load,
@@ -77,6 +99,11 @@ export const useSocialLinkStore = defineStore('social-link', () => {
         addSocialLink,
         deleteSocialLink,
         getSocialLinkDialog,
-        addSocialLinkDialog
+        addSocialLinkDialog,
+        deleteSocialLinkDialog,
+
+        getSocialLinkGifts,
+        addSocialLinkGift,
+        deleteSocialLinkGift
     }
 })
