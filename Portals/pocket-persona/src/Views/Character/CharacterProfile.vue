@@ -1,32 +1,39 @@
 <template>
-    <div class="d-flex flex-row align-items-start justify-content-start" :style="{color: primaryColor}">
-        <div class="d-flex flex-column">
-            <div style="position: relative;">
-                <img ref="profilePicImg" class="img-responsive" width="250" height="250" :src="profilePicSrc"/>
-                <button v-if="!character?.imageData" class="upload-button btn btn-secondary" @click="onUploadClick"><span class="fa fa-upload me-2"></span>Upload</button>
-                <button v-if="character?.imageData" class="edit-button btn btn-secondary" @click="onUploadClick"><span class="fa fa-edit"></span></button>
-                <input type="file" ref="fileInput" style="display: none" @change="handleFileUpload" />
-            </div>
-
-            <SocialLinkPanel :character-id="characterId" class="w-auto p-0 mt-4"/>
-        </div>
-        <div class="d-flex flex-column justify-content-start align-items-start w-100" style="margin-left: 2rem;">
-            <h2>
-                {{ character?.name }}
-                <FavoriteToggle :entity-id="characterId!" entity-type="Character"/>
-            </h2>
-            <div class="d-flex flex-row justify-content-start align-items-center">
-                <h5 class="text-secondary me-4">Character</h5>
-                <GameBadge v-if="character?.gameId" :game-id="character.gameId"/>
-            </div>
-            
-            <div class="container-fluid w-100 align-self-stretch flex-grow mt-4">
-                <div class="row">
-                    <div v-if="socialLinkId" class="col-6">
-                        <DialogThread :social-link-id="socialLinkId"/>
+    <div class="container-fluid" :style="{color: primaryColor}">
+        <div class="row">
+            <div class="col-auto">
+                <div class="d-flex flex-column">
+                    <div style="position: relative;">
+                        <img ref="profilePicImg" class="img-responsive" width="250" height="250" :src="profilePicSrc"/>
+                        <button v-if="!character?.imageData" class="upload-button btn btn-secondary" @click="onUploadClick"><span class="fa fa-upload me-2"></span>Upload</button>
+                        <button v-if="character?.imageData" class="edit-button btn btn-secondary" @click="onUploadClick"><span class="fa fa-edit"></span></button>
+                        <input type="file" ref="fileInput" style="display: none" @change="handleFileUpload" />
                     </div>
-                    <div class="col-6" v-if="socialLinkId">
-                        <Gifts :social-link-id="socialLinkId"/>
+
+                    <SocialLinkPanel :character-id="characterId" class="w-auto p-0 mt-4"/>
+                </div>
+            </div>
+            <div class="col">
+                <div class="container-fluid mx-4">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2>
+                                {{ character?.name }}
+                                <FavoriteToggle :entity-id="characterId!" entity-type="Character"/>
+                            </h2>
+                            <div class="d-flex flex-row justify-content-start align-items-center">
+                                <h5 class="text-secondary me-4">Character</h5>
+                                <GameBadge v-if="character?.gameId" :game-id="character.gameId"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div v-if="socialLinkId" class="col-md-6 col-sm-12">
+                            <DialogThread :social-link-id="socialLinkId"/>
+                        </div>
+                        <div class="col-md-6 col-sm-12" v-if="socialLinkId">
+                            <Gifts :social-link-id="socialLinkId"/>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -40,7 +47,6 @@ import GameBadge from '@/components/GameBadge/GameBadge.vue';
 import { CharacterDto } from '@/Services/pp.api';
 import { useCharacterStore } from '@/Stores/characterStore';
 import { useGameStore } from '@/Stores/gameStore';
-import { InputText, Modal } from 'tzz-shared';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import SocialLinkPanel from './Components/SocialLinkPanel.vue';
