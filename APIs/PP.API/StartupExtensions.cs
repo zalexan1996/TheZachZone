@@ -50,6 +50,5 @@ public static class StartupExtensions
     app.MapControllers();
     app.UseAuthentication();
     app.UseAuthorization();
-
   }
 }

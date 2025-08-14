@@ -13,7 +13,7 @@ public class DeleteSocialLinkGiftCommandHandler(IDatabaseService dbContext)
 {
   public async Task<ZachZoneCommandResponse> Handle(DeleteSocialLinkGiftCommand request, CancellationToken cancellationToken)
   {
-    var gift = await dbContext.Entity<SocialLinkGift>().SingleAsync(x => x.SocialLinkGiftId == request.SocialLinkGiftId, cancellationToken);
+    var gift = await dbContext.Entity<SocialLinkGift>().SingleAsync(x => x.Id == request.SocialLinkGiftId, cancellationToken);
 
     dbContext.Remove(gift);
     await dbContext.SaveChanges(cancellationToken);

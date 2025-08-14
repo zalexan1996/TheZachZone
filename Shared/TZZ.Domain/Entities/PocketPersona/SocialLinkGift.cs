@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TZZ.Domain.Constants;
+using TZZ.Domain.Entities.Common;
 
 namespace TZZ.Domain.Entities.PocketPersona;
 
-public class SocialLinkGift
+public class SocialLinkGift : IEntity
 {
-  public int SocialLinkGiftId { get; set; }
+  public int Id { get; set; }
   public required string Name { get; set; }
   public required string AcquiredAt { get; set; }
   public int SocialLinkId { get; set; }
@@ -20,9 +21,9 @@ public class SocialLinkGiftEntityTypeConfiguration : IEntityTypeConfiguration<So
   {
     builder.ToTable(nameof(SocialLinkGift), SchemaNames.PocketPersona);
 
-    builder.HasKey(x => x.SocialLinkGiftId);
+    builder.HasKey(x => x.Id);
 
-    builder.Property(x => x.SocialLinkGiftId).UseIdentityColumn();
+    builder.Property(x => x.Id).UseIdentityColumn();
 
     builder.HasOne(x => x.SocialLink)
       .WithMany(x => x.Gifts)

@@ -18,7 +18,7 @@ public class GetSocialLinkGiftsQueryHandler(IDatabaseService dbContext)
   {
     var gifts = await dbContext.Entity<SocialLinkGift>()
       .Where(x => x.SocialLinkId == request.SocialLinkId)
-      .Select(x => new SocialLinkGiftDto(x.SocialLinkGiftId, x.SocialLinkId, x.Name, x.AcquiredAt))
+      .Select(x => new SocialLinkGiftDto(x.Id, x.SocialLinkId, x.Name, x.AcquiredAt))
       .ToListAsync(cancellationToken);
 
     return ZachZoneCommandResponse.Success(gifts);

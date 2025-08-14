@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecord, RouteRecordRaw, RouteRecor
 import Home from '@views/Home.vue'
 import Login from '@views/Login.vue'
 import Account from '@views/Account.vue'
+import Admin from '@views/Admin.vue'
 import { useAccountStore } from "../Stores/accountStore"
 
 const routes: RouteRecordRaw[] = [
@@ -19,6 +20,11 @@ const routes: RouteRecordRaw[] = [
         name: 'Account',
         path: '/account',
         component: Account
+    },
+    {
+        name: 'Admin',
+        path: '/admin',
+        component: Admin
     }
 ]
 

@@ -1466,7 +1466,7 @@ export class SocialLinkClient {
 }
 
 export class ActivityLog implements IActivityLog {
-    activityLogId?: number;
+    id?: number;
     activity?: string;
     entityType?: string;
     entityId?: number;
@@ -1485,7 +1485,7 @@ export class ActivityLog implements IActivityLog {
 
     init(_data?: any) {
         if (_data) {
-            this.activityLogId = _data["activityLogId"];
+            this.id = _data["id"];
             this.activity = _data["activity"];
             this.entityType = _data["entityType"];
             this.entityId = _data["entityId"];
@@ -1504,7 +1504,7 @@ export class ActivityLog implements IActivityLog {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["activityLogId"] = this.activityLogId;
+        data["id"] = this.id;
         data["activity"] = this.activity;
         data["entityType"] = this.entityType;
         data["entityId"] = this.entityId;
@@ -1516,7 +1516,7 @@ export class ActivityLog implements IActivityLog {
 }
 
 export interface IActivityLog {
-    activityLogId?: number;
+    id?: number;
     activity?: string;
     entityType?: string;
     entityId?: number;

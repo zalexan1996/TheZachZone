@@ -9,6 +9,7 @@ public class UserInfoDto
 {
   public string Email { get; set; } = string.Empty;
   public string Role { get; set; } = string.Empty;
+  public bool IsAdmin { get; set; }
 }
 
 public class GetUserInfoQuery : IRequest<ZachZoneCommandResponse<UserInfoDto>>
@@ -35,7 +36,8 @@ public class GetUserInfoQueryHandler(ICurrentUserService currentUserService, IId
     return ZachZoneCommandResponse.Success(new UserInfoDto()
     {
       Email = user.Email!,
-      Role = role ?? "N/A"
+      Role = role ?? "N/A",
+      IsAdmin = await identityService.HasClaim(user!.Id, ClaimTypes.Role, Roles.Admin)
     });
   }
 }

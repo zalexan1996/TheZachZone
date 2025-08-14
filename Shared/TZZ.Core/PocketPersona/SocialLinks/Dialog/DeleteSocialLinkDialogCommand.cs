@@ -32,5 +32,8 @@ public class DeleteSocialLinkDialogCommandHandler(IDatabaseService dbContext)
     await dbContext.SaveChanges(cancellationToken);
 
     return ZachZoneCommandResponse.Success();
+
+
+
   }
 }

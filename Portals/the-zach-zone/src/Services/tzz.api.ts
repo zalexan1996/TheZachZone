@@ -711,6 +711,64 @@ export class AccountClient {
     }
 }
 
+export class AdminClient {
+    protected instance: AxiosInstance;
+    protected baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(baseUrl?: string, instance?: AxiosInstance) {
+
+        this.instance = instance || axios.create();
+
+        this.baseUrl = baseUrl ?? "";
+
+    }
+
+    seed( cancelToken?: CancelToken): Promise<void> {
+        let url_ = this.baseUrl + "/Admin/Seed";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_: AxiosRequestConfig = {
+            method: "POST",
+            url: url_,
+            headers: {
+            },
+            cancelToken
+        };
+
+        return this.instance.request(options_).catch((_error: any) => {
+            if (isAxiosError(_error) && _error.response) {
+                return _error.response;
+            } else {
+                throw _error;
+            }
+        }).then((_response: AxiosResponse) => {
+            return this.processSeed(_response);
+        });
+    }
+
+    protected processSeed(response: AxiosResponse): Promise<void> {
+        const status = response.status;
+        let _headers: any = {};
+        if (response.headers && typeof response.headers === "object") {
+            for (const k in response.headers) {
+                if (response.headers.hasOwnProperty(k)) {
+                    _headers[k] = response.headers[k];
+                }
+            }
+        }
+        if (status === 200) {
+            const _responseText = response.data;
+            return Promise.resolve<void>(null as any);
+
+        } else if (status !== 200 && status !== 204) {
+            const _responseText = response.data;
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+        }
+        return Promise.resolve<void>(null as any);
+    }
+}
+
 export class HealthClient {
     protected instance: AxiosInstance;
     protected baseUrl: string;
@@ -909,6 +967,7 @@ export interface ICreateAccountCommand {
 export class UserInfoDto implements IUserInfoDto {
     email?: string;
     role?: string;
+    isAdmin?: boolean;
 
     constructor(data?: IUserInfoDto) {
         if (data) {
@@ -923,6 +982,7 @@ export class UserInfoDto implements IUserInfoDto {
         if (_data) {
             this.email = _data["email"];
             this.role = _data["role"];
+            this.isAdmin = _data["isAdmin"];
         }
     }
 
@@ -937,6 +997,7 @@ export class UserInfoDto implements IUserInfoDto {
         data = typeof data === 'object' ? data : {};
         data["email"] = this.email;
         data["role"] = this.role;
+        data["isAdmin"] = this.isAdmin;
         return data;
     }
 }
@@ -944,6 +1005,7 @@ export class UserInfoDto implements IUserInfoDto {
 export interface IUserInfoDto {
     email?: string;
     role?: string;
+    isAdmin?: boolean;
 }
 
 export class GeneralInformationDto implements IGeneralInformationDto {

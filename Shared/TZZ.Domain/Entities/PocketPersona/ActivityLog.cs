@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TZZ.Domain.Entities.Common;
 
 namespace TZZ.Domain.Entities.PocketPersona;
 
@@ -11,9 +12,9 @@ public static class ActivityLogEntityTypes
   public const string SocialLink = nameof(SocialLink);
 }
 
-public class ActivityLog
+public class ActivityLog : IEntity
 {
-  public int ActivityLogId { get; set; }
+  public int Id { get; set; }
   public required string Activity { get; set; }
   public required string EntityType { get; set; }
   public int EntityId { get; set; }

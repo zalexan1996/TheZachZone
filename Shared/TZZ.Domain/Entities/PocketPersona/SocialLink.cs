@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TZZ.Domain.Entities.Common;
 
 namespace TZZ.Domain.Entities.PocketPersona;
 
-public class SocialLink
+public class SocialLink : IEntity
 {
   public int Id { get; set; }
   public required string Name { get; set; }

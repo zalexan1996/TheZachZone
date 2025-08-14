@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 using TZZ.Common.Interfaces;
+using TZZ.Infrastructure.Data;
 using TZZ.Infrastructure.SQL;
 
 namespace TZZ.Infrastructure;
@@ -24,5 +26,11 @@ public static class StartupExtensions
       }
     });
 
+    // Add all data seeders
+    Assembly.GetExecutingAssembly().GetTypes()
+      .Where(x => x.IsSubclassOf(typeof(DataSeeder)) && !x.IsAbstract)
+      .ToList().ForEach(x => services.AddScoped(typeof(IDataSeeder), x));
+
+    services.AddScoped<DataSeederService>();
   }
 }

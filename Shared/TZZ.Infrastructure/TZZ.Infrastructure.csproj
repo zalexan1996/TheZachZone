@@ -24,7 +24,7 @@
 	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	<EnableNETAnalyzers>true</EnableNETAnalyzers>
 	<AnalysisMode>AllEnabledByDefault</AnalysisMode>
-	<NoWarn>$(NoWarn);CA1062;CA2007</NoWarn>
+	<NoWarn>$(NoWarn);CA1062;CA2007;CA1812</NoWarn>
   </PropertyGroup>
 	<ItemGroup>
 	  <EditorConfigFiles Remove="C:\Users\zalexander\source\repos\_personal\zalexan1996\TheZachZone\Shared\TZZ.Infrastructure\.editorconfig" />

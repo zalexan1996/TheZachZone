@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Diagnostics.CodeAnalysis;
+using TZZ.Domain.Entities.Common;
 
 namespace TZZ.Domain.Entities.PocketPersona;
 
-public class Character
+public class Character : IEntity
 {
   public int Id { get; set; }
   public required string Name { get; set; }

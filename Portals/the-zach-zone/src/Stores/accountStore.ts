@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { AccountClient, CreateAccountComand, UserInfoDto, UpdateGeneralInformationCommand, ResetPasswordCommand  } from "@services/tzz.api";
+import { AccountClient, CreateAccountCommand, UserInfoDto, UpdateGeneralInformationCommand, ResetPasswordCommand  } from "@services/tzz.api";
 import {TZZ_API_BASE_URL, AxiosInstance } from '@services/AxiosService.ts';
 import { ref } from "vue";
 
@@ -12,7 +12,7 @@ export const useAccountStore = defineStore("account", () => {
         return await client.doesUserExist(clientId);
     }
 
-    const createAccount = async (command: CreateAccountComand) => {
+    const createAccount = async (command: CreateAccountCommand) => {
         return await client.createAccount(command)
     }
 
@@ -42,6 +42,10 @@ export const useAccountStore = defineStore("account", () => {
         return await client.updateGeneralInformation(command);
     }
 
+    const isAdmin = () => {
+        return userInfo.value?.isAdmin ?? false
+    }
+
     const getPasswordResetToken = async() => client.getPasswordResetToken()
     const resetPassword = async (command: ResetPasswordCommand) => {
         return await client.resetPassword(command)
@@ -53,6 +57,7 @@ export const useAccountStore = defineStore("account", () => {
         logout,
         loadUserInfo,
         isLoggedIn,
+        isAdmin,
         getGeneralInformation,
         updateGeneralInformation,
         getPasswordResetToken,
