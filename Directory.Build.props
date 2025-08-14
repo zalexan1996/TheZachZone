@@ -1,0 +1,95 @@
+<Project>
+	<!-- Global Configuration -->
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AnalysisMode>AllEnabledByDefault</AnalysisMode>
+		<NoWarn>$(NoWarn);CA1062;CA2007;CA1862;CA1311;CA1304;CA1305;CA1812;CA1822</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Ardalis.GuardClauses" Version="4.6.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.17" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
+	</ItemGroup>
+
+	<!-- PROJECT: Common -->
+	
+	<!-- PROJECT: Domain -->
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('Domain'))">
+		<ProjectReference Include="..\TZZ.Common\TZZ.Common.csproj" />
+
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.17" />
+		<PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.7" />        
+	</ItemGroup>
+	
+	<!-- PROJECT: Core -->
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('Core'))">
+		<ProjectReference Include="..\TZZ.Domain\TZZ.Domain.csproj" />
+		
+		<PackageReference Include="Hardware.Info" Version="101.0.0" />
+		<PackageReference Include="MediatR" Version="12.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
+	</ItemGroup>
+	
+	<!-- PROJECT: Infrastructure -->
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('Infrastructure'))">
+		<ProjectReference Include="..\TZZ.Core\TZZ.Core.csproj" />
+			
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.17" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.17" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.17" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.17" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.17">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+	
+	<!-- PROJECT: WebShared -->
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('WebShared'))">
+		<ProjectReference Include="..\TZZ.Infrastructure\TZZ.Infrastructure.csproj" />
+
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />
+		<PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
+		<PackageReference Include="NSwag.AspNetCore" Version="14.5.0" />
+		<PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.9.0" />
+		<PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.11.0-beta.1" />
+		<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.9.0" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.9.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+		<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.0" />
+	</ItemGroup>
+
+	<!-- PROJECT: APIs -->
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('API'))">
+		<ProjectReference Include="..\..\Shared\TZZ.WebShared\TZZ.WebShared.csproj" />
+		<PackageReference Include="NSwag.MSBuild" Version="14.5.0">
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<!-- PROJECT: Console -->
+	<ItemGroup Condition="$(MSBuildProjectName.EndsWith('Console'))">
+		<ProjectReference Include="..\..\Shared\TZZ.WebShared\TZZ.WebShared.csproj" />
+
+		<Content Include="appsettings.tzz-console.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		
+		<PackageReference Include="Cocona" Version="2.2.0" />
+		<PackageReference Include="Spectre.Console" Version="0.50.0" />
+	</ItemGroup>
+</Project>

@@ -26,7 +26,7 @@ public class AddGameCommandHandler(IDatabaseService dbContext, ICurrentUserServi
   {
     if (!user.UserId.HasValue)
     {
-      ArgumentNullException.ThrowIfNull(user.UserId, nameof(user.UserId));
+      throw new InvalidOperationException("You must be logged in to add a game.");
     }
 
     var newGame = new Game()

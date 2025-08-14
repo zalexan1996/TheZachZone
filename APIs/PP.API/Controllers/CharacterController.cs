@@ -6,7 +6,7 @@ namespace PP.API.Controllers;
 
 [ApiController]
 [Route("character")]
-public class CharacterController(ISender sender) : ControllerBase
+sealed class CharacterController(ISender sender) : ControllerBase
 {
   [HttpGet]
   public async Task<ActionResult<IEnumerable<CharacterDto>>> GetCharacters()

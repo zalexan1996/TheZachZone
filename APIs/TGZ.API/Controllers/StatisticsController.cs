@@ -6,7 +6,7 @@ namespace TGZ.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class StatisticsController(ISender sender) : ControllerBase
+sealed class StatisticsController(ISender sender) : ControllerBase
 {
   [HttpPost("[action]")]
   public async Task<ActionResult> AddGameplayTimestamp(AddGamePlayStatisticCommand command)

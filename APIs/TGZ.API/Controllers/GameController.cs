@@ -9,7 +9,7 @@ namespace TGZ.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class GameController(ISender sender) : ControllerBase
+sealed class GameController(ISender sender) : ControllerBase
 {
   [HttpGet("[action]")]
   public async Task<ActionResult<IList<GameDto>>> GetGames([FromQuery] GetGameQuery query)

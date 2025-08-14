@@ -6,7 +6,7 @@ namespace PP.API.Controllers;
 
 [ApiController]
 [Route("game")]
-public class GameController(ISender sender) : ControllerBase
+sealed class GameController(ISender sender) : ControllerBase
 {
   [HttpGet]
   public async Task<ActionResult<IEnumerable<GameDto>>> GetGames()

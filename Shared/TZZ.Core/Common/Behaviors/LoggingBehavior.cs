@@ -13,7 +13,7 @@ public class LoggingBehavior<TRequest, TResponse>
   {
     using var activity = telemetryService.StartActivity(ActivityName);
 
-    var response = await next();
+    var response = await next(cancellationToken);
 
     var castedResponse = response as ZachZoneCommandResponse;
     if (castedResponse != null && castedResponse.Errors.Any())

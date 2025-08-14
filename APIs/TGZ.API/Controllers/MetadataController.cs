@@ -7,7 +7,7 @@ namespace TGZ.API.Controllers;
 
 [Route("metadata")]
 [ApiController]
-public class MetadataController(ISender sender) : ControllerBase
+sealed class MetadataController(ISender sender) : ControllerBase
 {
   [HttpGet("genre")]
   public async Task<ActionResult<IEnumerable<string>>> GetGenres()

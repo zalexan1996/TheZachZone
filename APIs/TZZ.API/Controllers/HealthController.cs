@@ -9,7 +9,7 @@ namespace TZZ.API.Controllers;
 [ApiController]
 [Route("health")]
 [Authorize(Policy = Policies.Admin)]
-public class HealthController(HealthCheckService health) : ControllerBase
+sealed class HealthController(HealthCheckService health) : ControllerBase
 {
   [HttpGet]
   public async Task<ActionResult> Get()

@@ -7,7 +7,7 @@ namespace PP.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ActivityLogController(ISender sender) : ControllerBase
+sealed class ActivityLogController(ISender sender) : ControllerBase
 {
   [HttpGet("[action]")]
   public async Task<ActionResult<List<ActivityLog>>> GetActivityLogs()

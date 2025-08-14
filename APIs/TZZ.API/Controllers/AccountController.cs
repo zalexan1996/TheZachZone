@@ -12,7 +12,7 @@ namespace TZZ.API.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Authorize(Policy = Policies.Default)]
-public class AccountController(ISender sender, IIdentityService identityService) : ControllerBase
+sealed class AccountController(ISender sender, IIdentityService identityService) : ControllerBase
 {
   [HttpGet("[action]")]
   [AllowAnonymous]

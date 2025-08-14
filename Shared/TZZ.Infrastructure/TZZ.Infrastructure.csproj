@@ -1,32 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <ItemGroup>
-    <ProjectReference Include="..\TZZ.Core\TZZ.Core.csproj" />
+    <PackageReference Update="Ardalis.GuardClauses" Version="5.0.0" />
+    <PackageReference Update="Microsoft.AspNetCore.Http" Version="2.3.0" />
+    <PackageReference Update="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.8" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore" Version="9.0.8" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="9.0.8" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.8" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.8" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Binder" Version="9.0.8" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="9.0.8" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.8" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.17" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.17">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.17" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.17" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.17" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
-  </ItemGroup>
-
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <UserSecretsId>5bbfc64a-9a0c-4896-bce3-6a240b290d1d</UserSecretsId>
-	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	<EnableNETAnalyzers>true</EnableNETAnalyzers>
-	<AnalysisMode>AllEnabledByDefault</AnalysisMode>
-	<NoWarn>$(NoWarn);CA1062;CA2007;CA1812</NoWarn>
-  </PropertyGroup>
-	<ItemGroup>
-	  <EditorConfigFiles Remove="C:\Users\zalexander\source\repos\_personal\zalexan1996\TheZachZone\Shared\TZZ.Infrastructure\.editorconfig" />
-	</ItemGroup>
 </Project>

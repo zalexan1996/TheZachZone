@@ -6,7 +6,7 @@ namespace PP.API.Controllers;
 
 [ApiController]
 [Route("arcana")]
-public class ArcanaController(ISender sender) : ControllerBase
+sealed class ArcanaController(ISender sender) : ControllerBase
 {
   [HttpGet]
   public async Task<ActionResult<IEnumerable<ArcanaDto>>> GetArcanas()

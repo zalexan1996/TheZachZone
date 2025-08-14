@@ -8,7 +8,7 @@ namespace TZZ.API.Controllers;
 [ApiController]
 [Route("[controller]")]
 [Authorize(Policy = Policies.Admin)]
-public class AdminController(DataSeederService dataSeeder) : ControllerBase
+sealed class AdminController(DataSeederService dataSeeder) : ControllerBase
 {
   [HttpPost("[action]")]
   public async Task Seed()

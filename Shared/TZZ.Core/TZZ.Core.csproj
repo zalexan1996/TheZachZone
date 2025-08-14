@@ -1,32 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <ItemGroup>
-    <ProjectReference Include="..\TZZ.Common\TZZ.Common.csproj" />
-    <ProjectReference Include="..\TZZ.Domain\TZZ.Domain.csproj" />
+    <PackageReference Update="Ardalis.GuardClauses" Version="5.0.0" />
+    <PackageReference Update="Hardware.Info" Version="101.0.1.1" />
+    <PackageReference Update="MediatR" Version="13.0.0" />
+    <PackageReference Update="Microsoft.AspNetCore" Version="2.3.0" />
+    <PackageReference Update="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />
+    <PackageReference Update="Microsoft.AspNetCore.Hosting" Version="2.3.0" />
+    <PackageReference Update="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.3.0" />
+    <PackageReference Update="Microsoft.AspNetCore.Http" Version="2.3.0" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore" Version="9.0.8" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Binder" Version="9.0.8" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="9.0.8" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.8" />
   </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Hardware.Info" Version="101.0.0" />
-    <PackageReference Include="MediatR" Version="12.3.0" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="PocketPersona\Shared\" />
-  </ItemGroup>
-
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	<EnableNETAnalyzers>true</EnableNETAnalyzers>
-	<AnalysisMode>AllEnabledByDefault</AnalysisMode>
-	  <NoWarn>$(NoWarn);CA1062;CA2007;CA1862;CA1311;CA1304;CA1305</NoWarn>
-  </PropertyGroup>
-
 </Project>

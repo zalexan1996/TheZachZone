@@ -6,7 +6,7 @@ namespace PP.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class SearchController(ISender sender) : ControllerBase
+sealed class SearchController(ISender sender) : ControllerBase
 {
   [HttpGet("[action]")]
   public async Task<ActionResult<List<SearchResultDto>>> Search(string term)

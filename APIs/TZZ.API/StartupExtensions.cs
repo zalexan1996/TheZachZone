@@ -10,7 +10,7 @@ using TZZ.WebShared;
 
 namespace TZZ.API;
 
-public static class StartupExtensions
+internal static class StartupExtensions
 {
   public static void AddTheZachZone(this IServiceCollection services, IWebHostEnvironment environment, ConfigurationManager configuration)
   {

@@ -4,7 +4,7 @@ using TZZ.Core.Common.Services;
 
 namespace TGZ.API.Services;
 
-public class PathLocatorService(IOptions<AppSettings> appSettingsOptions) : IPathLocatorService
+sealed class PathLocatorService(IOptions<AppSettings> appSettingsOptions) : IPathLocatorService
 {
   public string GetCurrentWorkingDirectory() => Directory.GetCurrentDirectory();
   public string GetProjectRoot() => AppContext.BaseDirectory;

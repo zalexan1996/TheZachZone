@@ -8,7 +8,7 @@ using TZZ.WebShared;
 
 namespace TGZ.API;
 
-public static class StartupExtensions
+internal static class StartupExtensions
 {
   public static void AddTheGameZone(this IServiceCollection services, IWebHostEnvironment environment, ConfigurationManager configuration)
   {

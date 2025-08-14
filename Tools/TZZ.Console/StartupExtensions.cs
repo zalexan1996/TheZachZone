@@ -7,7 +7,7 @@ using TZZ.WebShared;
 
 namespace TZZ.Console;
 
-public static class StartupExtensions
+internal static class StartupExtensions
 {
   public static void AddConsole(this IServiceCollection services, ConfigurationManager configuration)
   {

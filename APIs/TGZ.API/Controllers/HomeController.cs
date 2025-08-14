@@ -7,7 +7,7 @@ namespace TGZ.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class HomeController(IDatabaseService _dbContext) : ControllerBase
+sealed class HomeController(IDatabaseService _dbContext) : ControllerBase
 {
   [HttpGet]
   public IActionResult Home()

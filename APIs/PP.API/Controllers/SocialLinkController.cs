@@ -8,7 +8,7 @@ namespace PP.API.Controllers;
 
 [ApiController]
 [Route("socialLink")]
-public class SocialLinkController(ISender sender) : ControllerBase
+sealed class SocialLinkController(ISender sender) : ControllerBase
 {
   #region SocialLink
   [HttpGet]

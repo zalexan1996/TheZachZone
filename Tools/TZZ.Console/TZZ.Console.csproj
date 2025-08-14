@@ -1,40 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	<EnableNETAnalyzers>true</EnableNETAnalyzers>
-	<AnalysisMode>AllEnabledByDefault</AnalysisMode>
-	  <NoWarn>$(NoWarn);CA1062;CA2007;CA1862;CA1311;CA1304;CA1305;CA1822</NoWarn>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="appsettings.tzz-console.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="appsettings.tzz-console.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Cocona" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
-    <PackageReference Include="Spectre.Console" Version="0.49.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Commands\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Shared\TZZ.WebShared\TZZ.WebShared.csproj" />
-  </ItemGroup>
-
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+	</PropertyGroup>
+	<ItemGroup>
+	  <PackageReference Update="Ardalis.GuardClauses" Version="5.0.0" />
+	  <PackageReference Update="Microsoft.AspNetCore.Http" Version="2.3.0" />
+	  <PackageReference Update="Microsoft.EntityFrameworkCore" Version="9.0.8" />
+	  <PackageReference Update="Microsoft.Extensions.Configuration.Binder" Version="9.0.8" />
+	  <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="9.0.8" />
+	  <PackageReference Update="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.8" />
+	</ItemGroup>
 </Project>

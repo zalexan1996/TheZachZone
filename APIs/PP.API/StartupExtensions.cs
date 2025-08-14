@@ -8,7 +8,7 @@ using TZZ.WebShared;
 
 namespace PP.API;
 
-public static class StartupExtensions
+internal static class StartupExtensions
 {
   public static void AddPocketPersona(this IServiceCollection services, ConfigurationManager configuration)
   {

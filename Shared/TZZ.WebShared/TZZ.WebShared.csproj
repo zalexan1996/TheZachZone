@@ -1,29 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-	<EnableNETAnalyzers>true</EnableNETAnalyzers>
-	<AnalysisMode>AllEnabledByDefault</AnalysisMode>
-	  <NoWarn>$(NoWarn);CA1062;CA2007;CA1862;CA1311;CA1304;CA1305;CA1822</NoWarn>
-  </PropertyGroup>
-
   <ItemGroup>
-	<PackageReference Include="Hardware.Info" Version="101.0.0" />
-	<PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
-	<PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.9.0" />
-	<PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.11.0-beta.1" />
-	<PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.9.0" />
-	<PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.9.0" />
-	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-	<PackageReference Include="NSwag.AspNetCore" Version="14.1.0" />
-	<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.0" />
+    <PackageReference Update="Ardalis.GuardClauses" Version="5.0.0" />
+    <PackageReference Update="Microsoft.AspNetCore.Http" Version="2.3.0" />
+    <PackageReference Update="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
+    <PackageReference Update="Microsoft.EntityFrameworkCore" Version="9.0.8" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Binder" Version="9.0.8" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.Json" Version="9.0.8" />
+    <PackageReference Update="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.8" />
+    <PackageReference Update="NSwag.MSBuild" Version="14.5.0" />
+    <PackageReference Update="OpenTelemetry.Exporter.Console" Version="1.12.0" />
+    <PackageReference Update="OpenTelemetry.Extensions.Hosting" Version="1.12.0" />
+    <PackageReference Update="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0" />
+    <PackageReference Update="Swashbuckle.AspNetCore" Version="9.0.3" />
+    <PackageReference Update="System.Diagnostics.PerformanceCounter" Version="9.0.8" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\TZZ.Infrastructure\TZZ.Infrastructure.csproj" />
-  </ItemGroup>
-
 </Project>
